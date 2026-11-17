@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>没有这一页 · 每日情报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  a:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 999px; }
+  body {
+    background: #181817;
+    color: #e8e6e1;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .box { max-width: 480px; width: 100%; text-align: center; }
+  code { color: #8a877f; font-size: 13px; }
+  h1 { font-size: 22px; margin: 16px 0 10px; letter-spacing: 1px; }
+  p { color: #9b988f; font-size: 15px; line-height: 1.8; }
+  .links { margin-top: 26px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .links a {
+    color: #c8c5bc;
+    text-decoration: none;
+    font-size: 15px;
+    border: 1px solid #3d3c35;
+    border-radius: 999px;
+    padding: 9px 18px;
+  }
+  .links a:hover { border-color: #55534a; }
+</style>
+<meta name="theme-color" content="#181817">
+</head>
+<body>
+  <div class="box">
+    <code>404</code>
+    <h1>这一页不在了</h1>
+    <p>可能是期号还没出，或者地址敲错了。</p>
+    <div class="links">
+      <a href="/daily/">回首页</a>
+      <a href="/daily/wubao/">午报</a>
+      <a href="/daily/wanbao/">晚报</a>
+      <a href="/daily/tujian/">图鉴</a>
+    </div>
+  </div>
+</body>
+</html>

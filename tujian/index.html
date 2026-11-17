@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#181817">
+<meta name="robots" content="noindex, nofollow">
+<title>受保护 · 每日情报</title>
+<style>
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  body {
+    background: #181817; color: #e8e6e1;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+  }
+  .gate { width: 100%; max-width: 380px; }
+  .gate h1 { font-size: 21px; font-weight: 600; letter-spacing: 1px; margin-bottom: 10px; }
+  .gate .tip { color: #8a877f; font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+  .gate input {
+    width: 100%; padding: 14px 16px; font-size: 16px;
+    background: #22221f; color: #e8e6e1;
+    border: 1px solid #33322e; border-radius: 12px;
+    font-family: inherit; outline: none;
+  }
+  .gate input:focus { border-color: #55534a; outline: 2px solid #55534a; outline-offset: 2px; }
+  .gate button {
+    width: 100%; margin-top: 12px; padding: 14px;
+    background: #2c2b27; color: #e8e6e1; border: 1px solid #3d3c35;
+    border-radius: 12px; font-size: 15px; font-family: inherit; cursor: pointer;
+    transition: border-color .15s ease;
+  }
+  .gate button:hover { border-color: #6a6860; }
+  .gate button:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; }
+  .gate button:disabled { opacity: .45; cursor: default; }
+  .gate .msg { margin-top: 16px; font-size: 13px; min-height: 20px; color: #c98d7d; }
+  .gate .ok { color: #8a877f; }
+  a.back { display: inline-block; margin-top: 28px; color: #8a877f; text-decoration: none; font-size: 13px; }
+  a.back:hover { color: #c8c5bc; }
+  a.back:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <div class="gate">
+    <h1>这一期要密码</h1>
+    <p class="tip">内容是加密存放的，密码对了才解得开。</p>
+    <form id="f">
+      <input id="pw" type="password" autocomplete="current-password" placeholder="密码" required>
+      <button id="go" type="submit">打开</button>
+    </form>
+    <p class="msg" id="msg"></p>
+    <a class="back" href="../">← 返回首页</a>
+  </div>
+<script>
+(function () {
+  var DATA = "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";
+  var SLOT = 'daily-key:tujian\index.html';
+  var ITER = 120000;
+  var msg = document.getElementById('msg');
+  var btn = document.getElementById('go');
+  var form = document.getElementById('f');
+
+  function b64(s) {
+    var bin = atob(s), out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  async function keyFrom(pass, salt) {
+    var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({name:'PBKDF2', salt:salt, iterations:ITER, hash:'SHA-256'},
+      base, {name:'AES-GCM', length:256}, true, ['decrypt']);
+  }
+
+  async function open(key) {
+    var raw = b64(DATA);
+    var plain = await crypto.subtle.decrypt({name:'AES-GCM', iv:raw.slice(16,28)}, key, raw.slice(28));
+    window.__DAILY_KEY = key;
+    document.open();
+    document.write(new TextDecoder().decode(plain));
+    document.close();
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    btn.disabled = true;
+    msg.className = 'msg';
+    msg.textContent = '解开中…';
+    try {
+      var raw = b64(DATA);
+      var key = await keyFrom(document.getElementById('pw').value, raw.slice(0,16));
+      await open(key);
+      var kraw = await crypto.subtle.exportKey('raw', key);
+      sessionStorage.setItem(SLOT, btoa(String.fromCharCode.apply(null, new Uint8Array(kraw))));
+    } catch (err) {
+      msg.textContent = '密码不对。';
+      btn.disabled = false;
+    }
+  });
+
+  (async function () {
+    var saved = sessionStorage.getItem(SLOT);
+    if (!saved) return;
+    try {
+      var key = await crypto.subtle.importKey('raw', b64(saved), {name:'AES-GCM'}, true, ['decrypt']);
+      await open(key);
+    } catch (e) {
+      sessionStorage.removeItem(SLOT);
+    }
+  })();
+})();
+</script>
+</body>
+</html>

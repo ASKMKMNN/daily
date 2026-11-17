@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>午报 · 每日情报</title>
+<style>
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  a:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 4px; }
+  body {
+    background: #181817;
+    color: #e8e6e1;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    padding: 48px 20px;
+  }
+  .hero {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 22px 0 36px;
+  }
+  .hero img { width: 100%; height: 200px; object-fit: cover; display: block; opacity: .55; }
+  .hero .hero-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px 26px;
+    background: linear-gradient(180deg, rgba(24,24,23,0) 30%, rgba(24,24,23,.85) 100%);
+  }
+  .hero h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
+  .hero p { margin: 6px 0 0; color: #c8c5bc; font-size: 14px; }
+  @media (max-width: 640px) { .hero img { height: 150px; } }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  a.back { color: #8a877f; text-decoration: none; font-size: 14px; }
+  a.back:hover { color: #c8c5bc; }
+  h1 { font-size: 26px; margin: 18px 0 6px; }
+  .sub { color: #8a877f; font-size: 14px; margin-bottom: 36px; }
+
+  a.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: #22221f;
+    border: 1px solid #33322e;
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  a.item:hover { border-color: #55534a; transform: translateY(-2px); }
+  a.item h2 { font-size: 17px; font-weight: 600; }
+  a.item span { color: #8a877f; font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .newest { border-color: #55534a; }
+  .newest h2::after {
+    content: "最新";
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #c8c5bc;
+    border: 1px solid #3d3c35;
+    border-radius: 999px;
+    padding: 2px 8px;
+    vertical-align: 2px;
+  }
+  .none { color: #8a877f; font-size: 14px; }
+
+</style>
+<link rel="icon" type="image/png" sizes="48x48" href="/daily/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/daily/favicon-32.png">
+<link rel="apple-touch-icon" href="/daily/apple-touch-icon.png">
+<link rel="manifest" href="/daily/manifest.json">
+<meta name="theme-color" content="#181817">
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../">← 返回首页</a>
+    <div class="hero">
+      <img src="../assets/card-wubao.jpg" alt="星宇航空悉尼航拍">
+      <div class="hero-text">
+        <h1>午报</h1>
+        <p>每天中午更新，最新一期在最上面</p>
+      </div>
+    </div>
+    <a class="item newest" href="2026-11-17T1132-lg.html">
+      <h2>2026-11-17 午报</h2>
+      <span>灵光 11:32</span>
+    </a>
+  </div>
+<script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body>
+</html>
