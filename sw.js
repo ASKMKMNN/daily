@@ -1,5 +1,5 @@
-// 离线优先：缓存先回，后台静默更新
-const CACHE = 'daily-v1';
+// 页面永远先取网络（密码壳随时会变），离线才回退缓存；静态图缓存优先
+const CACHE = 'daily-v2';
 const CORE = ['/daily/', '/daily/wubao/', '/daily/wanbao/', '/daily/tujian/', '/daily/manifest.json'];
 
 self.addEventListener('install', e => {
@@ -20,22 +20,24 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
 
-  // 页面：先给缓存（打开即有内容），同时后台拉新的存起来
+  // 页面：网络优先，拿不到才用缓存（避免旧明文页盖住新密码门）
   if (req.mode === 'navigate') {
-    e.respondWith(
-      caches.open(CACHE).then(async c => {
+    e.respondWith((async () => {
+      const c = await caches.open(CACHE);
+      try {
+        const r = await fetch(req);
+        if (r && r.ok) c.put(req, r.clone());
+        return r;
+      } catch (err) {
         const hit = await c.match(req, { ignoreSearch: true });
-        const fresh = fetch(req)
-          .then(r => { if (r && r.ok) c.put(req, r.clone()); return r; })
-          .catch(() => hit);
-        return hit || fresh;
-      })
-    );
+        return hit || new Response('离线且没有缓存', { status: 503, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+      }
+    })());
     return;
   }
 
-  // 图片等静态资源：缓存优先
-  if (url.pathname.startsWith('/daily/assets/') || /\.(png|jpe?g|webp|svg|json)$/.test(url.pathname)) {
+  // 图片等静态资源：缓存优先（密文图文件名带 key 指纹，换密码自然换 URL）
+  if (url.pathname.startsWith('/daily/assets/') || /\.(png|jpe?g|webp|svg|json|enc)$/.test(url.pathname)) {
     e.respondWith(
       caches.open(CACHE).then(async c => {
         const hit = await c.match(req);
