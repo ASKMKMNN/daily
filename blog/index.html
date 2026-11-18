@@ -35,31 +35,6 @@
   .hero h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
   .hero p { margin: 6px 0 0; color: #c8c5bc; font-size: 14px; }
   @media (max-width: 640px) { .hero img { height: 150px; } }
-  .hero-full {
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 22px 0 0;
-    background: #22221f;
-  }
-  .hero-full img {
-    display: block;
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    object-position: center 34%;
-  }
-  .hero-title {
-    margin: 20px 0 34px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid #2e2d29;
-  }
-  .hero-title h1 { font-size: 33px; margin: 0; }
-  .hero-title p { margin: 9px 0 0; color: #a8a49a; font-size: 14.5px; }
-  @media (max-width: 640px) {
-    .hero-full img { height: 190px; }
-    .hero-title { margin: 16px 0 26px; padding-bottom: 14px; }
-    .hero-title h1 { font-size: 26px; }
-  }
   .wrap { max-width: 720px; margin: 0 auto; }
   a.back { color: #8a877f; text-decoration: none; font-size: 14px; }
   a.back:hover { color: #c8c5bc; }
@@ -107,12 +82,12 @@
 <body>
   <div class="wrap">
     <a class="back" href="../">← 返回首页</a>
-    <div class="hero-full">
-      <img src="../assets/card-blog6.jpg" alt="当期封面">
-    </div>
-    <div class="hero-title">
-      <h1>每日博客</h1>
-      <p>每天一篇，最新一期在最上面</p>
+    <div class="hero">
+      <img src="../assets/card-blog4.jpg" alt="当期封面">
+      <div class="hero-text">
+        <h1>每日博客</h1>
+        <p>每天一篇，最新一期在最上面</p>
+      </div>
     </div>
     <a class="item newest" href="2026-11-16T1151-wb.html">
       <h2>2026-11-16 每日博客</h2>
