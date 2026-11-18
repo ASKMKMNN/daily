@@ -3,122 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#181817">
-<meta name="robots" content="noindex, nofollow">
-<title>受保护 · 每日情报</title>
+<title>晚报 · 每日情报</title>
 <style>
   :root { color-scheme: dark; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { overflow-x: clip; }
+  a:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 4px; }
   body {
-    background: #181817; color: #e8e6e1;
+    background: #181817;
+    color: #e8e6e1;
     font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-    min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: 40px 20px;
+    min-height: 100vh;
+    padding: 48px 20px;
   }
-  .gate { width: 100%; max-width: 380px; }
-  .gate h1 { font-size: 21px; font-weight: 600; letter-spacing: 1px; margin-bottom: 10px; }
-  .gate .tip { color: #8a877f; font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
-  .gate input {
-    width: 100%; padding: 14px 16px; font-size: 16px;
-    background: #22221f; color: #e8e6e1;
-    border: 1px solid #33322e; border-radius: 12px;
-    font-family: inherit; outline: none;
+  .hero {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 22px 0 36px;
   }
-  .gate input:focus { border-color: #55534a; outline: 2px solid #55534a; outline-offset: 2px; }
-  .gate button {
-    width: 100%; margin-top: 12px; padding: 14px;
-    background: #2c2b27; color: #e8e6e1; border: 1px solid #3d3c35;
-    border-radius: 12px; font-size: 15px; font-family: inherit; cursor: pointer;
-    transition: border-color .15s ease;
+  .hero img { width: 100%; height: 200px; object-fit: cover; display: block; opacity: .55; }
+  .hero .hero-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px 26px;
+    background: linear-gradient(180deg, rgba(24,24,23,0) 30%, rgba(24,24,23,.85) 100%);
   }
-  .gate button:hover { border-color: #6a6860; }
-  .gate button:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; }
-  .gate button:disabled { opacity: .45; cursor: default; }
-  .gate .msg { margin-top: 16px; font-size: 13px; min-height: 20px; color: #c98d7d; }
-  .gate .ok { color: #8a877f; }
-  a.back { display: inline-block; margin-top: 28px; color: #8a877f; text-decoration: none; font-size: 13px; }
+  .hero h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
+  .hero p { margin: 6px 0 0; color: #c8c5bc; font-size: 14px; }
+  @media (max-width: 640px) { .hero img { height: 150px; } }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  a.back { color: #8a877f; text-decoration: none; font-size: 14px; }
   a.back:hover { color: #c8c5bc; }
-  a.back:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 4px; }
+  h1 { font-size: 26px; margin: 18px 0 6px; }
+  .sub { color: #8a877f; font-size: 14px; margin-bottom: 36px; }
+
+  a.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: #22221f;
+    border: 1px solid #33322e;
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  a.item:hover { border-color: #55534a; transform: translateY(-2px); }
+  a.item h2 { font-size: 17px; font-weight: 600; }
+  a.item span { color: #8a877f; font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .newest { border-color: #55534a; }
+  .newest h2::after {
+    content: "最新";
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #c8c5bc;
+    border: 1px solid #3d3c35;
+    border-radius: 999px;
+    padding: 2px 8px;
+    vertical-align: 2px;
+  }
+  .none { color: #8a877f; font-size: 14px; }
+
 </style>
+<link rel="icon" type="image/png" sizes="48x48" href="/daily/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/daily/favicon-32.png">
+<link rel="apple-touch-icon" href="/daily/apple-touch-icon.png">
+<link rel="manifest" href="/daily/manifest.json">
+<meta name="theme-color" content="#181817">
 </head>
 <body>
-  <div class="gate">
-    <h1>这一期要密码</h1>
-    <p class="tip">内容是加密存放的，密码对了才解得开。这台设备记 30 天，期间不用再输。</p>
-    <form id="f">
-      <input id="pw" type="password" autocomplete="current-password" placeholder="密码" required>
-      <button id="go" type="submit">打开</button>
-    </form>
-    <p class="msg" id="msg"></p>
+  <div class="wrap">
     <a class="back" href="../">← 返回首页</a>
+    <div class="hero">
+      <img src="../assets/card-wanbao.jpg" alt="英国航空客机">
+      <div class="hero-text">
+        <h1>晚报</h1>
+        <p>每天傍晚更新，最新一期在最上面</p>
+      </div>
+    </div>
+    <a class="item newest" href="2026-11-17T1825-lg.html">
+      <h2>2026-11-17 晚报</h2>
+      <span>灵光 18:25</span>
+    </a>
+    <a class="item" href="2026-11-17T1825-wb.html">
+      <h2>2026-11-17 晚报</h2>
+      <span>WB 18:25</span>
+    </a>
+    <a class="item" href="2026-11-16T1825-wb.html">
+      <h2>2026-11-16 晚报</h2>
+      <span>WB 18:25</span>
+    </a>
   </div>
-<script>
-(function () {
-  var DATA = "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";
-  var SLOT = 'daily-key:v2';
-  var TTL = 2592000000; // 30 天
-  var ITER = 120000;
-  var msg = document.getElementById('msg');
-  var btn = document.getElementById('go');
-  var form = document.getElementById('f');
-
-  function b64(s) {
-    var bin = atob(s), out = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-    return out;
-  }
-
-  async function keyFrom(pass, salt) {
-    var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
-    return crypto.subtle.deriveKey({name:'PBKDF2', salt:salt, iterations:ITER, hash:'SHA-256'},
-      base, {name:'AES-GCM', length:256}, true, ['decrypt']);
-  }
-
-  async function open(key) {
-    var raw = b64(DATA);
-    var plain = await crypto.subtle.decrypt({name:'AES-GCM', iv:raw.slice(16,28)}, key, raw.slice(28));
-    window.__DAILY_KEY = key;
-    document.open();
-    document.write(new TextDecoder().decode(plain));
-    document.close();
-  }
-
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    btn.disabled = true;
-    msg.className = 'msg';
-    msg.textContent = '解开中…';
-    try {
-      var raw = b64(DATA);
-      var key = await keyFrom(document.getElementById('pw').value, raw.slice(0,16));
-      await open(key);
-      var kraw = await crypto.subtle.exportKey('raw', key);
-      localStorage.setItem(SLOT, JSON.stringify({
-        k: btoa(String.fromCharCode.apply(null, new Uint8Array(kraw))), t: Date.now()
-      }));
-    } catch (err) {
-      msg.textContent = '密码不对。';
-      btn.disabled = false;
-    }
-  });
-
-  // 记住设备：30 天内同浏览器打开任意加密页都不再问密码（换密码后旧 key 自动失效）
-  (async function () {
-    var saved = localStorage.getItem(SLOT);
-    if (!saved) return;
-    var o;
-    try { o = JSON.parse(saved); } catch (e) { localStorage.removeItem(SLOT); return; }
-    if (!o || !o.k || !o.t || Date.now() - o.t > TTL) { localStorage.removeItem(SLOT); return; }
-    try {
-      var key = await crypto.subtle.importKey('raw', b64(o.k), {name:'AES-GCM'}, true, ['decrypt']);
-      await open(key);
-      localStorage.setItem(SLOT, JSON.stringify({ k: o.k, t: Date.now() }));
-    } catch (e) {
-      localStorage.removeItem(SLOT);
-    }
-  })();
-})();
-</script>
+<script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
 </body>
 </html>
