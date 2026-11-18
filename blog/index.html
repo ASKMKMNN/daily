@@ -35,37 +35,38 @@
   .hero h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
   .hero p { margin: 6px 0 0; color: #c8c5bc; font-size: 14px; }
   @media (max-width: 640px) { .hero img { height: 150px; } }
-  .hero-split {
-    display: flex;
-    align-items: stretch;
-    background: #22221f;
-    border: 1px solid #33322e;
+  .hero-full {
+    position: relative;
+    height: 280px;
     border-radius: 20px;
     overflow: hidden;
     margin: 22px 0 36px;
   }
-  .hero-split .hero-copy {
-    flex: 1 1 auto;
-    padding: 26px 28px;
+  .hero-full img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 34%;
+    display: block;
+  }
+  .hero-full .hero-copy {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 0;
+    padding: 0 44px;
+    background: linear-gradient(90deg,
+      rgba(24,24,23,.96) 0%, rgba(24,24,23,.9) 30%,
+      rgba(24,24,23,.6) 52%, rgba(24,24,23,0) 76%);
   }
-  .hero-split h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
-  .hero-split p { margin: 8px 0 0; color: #c8c5bc; font-size: 14px; }
-  .hero-split img {
-    flex: 0 0 320px;
-    width: 320px;
-    height: 210px;
-    object-fit: cover;
-    display: block;
-  }
+  .hero-full h1 { font-size: 34px; letter-spacing: 3px; margin: 0; }
+  .hero-full p { margin: 12px 0 0; color: #d2cfc6; font-size: 15px; }
   @media (max-width: 640px) {
-    .hero-split { flex-direction: column; }
-    .hero-split img { flex: none; width: 100%; height: 150px; }
-    .hero-split .hero-copy { padding: 20px 22px; }
-    .hero-split h1 { font-size: 23px; }
+    .hero-full { height: 190px; }
+    .hero-full .hero-copy { padding: 0 22px; }
+    .hero-full h1 { font-size: 25px; letter-spacing: 2px; }
+    .hero-full p { font-size: 13.5px; margin-top: 8px; }
   }
   .wrap { max-width: 720px; margin: 0 auto; }
   a.back { color: #8a877f; text-decoration: none; font-size: 14px; }
@@ -114,12 +115,12 @@
 <body>
   <div class="wrap">
     <a class="back" href="../">← 返回首页</a>
-    <div class="hero-split">
+    <div class="hero-full">
+      <img src="../assets/card-blog5.jpg" alt="当期封面">
       <div class="hero-copy">
         <h1>每日博客</h1>
         <p>每天一篇，最新一期在最上面</p>
       </div>
-      <img src="../assets/card-blog4.jpg" alt="当期封面">
     </div>
     <a class="item newest" href="2026-11-16T1151-wb.html">
       <h2>2026-11-16 每日博客</h2>
