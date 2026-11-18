@@ -35,6 +35,38 @@
   .hero h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
   .hero p { margin: 6px 0 0; color: #c8c5bc; font-size: 14px; }
   @media (max-width: 640px) { .hero img { height: 150px; } }
+  .hero-split {
+    display: flex;
+    align-items: stretch;
+    background: #22221f;
+    border: 1px solid #33322e;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 22px 0 36px;
+  }
+  .hero-split .hero-copy {
+    flex: 1 1 auto;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+  .hero-split h1 { font-size: 26px; letter-spacing: 2px; margin: 0; }
+  .hero-split p { margin: 8px 0 0; color: #c8c5bc; font-size: 14px; }
+  .hero-split img {
+    flex: 0 0 320px;
+    width: 320px;
+    height: 210px;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 640px) {
+    .hero-split { flex-direction: column; }
+    .hero-split img { flex: none; width: 100%; height: 150px; }
+    .hero-split .hero-copy { padding: 20px 22px; }
+    .hero-split h1 { font-size: 23px; }
+  }
   .wrap { max-width: 720px; margin: 0 auto; }
   a.back { color: #8a877f; text-decoration: none; font-size: 14px; }
   a.back:hover { color: #c8c5bc; }
@@ -82,12 +114,12 @@
 <body>
   <div class="wrap">
     <a class="back" href="../">← 返回首页</a>
-    <div class="hero">
-      <img src="../assets/card-blog2.jpg" alt="摊开的书">
-      <div class="hero-text">
+    <div class="hero-split">
+      <div class="hero-copy">
         <h1>每日博客</h1>
         <p>每天一篇，最新一期在最上面</p>
       </div>
+      <img src="../assets/card-blog3.jpg" alt="当期封面">
     </div>
     <a class="item newest" href="2026-11-16T1151-wb.html">
       <h2>2026-11-16 每日博客</h2>
