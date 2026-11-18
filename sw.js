@@ -1,6 +1,6 @@
 // 页面永远先取网络（密码壳随时会变），离线才回退缓存；静态图缓存优先
 const CACHE = 'daily-v2';
-const CORE = ['/daily/', '/daily/wubao/', '/daily/wanbao/', '/daily/tujian/', '/daily/manifest.json'];
+const CORE = ['/daily/', '/daily/wubao/', '/daily/wanbao/', '/daily/tujian/', '/daily/blog/', '/daily/manifest.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
