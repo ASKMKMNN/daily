@@ -1,0 +1,235 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>兴趣午报 · 2026.11.19</title><style>
+:root{--bg:#111113;--paper:#1a1a1d;--tx:#ecebe8;--dim:#a29d94;--line:#2c2c30;--hot:#ef9205;--cmt:#201f1c;--cmtline:#3a362e}
+*{box-sizing:border-box}html,body{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.7 -apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+.gb-screen{padding:40px 0;border-bottom:1px solid var(--line)}
+a{color:inherit}a:focus-visible{outline:2px solid var(--hot);outline-offset:2px;border-radius:3px}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--tx);padding-bottom:12px;gap:16px}
+header h1{font:700 52px/1 "Songti SC","Noto Serif CJK SC",Georgia,serif;margin:0;letter-spacing:.02em}
+header .meta{text-align:right;color:var(--dim);font-size:14px;line-height:1.6}
+.note{border-left:3px solid var(--hot);padding:4px 14px;color:var(--dim);margin:20px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.pill{border:1px solid;border-radius:999px;padding:3px 12px;text-decoration:none;font-size:14px}
+.toc{padding-left:1.2em;margin:0}.toc li{margin:6px 0}.toc a{text-decoration:none}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.thumb{position:relative;aspect-ratio:16/10;background:var(--line)}
+.thumb.feature{aspect-ratio:21/9}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.score{position:absolute;left:14px;top:14px;background:#b4510c;color:#fffdf9;border-radius:999px;padding:2px 12px;font-weight:700;font-size:15px}
+.sc-inl{display:inline-block;background:#b4510c;color:#fffdf9;border-radius:999px;padding:2px 10px;font-weight:700;font-size:14px;margin-left:8px;vertical-align:middle;font-variant-numeric:tabular-nums}
+.body{padding:18px 20px 20px}
+.tag{margin:0 0 4px;font-size:13px;font-weight:600}
+.card h2{font:700 22px/1.4 "Songti SC","Noto Serif CJK SC",Georgia,serif;margin:0 0 10px}
+.card h2 a{text-decoration:none}
+.bline{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 10px;font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bp{display:inline-flex;align-items:center;border:1px solid var(--cmtline);border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.5}
+.bp.mul{color:var(--hot);border-color:#e0c6a4}
+.bp.adj{color:var(--dim)}
+.bp.waive{border-style:dashed}
+.sum{margin:0 0 12px;font-size:16px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;padding:10px 12px;font-size:15px}
+.cmt b{color:var(--hot);margin-right:6px}
+.src{color:var(--dim);font-size:13px;margin:10px 0 0}
+.sec{font:700 22px "Songti SC","Noto Serif CJK SC",Georgia,serif;border-left:4px solid var(--hot);padding-left:10px;margin:0 0 12px}
+.sec small{font:13px sans-serif;color:var(--dim);margin-left:8px}
+.t0bar{padding:14px 20px 0}.st0{position:static;display:inline-block}
+.sp{list-style:none;padding:0;margin:0}.sp li{padding:12px 0;border-bottom:1px solid var(--line)}
+.sp b{font-size:18px;margin-right:10px}.st{font-size:13px;color:var(--hot)}.sp p{margin:6px 0 0;font-size:15px}
+.t0none{color:var(--dim);font-size:14px}
+.grp ol{list-style:none;padding:0;margin:0}
+.grp li{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.grp li>a:not(.ext){flex:1;text-decoration:none}
+.grp li a.carded{font-weight:700}
+.no{color:var(--dim);min-width:1.6em;text-align:right}
+.mini{font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:999px;padding:0 8px;font-size:13px;color:var(--dim);margin-left:6px}
+.rmeta{display:flex;align-items:baseline;gap:0;margin:-2px 0 11px;font-size:12px;color:var(--dim)}
+.rmeta .age,.rmeta .gain{display:inline-flex;align-items:baseline;gap:4px}
+.rmeta .age b{font:700 16.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--tx);font-variant-numeric:tabular-nums}
+.rmeta .gain b{font:700 16.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--hot);font-variant-numeric:tabular-nums}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px}
+.rmeta .sep{width:1px;height:14px;background:var(--cmtline);margin:0 13px;align-self:center}
+footer{color:var(--dim);font-size:14px}
+@media (max-width:520px){header h1{font-size:34px}header{flex-direction:column;align-items:flex-start}header .meta{text-align:left}.card h2{font-size:18px}}
+
+/* v2.6.9 标题必带原文链接：继承颜色、无默认下划线；hover 1px 下划线；:focus-visible */
+.card h2 a,.grp li>a:not(.ext){color:inherit;text-decoration:none}
+.card h2 a:hover,.grp li>a:not(.ext):hover{text-decoration:underline;text-underline-offset:3px}
+a.ext{color:var(--dim);font-size:12px;line-height:1;text-decoration:none;margin-left:4px;flex:none;white-space:nowrap}
+a.ext:hover{color:var(--dim);text-decoration:none}
+a:focus-visible,.card h2 a:focus-visible,.grp li a:focus-visible,a.ext:focus-visible{outline:2px solid var(--hot);outline-offset:2px;border-radius:3px}
+
+/* v2.6.10 全局三位编号 nid：清单编号位与卡片标题旁徽标（不改标题本身视觉） */
+.grp .no.nid{min-width:2.6em;font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.02em}
+.nid{font-variant-numeric:tabular-nums}
+.card h2 .nid,.sp li>.nid{display:inline-block;font:600 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-right:8px;vertical-align:middle;letter-spacing:.02em}
+
+/* v2.6.11 长按标题复制原文链接：-webkit-touch-callout 只加在标题链接上，不改视觉 */
+.card h2 a,.grp li>a,a.ext{-webkit-touch-callout:none}
+#gb-copy-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(16px);background:#2a281f;color:#fffdf9;border:1px solid #3a362e;border-radius:999px;padding:8px 18px;font-size:14px;line-height:1.4;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+#gb-copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#gb-copy-fallback{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px}
+#gb-copy-fallback .gb-fb-box{background:var(--paper);color:var(--tx);border:1px solid var(--line);border-radius:14px;padding:18px 20px;max-width:92vw;width:420px}
+#gb-copy-fallback .gb-fb-box p{margin:0 0 8px;font-size:15px}
+#gb-copy-fallback textarea{display:block;width:100%;min-height:72px;margin:0 0 12px;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;line-height:1.5;word-break:break-all;resize:vertical}
+#gb-copy-fallback button{background:var(--hot);color:#111;border:0;border-radius:999px;padding:6px 16px;font-size:14px;font-weight:600;cursor:pointer}
+</style></head><body><div class="wrap"><section class="gb-screen cover"><header><h1>兴趣午报 · 2026.11.19</h1><div class="meta">2026 年 11 月 19 日 星期四<br>覆盖：2026-11-18 18:00～2026-11-19 11:00（上海时间）；与近 3 天已发去重<br>全 18 条 · 卡片 19 张 · 9 个主题</div></header><p class="note">本场窗口是 11 月 18 日 18:00 到今天上午。游戏主条是《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99；科技主条是 Google 发布 Gemini 4 Neon，Anthropic 则公布了 IPO 定价 83 美元、代码 ANT，今天登陆纳斯达克。建筑方面，BIG 在瑞士图恩公布木结构的 Siegenthalergut 新街区，另外补收了两篇略早于正窗的公建稿：尼特拉城堡下的新竞技场，以及乔治亚 Kvareli 当代艺术基金会新馆。旅行本窗没有足够硬的开业或改造，故未单列。特别关注里，DeepSeek Harness 发出预览版 v0.2.2-rc.5，腾讯则在业绩里把微信小微的扩大测试和日活 3000 万讲清楚；Apple 与 Sony 本期无更新。国际时尚按兴趣清单本场不出。本场够 84 分的共 11 条。</p><nav aria-label="主题导览"><a class="pill" href="#th0" style="border-color:#60a5fa;color:#60a5fa">科技/AI <small>4</small></a><a class="pill" href="#th1" style="border-color:#2dd4bf;color:#2dd4bf">数码消费 <small>1</small></a><a class="pill" href="#th2" style="border-color:#f472b6;color:#f472b6">国际时尚 <small>0</small></a><a class="pill" href="#th3" style="border-color:#34d399;color:#34d399">建筑与设计 <small>3</small></a><a class="pill" href="#th4" style="border-color:#a78bfa;color:#a78bfa">艺术与绘画 <small>3</small></a><a class="pill" href="#th5" style="border-color:#818cf8;color:#818cf8">游戏 <small>1</small></a><a class="pill" href="#th6" style="border-color:#5eead4;color:#5eead4">旅行 <small>0</small></a><a class="pill" href="#th7" style="border-color:#fbbf24;color:#fbbf24">杂志 <small>3</small></a><a class="pill" href="#th8" style="border-color:#4ade80;color:#4ade80">开源热议 <small>3</small></a></nav><ol class="toc"><li><a href="#t0">Tier 0 · 特别关注</a></li><li><a href="#feat">今日精选</a></li><li><a href="#t5-1">游戏 · 601　《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99</a><span class="mini">99</span></li><li><a href="#t0-1">科技/AI · 101　Google 发布 Gemini 4 Neon：定位在 Carbon 与 Hydrogen 之间，主打工程与知识工作，API 输入 3 美元/百万 token</a><span class="mini">97</span></li><li><a href="#t3-1">建筑与设计 · 401　BIG 在瑞士图恩用木结构堆叠酒店与住宅，启动 Siegenthalergut 新街区</a><span class="mini">95</span></li><li><a href="#t3-2">建筑与设计 · 402　（补收）CHYBÍK + KRIŠTOF 赢得斯洛伐克尼特拉城堡下的新竞技场与公园</a><span class="mini">91</span></li><li><a href="#t3-3">建筑与设计 · 403　（补收）乔治亚 Kvareli 当代艺术基金会：Midamo 的新馆被称作「情感的核心」</a><span class="mini">91</span></li><li><a href="#t0-2">科技/AI · 102　Anthropic IPO 定价每股 83 美元，代码 ANT，11 月 19 日登陆纳斯达克</a><span class="mini">86</span></li><li><a href="#t7-1">杂志 · 801　Nautilus：科学家用《GTA V》的洛圣都模拟洛杉矶海平面上升</a><span class="mini">86</span></li><li><a href="#t8-1">开源热议 · 901　rust-anything：按原程序行为录制，把应用一块块改写成 Rust；两天新仓今日继续暴涨</a><span class="mini">86</span></li><li><a href="#t7-2">杂志 · 802　Nautilus：新证据显示直立人在华南丛林生活至约 18 万年前</a><span class="mini">85</span></li><li><a href="#t8-2">开源热议 · 902　BatteryHub（原 Wireless Battery）：Windows 任务栏显示无线外设电量，v1.1.0 今日改名</a><span class="mini">85</span></li><li><a href="#t4-1">艺术与绘画 · 501　Carsten Höller 在墨西哥城 Antara 落下四条纪念碑级滑梯</a><span class="mini">84</span></li></ol></section><section class="t0-sec" id="t0"><div class="gb-screen"><h3 class="sec" style="border-color:var(--hot)">Tier 0 · 特别关注<small>DSH / 国内个人助手 / Apple / Sony</small></h3><ul class="sp"><li><b>Apple</b><span class="t0none">〔Apple〕· 本期无更新</span></li><li><b>Sony</b><span class="t0none">〔Sony〕· 本期无更新</span></li><li data-nid="001"><span class="nid" aria-label="编号 001">001</span><b>DSH</b><span class="st">有进展 · 92 分</span><p>DeepSeek Harness 发布预览版 v0.2.2-rc.5：DeepSeek 模型改用服务端搜索，且不按次收费</p></li><li data-nid="002"><span class="nid" aria-label="编号 002">002</span><b>国内个人助手</b><span class="st">有进展 · 94 分</span><p>微信小微扩大测试：官方称加深小程序与小店整合，业绩会披露日活 3000 万、触点超 30 个</p></li></ul></div><div class="gb-screen"><article class="card" id="t0-dsh" data-nid="001"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-01.jpg" alt="DeepSeek Harness 发布预览版 v0.2.2-rc.5：DeepSeek 模型改用服务端搜索，且不按次收费"><span class="score">92</span></div><div class="body"><p class="tag" style="color:var(--hot)">Tier 0 · 特别关注｜DSH</p><h2><span class="nid" aria-label="编号 001">001</span><a href="https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.2-rc.5" target="_blank" rel="noopener">DeepSeek Harness 发布预览版 v0.2.2-rc.5：DeepSeek 模型改用服务端搜索，且不按次收费</a></h2><div class="bline"><span>四维 80</span><span class="bp mul" title="Tier 0 ×1.15">×1.15 Tier 0</span><span>≈ 92</span></div><p class="sum">官方仓库 deepseek-ai/deepseek-harness 于 11 月 18 日 20:51（上海时间）发布预览版 v0.2.2-rc.5。发布说明写明的体验变化是：DeepSeek 模型改用 DeepSeek 服务端搜索，搜索不按次收费；其他模型默认使用 DeepSeek Search API。此前的 rc.4 发布于窗前，rc.3 已在 11 月 13 日晚报出过卡，本条只依据 rc.5。</p><div class="cmt"><b>💡 点评</b>这是 DSH 本体的又一次预览版，重点不在新插件，而在把 DeepSeek 模型的搜索改成服务端、并不再按次计费。还在 rc，接口和默认行为变了的话，已经在用的人可以看一眼发布说明再决定要不要跟上。</div><p class="src">来源：GitHub Releases（deepseek-ai/deepseek-harness）</p></div></article></div><div class="gb-screen"><article class="card" id="t0-国内个人助手" data-nid="002"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-02.jpg" alt="微信小微扩大测试：官方称加深小程序与小店整合，业绩会披露日活 3000 万、触点超 30 个" loading="lazy"><span class="score">94</span></div><div class="body"><p class="tag" style="color:var(--hot)">Tier 0 · 特别关注｜国内个人助手</p><h2><span class="nid" aria-label="编号 002">002</span><a href="https://news.bjd.com.cn/2026/11/18/12035795.shtml" target="_blank" rel="noopener">微信小微扩大测试：官方称加深小程序与小店整合，业绩会披露日活 3000 万、触点超 30 个</a></h2><div class="bline"><span>四维 82</span><span class="bp mul" title="Tier 0 ×1.15">×1.15 Tier 0</span><span>≈ 94</span></div><p class="sum">腾讯在 11 月 18 日傍晚发布的 2026 年第三季度业绩稿中写明，已扩大微信个人 AI 助理「小微」的可用性与使用场景，并加深与小程序、微信小店的整合以促进交易。当晚业绩会上，总裁刘炽平披露测试范围继续扩大，微信内触点已超 30 个（朋友圈、公众号、视频号等），日活达 3000 万且人均交互上升；微信方面并称小微采用面向成本与易用性优化的 WeLM 定制模型，未来部分推理任务预计在设备端运行。同场提及的办公智能体不进入本节。</p><div class="cmt"><b>💡 点评</b>这不是一次功能发布会，而是业绩里把小微的放开节奏和规模讲清楚：触点已经铺进微信里多个位置，日活到了 3000 万。还在扩大测试、全量开放时间未定，对已经在用或在等的人，这条的信息量主要在规模和路线，不在新能力清单。</div><p class="src">来源：腾讯官方三季度业绩新闻稿；京报网、IT之家转述业绩会</p></div></article></div></section><section class="feat-sec" id="feat"><div class="gb-screen"><h3 class="sec">今日精选<small>全页最高分 · 本场够 84 分 11 条</small></h3></div><div class="gb-screen"><article class="card" id="t5-1" data-nid="601"><div class="thumb feature"><img src="../assets/issue/wubao/2026-11-19T1147-gb-03.jpg" alt="《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99" loading="lazy"><span class="score">99</span></div><div class="body"><p class="tag" style="color:#818cf8">游戏</p><h2><span class="nid" aria-label="编号 601">601</span><a href="https://www.theguardian.com/games/2026/nov/18/grand-theft-auto-vi-gta-6-review-playstation-rockstar" target="_blank" rel="noopener">《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99</a></h2><p class="sum">《卫报》Keza MacDonald 给《Grand Theft Auto VI》打出 5/5，称 Rockstar 做出了迄今最奢侈、最细致的虚拟世界，而游戏真正的中心是逃亡情侣 Jason 与 Lucia；她写到自己过了很久才进入 Vice City，并在数十小时后开始真心担心两人的结局。她也指出操作复杂，游戏系统会与玩家意图意外冲撞，例如高速蹭路缘翻车、或按错键把打招呼变成打人。Metacritic 基于 156 篇媒体评测给出 Metascore 99（Universal acclaim）。游戏于 11 月 19 日登陆 PS5 与 Xbox Series X|S，舞台是包括 Vice City 在内的 Leonida 六片区域。Rockstar 官网为 https://www.rockstargames.com/VI 。</p><div class="cmt"><b>💡 点评</b>开售日加上接近满分的媒体分，这是今天游戏圈最硬的一条。卫报把重心放在 Jason 与 Lucia 的关系，而不是再列一遍地图有多大；操作仍会被自己的系统绊到，这点也没藏。若你一直在等，今天就可以自己进去看。</div><p class="src">来源：The Guardian</p></div></article></div></section><section class="theme-sec" id="th0"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#60a5fa">科技/AI<small>4 条</small></h3></div><div class="gb-screen"><article class="card" id="t0-1" data-nid="101"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-04.jpg" alt="Google 发布 Gemini 4 Neon：定位在 Carbon 与 Hydrogen 之间，主打工程与知识工作，API 输入 3 美元/百万 token" loading="lazy"><span class="score">97</span></div><div class="body"><p class="tag" style="color:#60a5fa">科技/AI</p><h2><span class="nid" aria-label="编号 101">101</span><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/" target="_blank" rel="noopener">Google 发布 Gemini 4 Neon：定位在 Carbon 与 Hydrogen 之间，主打工程与知识工作，API 输入 3 美元/百万 token</a></h2><p class="sum">Google DeepMind 于 11 月 18 日宣布推出 Gemini 4 Neon，定位在长程旗舰 Carbon 与日常快速模型 Hydrogen 之间，面向复杂软件工程、知识工作与科学工作流，上下文长度为 100 万 token。官方 API 定价为每百万输入 token 3 美元（缓存输入 0.15 美元）、输出 15 美元；在 Artificial Analysis Intelligence Index 的 xhigh 思考档上得到 61 分、总榜第 3。当天起在 Gemini API、Google AI Studio、Gemini for business，以及付费 Pro / Ultra 用户的 Google Antigravity 与 Gemini 应用中上线。</p><div class="cmt"><b>💡 点评</b>这是 Google 把 Gemini 4 家族补上的中间档：比 Hydrogen 更能扛长任务，又比 Carbon 便宜，定价和上线范围都写得很清楚。若你主要做代码和知识工作，这档值得先试；是否真能在性价比上压过刚发布的对手，还要看接下来几天的实测。</div><p class="src">来源：Google The Keyword</p></div></article></div><div class="gb-screen"><article class="card" id="t0-2" data-nid="102"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-05.jpg" alt="Anthropic IPO 定价每股 83 美元，代码 ANT，11 月 19 日登陆纳斯达克" loading="lazy"><span class="score">86</span></div><div class="body"><p class="tag" style="color:#60a5fa">科技/AI</p><h2><span class="nid" aria-label="编号 102">102</span><a href="https://www.anthropic.com/news/anthropic-prices-initial-public-offering" target="_blank" rel="noopener">Anthropic IPO 定价每股 83 美元，代码 ANT，11 月 19 日登陆纳斯达克</a></h2><p class="sum">Anthropic 宣布 A 类普通股 IPO 定价为每股 83.00 美元，发行规模 9.80 亿股，其中公司出售约 9.56 亿股，现有股东出售约 2365 万股，公司不获得股东出售部分的募集资金。股票预计 2026 年 11 月 19 日以代码 ANT 在纳斯达克 Global Select Market 开始交易，发行预计 11 月 20 日交割；另授予承销商 30 日内最多加售 1.47 亿股的选择权。官网只公布了股数与定价，没有使用部分转述稿里的「募资 944 亿美元」这一整数。</p><div class="cmt"><b>💡 点评</b>这是 11 月 11 日询价区间之后的定价与挂牌节点，数字以官网为准。对看 AI 实验室走向公开市场的人，今天开盘比再读一遍招股区间更有用。</div><p class="src">来源：Anthropic</p></div></article></div><div class="gb-screen"><article class="card" id="t0-3" data-nid="103"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-06.jpg" alt="爱范儿实测 GPT-6.2 Astra：Agent 成绩和成本抢眼，写作和沟通体验则两极" loading="lazy"><span class="score">81</span></div><div class="body"><p class="tag" style="color:#60a5fa">科技/AI</p><h2><span class="nid" aria-label="编号 103">103</span><a href="https://www.ifanr.com/1690130" target="_blank" rel="noopener">爱范儿实测 GPT-6.2 Astra：Agent 成绩和成本抢眼，写作和沟通体验则两极</a></h2><p class="sum">爱范儿按官方数字写，GPT-6.2 Astra 在专业 Agent 任务上超过 Claude Fable 5.2，完成同等任务的综合成本约为后者的 5%；实测里，一句提示即可生成可交互的写实孔雀开屏 3D 场景，也能较快做出精细像素风动画。短板同样明确：交付说明里常堆 SwiftShader、glTF、DNS 等术语，作文和评论文字短句割裂、关联生硬。文章把「不说人话」部分归到为把推理成本压低而压缩输出 token，并把长任务容易卡住与 GPT-6.1 Astra 被砍后安全护栏加严联系起来。OpenAI 官宣是 11 月 17 日，本窗收的是首批深度实测。</p><p class="src">来源：爱范儿</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="101"><span class="no nid">101</span><a class="carded" href="#t0-1">Google 发布 Gemini 4 Neon：定位在 Carbon 与 Hydrogen 之间，主打工程与知识工作，API 输入 3 美元/百万 token</a><a class="ext" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">97</span></li><li data-nid="102"><span class="no nid">102</span><a class="carded" href="#t0-2">Anthropic IPO 定价每股 83 美元，代码 ANT，11 月 19 日登陆纳斯达克</a><a class="ext" href="https://www.anthropic.com/news/anthropic-prices-initial-public-offering" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">86</span></li><li data-nid="103"><span class="no nid">103</span><a class="carded" href="#t0-3">爱范儿实测 GPT-6.2 Astra：Agent 成绩和成本抢眼，写作和沟通体验则两极</a><a class="ext" href="https://www.ifanr.com/1690130" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">81</span></li><li data-nid="104"><span class="no nid">104</span><a href="https://www.producthunt.com/products/s-space" target="_blank" rel="noopener">S.Space：AutoGen 团队的多人工作区，把各家已在用的编码代理放进同一房间交接</a><span class="mini">79</span></li></ol></div></section><section class="theme-sec" id="th1"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#2dd4bf">数码消费<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t1-1" data-nid="201"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-07.jpg" alt="The Verge 曝光尚未发布的 Lenovo Legion Go Beam：体型更小、定价可能更亲民的掌机" loading="lazy"><span class="score">74</span></div><div class="body"><p class="tag" style="color:#2dd4bf">数码消费</p><h2><span class="nid" aria-label="编号 201">201</span><a href="https://www.theverge.com/games/1036819/the-leaked-lenovo-legion-go-beam-could-be-the-affordable-handheld-we-need" target="_blank" rel="noopener">The Verge 曝光尚未发布的 Lenovo Legion Go Beam：体型更小、定价可能更亲民的掌机</a></h2><p class="sum">The Verge 于 11 月 19 日凌晨刊出尚未发布的 Lenovo Legion Go Beam 实拍：机身白色、点缀黄绿色，体型看起来明显小于现有 Legion Go。报道推测它会走更便宜的掌机路线，并提到可能等到明年 CES 前后才正式亮相。目前没有官方定价、配置或发售日，不能写成已经发布。</p><p class="src">来源：The Verge</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="201"><span class="no nid">201</span><a class="carded" href="#t1-1">The Verge 曝光尚未发布的 Lenovo Legion Go Beam：体型更小、定价可能更亲民的掌机</a><a class="ext" href="https://www.theverge.com/games/1036819/the-leaked-lenovo-legion-go-beam-could-be-the-affordable-handheld-we-need" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">74</span></li></ol></div></section><section class="theme-sec" id="th2"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#f472b6">国际时尚<small>0 条</small></h3></div><div class="gb-screen grp"><ol><li><span class="no">–</span>本场无</li></ol></div></section><section class="theme-sec" id="th3"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#34d399">建筑与设计<small>3 条</small></h3></div><div class="gb-screen"><article class="card" id="t3-1" data-nid="401"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-08.jpg" alt="BIG 在瑞士图恩用木结构堆叠酒店与住宅，启动 Siegenthalergut 新街区" loading="lazy"><span class="score">95</span></div><div class="body"><p class="tag" style="color:#34d399">建筑与设计</p><h2><span class="nid" aria-label="编号 401">401</span><a href="https://www.designboom.com/architecture/big-timber-alpine-neighborhood-switzerland-siegenthalergut-thun-bjarke-ingels-group/" target="_blank" rel="noopener">BIG 在瑞士图恩用木结构堆叠酒店与住宅，启动 Siegenthalergut 新街区</a></h2><div class="bline"><span>四维 86</span><span class="bp mul" title="建筑与设计 ×1.1">×1.1 建筑与设计</span><span>≈ 95</span></div><p class="sum">Bjarke Ingels Group 公布在瑞士图恩 Siegenthalergut 街区入口的方案：约 1.3 万平方米、四栋木结构建筑，把两座酒店和住宅合在一起，深窗格子与层层退台面向伯尔尼阿尔卑斯山。方案与景观事务所 August + Margrith Künzel 合作，在 Frutiger AG 与图恩市举办的竞赛中胜出，标题为 Nachwachsende Stadt（Growing City）；西南角把三星与四星酒店放进同一栋，共享设施斜向切开体量，顶层设餐厅，对面是体育中心和未来的瑞士足协总部。住宅面向内院，阳台与凹阳台错位布置，底层沿街布置商业。</p><div class="cmt"><b>💡 点评</b>这是本窗最完整的一座新街区方案，木结构、酒店和住宅叠在一起，面对阿尔卑斯山的退台也很好看。还停留在竞赛胜出和方案公布，离建成尚早，但图恩这个入口尺度已经值得看。</div><p class="src">来源：Designboom</p></div></article></div><div class="gb-screen"><article class="card" id="t3-2" data-nid="402"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-09.jpg" alt="（补收）CHYBÍK + KRIŠTOF 赢得斯洛伐克尼特拉城堡下的新竞技场与公园" loading="lazy"><span class="score">91</span></div><div class="body"><p class="tag" style="color:#34d399">建筑与设计</p><h2><span class="nid" aria-label="编号 402">402</span><a href="https://www.archdaily.com/1188798/chybik-plus-kristof-selected-to-design-a-new-arena-and-public-park-below-nitra-castle-in-slovakia" target="_blank" rel="noopener">（补收）CHYBÍK + KRIŠTOF 赢得斯洛伐克尼特拉城堡下的新竞技场与公园</a></h2><div class="bline"><span>四维 83</span><span class="bp mul" title="建筑与设计 ×1.1">×1.1 建筑与设计</span><span>≈ 91</span></div><p class="sum">ArchDaily 报道，布尔诺事务所 CHYBÍK + KRIŠTOF 被选中设计斯洛伐克尼特拉城堡下方的新综合竞技场。场地位于国家文物城堡脚下、Sihoť 翻新市政公园与尼特拉河之间的现有运动场；方案把场地打开为公园，补齐历史中心外围的公共绿环，并更新基础设施，以承办顶级冰球、其他室内运动和国际文化活动。面向城堡的公共广场计划用于球迷聚集、户外赛事、季节市场、展览和音乐会；施工分五阶段，以尽量保证顶级冰球在建设期间仍能继续。事务所 2026 年 6 月已进入五强，本篇是最终选中报道。按页面 JSON-LD，稿件时间为 11 月 18 日 13:30（上海时间），略早于午报正窗，作轻度回塞。</p><div class="cmt"><b>💡 点评</b>把新馆放在城堡脚下，同时补上城市绿环，比单纯做一个冰球馆有意思。还是竞赛结果，施工分期也说明落地会拉得很长。</div><p class="src">来源：ArchDaily</p></div></article></div><div class="gb-screen"><article class="card" id="t3-3" data-nid="403"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-10.jpg" alt="（补收）乔治亚 Kvareli 当代艺术基金会：Midamo 的新馆被称作「情感的核心」" loading="lazy"><span class="score">91</span></div><div class="body"><p class="tag" style="color:#34d399">建筑与设计</p><h2><span class="nid" aria-label="编号 403">403</span><a href="https://www.wallpaper.com/architecture/kvareli-foundation-georgia" target="_blank" rel="noopener">（补收）乔治亚 Kvareli 当代艺术基金会：Midamo 的新馆被称作「情感的核心」</a></h2><div class="bline"><span>四维 83</span><span class="bp mul" title="建筑与设计 ×1.1">×1.1 建筑与设计</span><span>≈ 91</span></div><p class="sum">Wallpaper* 探访位于卡赫季酒乡、距第比利斯约 130 公里的 Kvareli Foundation for Contemporary Art。创始人 Jemal Inaishvili 受直岛启发，请第比利斯事务所 Midamo（Giorgi Chkonia、Dato Danelia）做中选概念，并由基金会内部建筑师 Irakli Sharpilo 深化；新馆超过 23,680 平方英尺，是一座带密集红色竖向瓦肋、灰质框板的细长混凝土盒子，架空体量下是玄武岩铺地入口，并通向木甲板庭院与石畔水池。三层展览空间之外还有通向屋顶的露天阶梯剧场；同园区还规划酒庄和一座 94 间房的精品酒店，酒店预计 2026 年底开业。馆方收藏约 1500 件，以乔治亚艺术为主。稿件时间为 11 月 18 日 13:00（上海时间），略早于午报正窗，作轻度回塞。</p><div class="cmt"><b>💡 点评</b>红色瓦肋的混凝土盒子放在酒乡里，很像直岛那一路「建筑即目的地」的做法。酒店要到年底才开，这一条先看建筑和馆本身。</div><p class="src">来源：Wallpaper*</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="401"><span class="no nid">401</span><a class="carded" href="#t3-1">BIG 在瑞士图恩用木结构堆叠酒店与住宅，启动 Siegenthalergut 新街区</a><a class="ext" href="https://www.designboom.com/architecture/big-timber-alpine-neighborhood-switzerland-siegenthalergut-thun-bjarke-ingels-group/" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="建筑与设计 ×1.1">×1.1</span><span class="mini">95</span></li><li data-nid="402"><span class="no nid">402</span><a class="carded" href="#t3-2">（补收）CHYBÍK + KRIŠTOF 赢得斯洛伐克尼特拉城堡下的新竞技场与公园</a><a class="ext" href="https://www.archdaily.com/1188798/chybik-plus-kristof-selected-to-design-a-new-arena-and-public-park-below-nitra-castle-in-slovakia" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="建筑与设计 ×1.1">×1.1</span><span class="mini">91</span></li><li data-nid="403"><span class="no nid">403</span><a class="carded" href="#t3-3">（补收）乔治亚 Kvareli 当代艺术基金会：Midamo 的新馆被称作「情感的核心」</a><a class="ext" href="https://www.wallpaper.com/architecture/kvareli-foundation-georgia" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="建筑与设计 ×1.1">×1.1</span><span class="mini">91</span></li></ol></div></section><section class="theme-sec" id="th4"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#a78bfa">艺术与绘画<small>3 条</small></h3></div><div class="gb-screen"><article class="card" id="t4-1" data-nid="501"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-11.jpg" alt="Carsten Höller 在墨西哥城 Antara 落下四条纪念碑级滑梯" loading="lazy"><span class="score">84</span></div><div class="body"><p class="tag" style="color:#a78bfa">艺术与绘画</p><h2><span class="nid" aria-label="编号 501">501</span><a href="https://design-milk.com/carsten-holler-mexico-city-slides/" target="_blank" rel="noopener">Carsten Höller 在墨西哥城 Antara 落下四条纪念碑级滑梯</a></h2><p class="sum">艺术家 Carsten Höller 的永久装置 Mexico City Slides（2026）成为墨西哥城综合体 Antara 扩建的核心，也是他迄今最大的滑梯项目。四条螺旋滑梯高约 39 至 125 英尺、长约 102 至 295 英尺，从零售餐饮、Google 办公区和未来的 Rosewood Mexico City 酒店落下，汇到同一着陆区。Höller 说，从酒店、办公室、餐厅和艺术中心滑下来的人会在空中被带到一起，再并肩落地。Antara 由 SOMA 开发、Sordo Madaleno 设计；公益艺术机构 Arte Abierto 将于 2026 年 12 月在此开设 Arte Abierto Polanco，并将同时展出 Superflex 的 Now What（2026）。11 月 11 日午报已写过 Antara 建筑本身，本条只收滑梯与后续艺术计划。</p><div class="cmt"><b>💡 点评</b>Höller 把滑梯做成这片综合体的公共装置，尺度比他以往的项目更大，也把酒店、办公和商场的人甩到同一条落地线上。楼本身前几日已经写过，这次看的是装置，不是又一篇建筑稿。</div><p class="src">来源：Design Milk</p></div></article></div><div class="gb-screen"><article class="card" id="t4-2" data-nid="502"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-12.jpg" alt="Vhils 与 Marcelo Cidade 用银色应急毯包裹圣保罗殖民风格建筑" loading="lazy"><span class="score">83</span></div><div class="body"><p class="tag" style="color:#a78bfa">艺术与绘画</p><h2><span class="nid" aria-label="编号 502">502</span><a href="https://www.thisiscolossal.com/2026/11/vhils-marcelo-cidade-sao-paolo-2878/" target="_blank" rel="noopener">Vhils 与 Marcelo Cidade 用银色应急毯包裹圣保罗殖民风格建筑</a></h2><p class="sum">Alexandre Farto（Vhils）与 Marcelo Cidade 的现场装置《2878》位于圣保罗 Pinheiros 的 Rua Cardeal Arcoverde, 2878，用通常出现在应急场合的银色保温毯包裹一栋殖民风格建筑。玉米淀粉胶水把材料贴上皮层，拱窗和装饰纹样仍隐约可见；路过的人会在金属表面上留下淡淡的身影，颜色和反光随时间变化。项目讨论一座建筑可以在拆除之前就先从日常经验里「消失」，并令人想起 Christo 与 Jeanne-Claude 包裹国会大厦，以及安迪·沃霍尔工厂时期的银色墙壁。</p><p class="src">来源：Colossal</p></div></article></div><div class="gb-screen"><article class="card" id="t4-3" data-nid="503"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-13.jpg" alt="皇家美术学院将开「Peggy Guggenheim in London」，回顾她作为收藏家的起点" loading="lazy"><span class="score">76</span></div><div class="body"><p class="tag" style="color:#a78bfa">艺术与绘画</p><h2><span class="nid" aria-label="编号 503">503</span><a href="https://www.wallpaper.com/art/exhibitions-shows/peggy-guggenheim-in-london-the-making-of-a-collector-royal-academy-review" target="_blank" rel="noopener">皇家美术学院将开「Peggy Guggenheim in London」，回顾她作为收藏家的起点</a></h2><p class="sum">Wallpaper* 介绍伦敦皇家美术学院即将开幕的展览《Peggy Guggenheim in London: The Making of a Collector》，档期为 2026 年 11 月 21 日至 2027 年 3 月 14 日，由 Bottega Veneta 赞助。展览聚焦她 1938 年 1 月至 1939 年 6 月在科克街 30 号经营的 Guggenheim Jeune：18 个月里做了 21 场展览，包括康定斯基在英国的首次个展，以及当时少见的拼贴、雕塑和女性艺术家专场。威尼斯古根海姆收藏策展人 Gražina Subelytė 与独立策展人 Simon Grant 认为，正是在这里她开始以行动确立身份，并为后来的纽约 Art of This Century 和威尼斯收藏展打下基础。皇家美术学院官方页为 https://www.royalacademy.org.uk/exhibition/peggy-guggenheim-in-london 。</p><p class="src">来源：Wallpaper*</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="501"><span class="no nid">501</span><a class="carded" href="#t4-1">Carsten Höller 在墨西哥城 Antara 落下四条纪念碑级滑梯</a><a class="ext" href="https://design-milk.com/carsten-holler-mexico-city-slides/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">84</span></li><li data-nid="502"><span class="no nid">502</span><a class="carded" href="#t4-2">Vhils 与 Marcelo Cidade 用银色应急毯包裹圣保罗殖民风格建筑</a><a class="ext" href="https://www.thisiscolossal.com/2026/11/vhils-marcelo-cidade-sao-paolo-2878/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">83</span></li><li data-nid="503"><span class="no nid">503</span><a class="carded" href="#t4-3">皇家美术学院将开「Peggy Guggenheim in London」，回顾她作为收藏家的起点</a><a class="ext" href="https://www.wallpaper.com/art/exhibitions-shows/peggy-guggenheim-in-london-the-making-of-a-collector-royal-academy-review" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">76</span></li></ol></div></section><section class="theme-sec" id="th5"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#818cf8">游戏<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t5-1" data-nid="601"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-14.jpg" alt="《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99" loading="lazy"><span class="score">99</span></div><div class="body"><p class="tag" style="color:#818cf8">游戏</p><h2><span class="nid" aria-label="编号 601">601</span><a href="https://www.theguardian.com/games/2026/nov/18/grand-theft-auto-vi-gta-6-review-playstation-rockstar" target="_blank" rel="noopener">《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99</a></h2><p class="sum">《卫报》Keza MacDonald 给《Grand Theft Auto VI》打出 5/5，称 Rockstar 做出了迄今最奢侈、最细致的虚拟世界，而游戏真正的中心是逃亡情侣 Jason 与 Lucia；她写到自己过了很久才进入 Vice City，并在数十小时后开始真心担心两人的结局。她也指出操作复杂，游戏系统会与玩家意图意外冲撞，例如高速蹭路缘翻车、或按错键把打招呼变成打人。Metacritic 基于 156 篇媒体评测给出 Metascore 99（Universal acclaim）。游戏于 11 月 19 日登陆 PS5 与 Xbox Series X|S，舞台是包括 Vice City 在内的 Leonida 六片区域。Rockstar 官网为 https://www.rockstargames.com/VI 。</p><div class="cmt"><b>💡 点评</b>开售日加上接近满分的媒体分，这是今天游戏圈最硬的一条。卫报把重心放在 Jason 与 Lucia 的关系，而不是再列一遍地图有多大；操作仍会被自己的系统绊到，这点也没藏。若你一直在等，今天就可以自己进去看。</div><p class="src">来源：The Guardian</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="601"><span class="no nid">601</span><a class="carded" href="#t5-1">《GTA VI》评测解禁并开售：卫报 5/5，Metacritic 99</a><a class="ext" href="https://www.theguardian.com/games/2026/nov/18/grand-theft-auto-vi-gta-6-review-playstation-rockstar" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">99</span></li></ol></div></section><section class="theme-sec" id="th6"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#5eead4">旅行<small>0 条</small></h3></div><div class="gb-screen grp"><ol><li><span class="no">–</span>本场无</li></ol></div></section><section class="theme-sec" id="th7"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#fbbf24">杂志<small>3 条</small></h3></div><div class="gb-screen"><article class="card" id="t7-1" data-nid="801"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-15.jpg" alt="Nautilus：科学家用《GTA V》的洛圣都模拟洛杉矶海平面上升" loading="lazy"><span class="score">86</span></div><div class="body"><p class="tag" style="color:#fbbf24">杂志</p><h2><span class="nid" aria-label="编号 801">801</span><a href="https://nautil.us/can-gta-v-help-scientists-model-climate-change-in-l-a-1286788/" target="_blank" rel="noopener">Nautilus：科学家用《GTA V》的洛圣都模拟洛杉矶海平面上升</a></h2><p class="sum">Nautilus 介绍发表在 Geoscience Communication 的研究：波茨坦大学的 Paul Nörenberg 与阿尔弗雷德·韦格纳研究所的 Hugues Lantuit，把 IPCC 不同排放情景下的海平面上升套进《GTA V》里几乎按真实洛杉矶复制的洛圣都。高排放情景中，2100 年水位上升近 8 英尺，到 2500 年约 27 英尺，污水处理厂和煤气厂被淹，约 7% 的城市土地没入海中；排放受控时，到 2500 年只上升 7 至 9 英尺，土地损失约 2%，内陆关键基础设施仍得以保留。研究者把虚拟洪水结果与洛杉矶已有科学洪水模型对照，认为两者接近，说明这张游戏地图精细到可以做气候影响分析。</p><div class="cmt"><b>💡 点评</b>正好赶上《GTA VI》开售，这篇讲的却是上一代地图为什么细到能做气候模拟。结论不夸张：游戏地图接近已有洪水模型，并不等于游戏可以取代科学计算。</div><p class="src">来源：Nautilus</p></div></article></div><div class="gb-screen"><article class="card" id="t7-2" data-nid="802"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-16.jpg" alt="Nautilus：新证据显示直立人在华南丛林生活至约 18 万年前" loading="lazy"><span class="score">85</span></div><div class="body"><p class="tag" style="color:#fbbf24">杂志</p><h2><span class="nid" aria-label="编号 802">802</span><a href="https://nautil.us/homo-erectus-adopted-a-jungle-lifestyle-200000-years-ago-1286783/" target="_blank" rel="noopener">Nautilus：新证据显示直立人在华南丛林生活至约 18 万年前</a></h2><p class="sum">Nautilus 报道今天发表的两项研究：国际团队在广西两处石灰岩洞穴找到 8 枚牙齿，显示直立人在该地区的存活时间可晚至约 32.4 万和 18.4 万年前；此前一般认为他们约 40 万年前就已从中国消失，密林也被看成可能的限制。与牙齿一同出土的动物骨骼以猩猩、貘和剑齿象类 Stegodon 等森林动物为主，碳同位素表明这些直立人与森林动物处在同一雨林生态系统中。麦克里大学的 Kira Westaway 说，地点和时间都出乎意料；中科院的张颖奇则认为，这是首次在雨林动物群中发现直立人证据，挑战了他们难以适应这类环境的假设。文章也提醒：证据只说明他们在丛林中存活，不等于过得很成功。</p><div class="cmt"><b>💡 点评</b>把直立人在中国的消失时间往后推，又把他们放进雨林动物群里，是今天科学稿里最清楚的一记修正。文章自己也划了界：能在丛林里活下来，还不等于适应得很成功。</div><p class="src">来源：Nautilus</p></div></article></div><div class="gb-screen"><article class="card" id="t7-3" data-nid="803"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-17.jpg" alt="Jean-Michel Jarre 新书《Machines》：用 150 台机器写一部电子音乐史" loading="lazy"><span class="score">80</span></div><div class="body"><p class="tag" style="color:#fbbf24">杂志</p><h2><span class="nid" aria-label="编号 803">803</span><a href="https://www.wallpaper.com/tech/jean-michel-jarre-machines-a-history-of-electronic-music-book-review" target="_blank" rel="noopener">Jean-Michel Jarre 新书《Machines》：用 150 台机器写一部电子音乐史</a></h2><p class="sum">Wallpaper* 介绍 Thames &amp; Hudson 出版、由 Jean-Michel Jarre 撰写的新专著《Machines: A History of Electronic Music》。书的出版正值他的突破专辑《Oxygène》（1976）50 周年：那张专辑在家庭工作室完成，使用 Korg Mini-Pops 7 等早期鼓机和模拟延时、混响，并在 MIDI 与数字录音之前用磁带剪接。全书收录 150 台机器，从未来主义宣言、可演奏雕塑、房间尺度的 Arp 2500，到 Fairlight CMI、E-Mu Emulator II，一直写到 Teenage Engineering OP-1 和 Telepathic Instruments 的 Orchid，并旁及苏联时期合成器设计和 Jarre 自己的大型多媒体演出。</p><p class="src">来源：Wallpaper*</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="801"><span class="no nid">801</span><a class="carded" href="#t7-1">Nautilus：科学家用《GTA V》的洛圣都模拟洛杉矶海平面上升</a><a class="ext" href="https://nautil.us/can-gta-v-help-scientists-model-climate-change-in-l-a-1286788/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">86</span></li><li data-nid="802"><span class="no nid">802</span><a class="carded" href="#t7-2">Nautilus：新证据显示直立人在华南丛林生活至约 18 万年前</a><a class="ext" href="https://nautil.us/homo-erectus-adopted-a-jungle-lifestyle-200000-years-ago-1286783/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">85</span></li><li data-nid="803"><span class="no nid">803</span><a class="carded" href="#t7-3">Jean-Michel Jarre 新书《Machines》：用 150 台机器写一部电子音乐史</a><a class="ext" href="https://www.wallpaper.com/tech/jean-michel-jarre-machines-a-history-of-electronic-music-book-review" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">80</span></li></ol></div></section><section class="theme-sec" id="th8"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#4ade80">开源热议<small>3 条</small></h3></div><div class="gb-screen"><article class="card" id="t8-1" data-nid="901"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-18.jpg" alt="rust-anything：按原程序行为录制，把应用一块块改写成 Rust；两天新仓今日继续暴涨" loading="lazy"><span class="score">86</span></div><div class="body"><p class="tag" style="color:#4ade80">开源热议</p><h2><span class="nid" aria-label="编号 901">901</span><a href="https://github.com/erkamyaman/rust-anything" target="_blank" rel="noopener">rust-anything：按原程序行为录制，把应用一块块改写成 Rust；两天新仓今日继续暴涨</a></h2><div class="bline"><span>四维 81</span><span class="bp adj" title="库龄≤90天（创建 2 天）">+5 库龄≤90天（创建 2 天）</span><span>≈ 86</span></div><p class="sum">两天新仓（2026-11-16 创建）。它用录制的原程序行为（TypeScript、Python、C、Go、Ruby、Java，PHP/C# 预览）给每一段 Rust 改写做对照门禁，并可对热路径做 profile、生成 crate 和基准对比；setup 会把 MCP 与 skill 登记到 Claude Code、Codex、Cursor 和 Gemini CLI。最新正式版 v1.5.1 于 11 月 18 日 17:11（上海时间）发布，略早于本窗起点。仓库不在 GitHub 官方 Trending，但 GitNova 记录 11 月 18 日（UTC）约 +1500 星，今早两小时再 +115，本场拉取时约 3500 星。</p><div class="cmt"><b>💡 点评</b>这是典型的「今天热」新仓：想法清楚，星也涨得很快。它不在官方日榜，热度证据来自星增量；这么短时间里冲到数千星，值得看，但也要留一点对数据本身的保留。</div><p class="src">来源：GitHub erkamyaman/rust-anything</p></div></article></div><div class="gb-screen"><article class="card" id="t8-2" data-nid="902"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-19.jpg" alt="BatteryHub（原 Wireless Battery）：Windows 任务栏显示无线外设电量，v1.1.0 今日改名" loading="lazy"><span class="score">85</span></div><div class="body"><p class="tag" style="color:#4ade80">开源热议</p><h2><span class="nid" aria-label="编号 902">902</span><a href="https://github.com/krisgfx9/Wireless-Device-Battery-Monitor" target="_blank" rel="noopener">BatteryHub（原 Wireless Battery）：Windows 任务栏显示无线外设电量，v1.1.0 今日改名</a></h2><div class="bline"><span>四维 80</span><span class="bp adj" title="库龄≤90天（创建 2 天）">+5 库龄≤90天（创建 2 天）</span><span>≈ 85</span></div><p class="sum">约 350 KB 的 C++/Win32 托盘应用，在 Windows 10/11 任务栏显示鼠标、耳机、键盘和手柄电量，不必打开 G HUB、Synapse 等厂商软件。支持 Logitech、Razer、SteelSeries、Corsair、HyperX、PS/Xbox 手柄，以及 Windows 能读到电量的蓝牙设备。v1.1.0 于 11 月 19 日 08:39（上海时间）发布，把应用改名为 BatteryHub，并保留原设置、开机启动和电量历史，协议为 GPL-3.0。仓库 11 月 16 日创建，本场拉取时约 4050 星；不在 GitHub 官方 Trending，热度来自近几日的星增量与今日发版。</p><div class="cmt"><b>💡 点评</b>很小的工具，但正好补上 Windows 长期缺的一块：无线外设电量不用再翻各家软件。今日改名发版是硬节点；和上一条一样，两天里冲到数千星，热度要看、也要留一点判断。</div><p class="src">来源：GitHub krisgfx9/Wireless-Device-Battery-Monitor</p></div></article></div><div class="gb-screen"><article class="card" id="t8-3" data-nid="903"><div class="thumb"><img src="../assets/issue/wubao/2026-11-19T1147-gb-20.jpg" alt="Lastbook 1.1.12：单机离线生存知识库，带手册、地图和本地检索" loading="lazy"><span class="score">83</span></div><div class="body"><p class="tag" style="color:#4ade80">开源热议</p><h2><span class="nid" aria-label="编号 903">903</span><a href="https://github.com/Immortal-Protocols/lastbook" target="_blank" rel="noopener">Lastbook 1.1.12：单机离线生存知识库，带手册、地图和本地检索</a></h2><div class="bline"><span>四维 78</span><span class="bp adj" title="库龄≤90天（创建 6 天）">+5 库龄≤90天（创建 6 天）</span><span>≈ 83</span></div><p class="sum">六天新仓。它把手册、视频、百科、离线地图和短篇实用指南放到一台电脑上，首次下载后可断网使用；侧栏进入 Videos、Map、Chat，Chat 用馆藏作答并给出出处。v1.1.12 于 11 月 19 日 08:46（上海时间）发布，已在 lastbook.org 提供经签名公证的 macOS 14+、Windows 10+ 和 Ubuntu 24.04/26.04 安装包；iPad 仅源码预览、无商店包，协议为 MIT。本场拉取时约 2185 星。今日热度的硬证据是窗口内连续发布 v1.1.11 和 v1.1.12；两天前的 HN 帖只作背景，不当本窗主证据。</p><p class="src">来源：GitHub Immortal-Protocols/lastbook</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="901"><span class="no nid">901</span><a class="carded" href="#t8-1">rust-anything：按原程序行为录制，把应用一块块改写成 Rust；两天新仓今日继续暴涨</a><a class="ext" href="https://github.com/erkamyaman/rust-anything" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">86</span></li><li data-nid="902"><span class="no nid">902</span><a class="carded" href="#t8-2">BatteryHub（原 Wireless Battery）：Windows 任务栏显示无线外设电量，v1.1.0 今日改名</a><a class="ext" href="https://github.com/krisgfx9/Wireless-Device-Battery-Monitor" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">85</span></li><li data-nid="903"><span class="no nid">903</span><a class="carded" href="#t8-3">Lastbook 1.1.12：单机离线生存知识库，带手册、地图和本地检索</a><a class="ext" href="https://github.com/Immortal-Protocols/lastbook" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">83</span></li></ol></div></section><section class="gb-screen foot"><footer><p>点标题即可打开原文；回话或要链接请报三位编号（如 603、晚 603）</p><p>本场只取 RSS新闻源清单 fetch_by=grok 的 13 个源（含 V2EX、Product Hunt）；并按规范网页补检索九主题、开源热议与 Tier 0 官号/媒体。国际时尚按兴趣清单 GB=不出。Grok 侧上一份已发是 11-15 午报，本场按正窗收录，只轻度回塞 11-18 下午的两篇建筑稿。Product Hunt 11-18 日榜第 1 的 S.Space 进入科技清单一行式；AssemblyAI-STT-3.7、worldinmotion、SoreQen Code 等回塞低票条未收。开源热议跳过近 3 天已见的 open-code-review、claude-bughunter、arcane、superpowers、last30days-skill 等，改收 rust-anything、BatteryHub 与 Lastbook 三个本侧首次出现的新仓。Tier 0：Apple 新闻室本窗只有 App Store Awards 入围名单，不构成重大产品或系统进展；Sony 无新的主体进展（PlayStation 博客的《GTA VI》发售预热按第三方作品排除，Bravia 黑五降价按促销排除）；DSH 发出 v0.2.2-rc.5；国内个人助手收下微信小微扩大测试，灵光、千问 Go!、小豆及其他扫描池本窗无重大进展，豆包工作等办公智能体不进本节。OMA 在 Potato Head Bali 的零售店因 10 月已有报道，不作为本窗新作。</p><p>加分口径：命中偏好乘系数（建筑/旅行/Tier A ×1.1，Tier 0 ×1.15，跨源 ×1.05），多项相乘、不封顶；没标徽章即没命中。</p><p>兴趣午报 · 2026.11.19</p></footer></section></div><script>
+/* v2.6.11 长按标题约 500ms 复制原文链接：单文件内联、无外部依赖。
+   覆盖：精选大卡 / Tier0 卡 / 主题卡标题、一行式标题、↗。
+   轻点仍打开原文；移动超过 10px 取消；成功 toast「已复制链接」1.5s；
+   clipboard API 失败则 execCommand，再失败弹浮层显示链接供手选。
+   长按后阻止随后的 click 跳转与系统长按菜单；桌面右键不介入。 */
+(function () {
+  'use strict';
+  var HOLD_MS = 500;
+  var MOVE_PX = 10;
+  var TOAST_MS = 1500;
+
+  function isTitleLink(a) {
+    if (!a || a.tagName !== 'A') return false;
+    if (a.classList.contains('ext')) return true;
+    if (a.closest('article.card h2')) return true;
+    if (a.closest('.grp li') && a.getAttribute('href')) return true;
+    return false;
+  }
+
+  function origUrl(a) {
+    if (a.classList.contains('carded')) {
+      var ext = a.parentElement && a.parentElement.querySelector('a.ext');
+      if (ext) {
+        var eh = ext.getAttribute('href') || '';
+        if (eh && eh.charAt(0) !== '#') return ext.href;
+      }
+    }
+    var href = a.getAttribute('href') || '';
+    if (!href || href.charAt(0) === '#') return '';
+    return a.href;
+  }
+
+  function toast(msg) {
+    var el = document.getElementById('gb-copy-toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'gb-copy-toast';
+      el.setAttribute('role', 'status');
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { el.classList.remove('show'); }, TOAST_MS);
+  }
+
+  function fallbackOverlay(url) {
+    var wrap = document.getElementById('gb-copy-fallback');
+    if (wrap) wrap.remove();
+    wrap = document.createElement('div');
+    wrap.id = 'gb-copy-fallback';
+    wrap.innerHTML = '<div class="gb-fb-box"><p>无法自动复制，请选中下方链接后复制</p><textarea readonly></textarea><button type="button">关闭</button></div>';
+    var ta = wrap.querySelector('textarea');
+    ta.value = url;
+    wrap.querySelector('button').onclick = function () { wrap.remove(); };
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) wrap.remove(); });
+    document.body.appendChild(wrap);
+    ta.focus();
+    ta.select();
+  }
+
+  function execCopy(url) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, url.length);
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return !!ok;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  function copyUrl(url, done) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done(true); })
+        .catch(function () { done(execCopy(url) ? true : 'fallback'); });
+    } else {
+      done(execCopy(url) ? true : 'fallback');
+    }
+  }
+
+  function onCopied(a, url, result) {
+    a._gbHoldCopied = true;
+    if (result === true) toast('已复制链接');
+    else fallbackOverlay(url);
+  }
+
+  var timer = null, startX = 0, startY = 0, target = null, moved = false;
+
+  function clearHold() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    target = null;
+    moved = false;
+  }
+
+  function pointerDown(e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!isTitleLink(a)) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    var url = origUrl(a);
+    if (!url) return;
+    startX = e.clientX;
+    startY = e.clientY;
+    target = a;
+    moved = false;
+    a._gbHoldCopied = false;
+    timer = setTimeout(function () {
+      timer = null;
+      if (!target || moved) return;
+      var el = target;
+      var u = origUrl(el);
+      if (!u) return;
+      copyUrl(u, function (result) { onCopied(el, u, result); });
+    }, HOLD_MS);
+  }
+
+  function pointerMove(e) {
+    if (!target) return;
+    var dx = e.clientX - startX;
+    var dy = e.clientY - startY;
+    if ((dx * dx + dy * dy) > (MOVE_PX * MOVE_PX)) {
+      moved = true;
+      if (timer) { clearTimeout(timer); timer = null; }
+    }
+  }
+
+  function pointerUp() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    target = null;
+  }
+
+  document.addEventListener('pointerdown', pointerDown, true);
+  document.addEventListener('pointermove', pointerMove, true);
+  document.addEventListener('pointerup', pointerUp, true);
+  document.addEventListener('pointercancel', pointerUp, true);
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a._gbHoldCopied) {
+      e.preventDefault();
+      e.stopPropagation();
+      a._gbHoldCopied = false;
+    }
+  }, true);
+  document.addEventListener('contextmenu', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a._gbHoldCopied) {
+      e.preventDefault();
+    }
+  }, true);
+})();
+</script><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
