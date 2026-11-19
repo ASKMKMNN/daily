@@ -32,6 +32,13 @@
     return y + "年" + m + "月" + d + "日";
   }
 
+  function dropMarks() {
+    var btns = document.querySelectorAll(".mark");
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].parentNode) btns[i].parentNode.removeChild(btns[i]);
+    }
+  }
+
   function readMap() {
     if (off) return null;
     try {
@@ -42,6 +49,7 @@
       return obj;
     } catch (e) {
       off = true;
+      dropMarks();
       return null;
     }
   }
@@ -52,6 +60,7 @@
       return true;
     } catch (e) {
       off = true;
+      dropMarks();
       return false;
     }
   }
@@ -275,7 +284,12 @@
           pending -= 1;
           if (pending) return;
           rows.sort(function (a, b) {
-            return (b.hh + b.mm).localeCompare(a.hh + b.mm) || a.col.localeCompare(b.col);
+            var ta = a.hh + a.mm;
+            var tb = b.hh + b.mm;
+            if (ta !== tb) return ta < tb ? 1 : -1;
+            if (a.col !== b.col) return a.col < b.col ? -1 : 1;
+            if (a.author === b.author) return 0;
+            return a.author < b.author ? -1 : 1;
           });
           fillToday(sec, failed === PUBLIC.length ? null : rows, failed > 0 && !rows.length);
         });
@@ -299,13 +313,21 @@
   loadToday();
   document.addEventListener("click", onActivate, true);
   document.addEventListener("auxclick", onActivate, true);
-  window.addEventListener("pageshow", function () {
-    var map = readMap();
-    if (!map) return;
+  function repaint() {
+    if (off) {
+      dropMarks();
+      return;
+    }
     var nodes = document.querySelectorAll(".entry");
     for (var i = 0; i < nodes.length; i++) {
       var path = nodes[i].getAttribute("data-issue");
       if (path) paint(nodes[i], path);
     }
+  }
+
+  window.addEventListener("pageshow", repaint);
+  window.addEventListener("storage", function (e) {
+    if (e.key !== KEY) return;
+    repaint();
   });
 })();
