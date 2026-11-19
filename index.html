@@ -129,6 +129,7 @@
     border-radius: 999px;
     padding: 2px 8px;
   }
+  .card .tag:empty { display: none; }
   footer {
     max-width: 1080px;
     margin: 32px auto 0;
@@ -159,7 +160,7 @@
       <div class="body">
         <h2>午报</h2>
         <p>每天中午出刊，中午饭后来一份。</p>
-        <span class="tag">更新见栏目内</span>
+        <span class="tag"></span>
       </div>
     </a>
     <a class="card" href="wanbao/">
@@ -167,7 +168,7 @@
       <div class="body">
         <h2>晚报</h2>
         <p>每天傍晚出刊，收工路上慢慢翻。</p>
-        <span class="tag">更新见栏目内</span>
+        <span class="tag"></span>
       </div>
     </a>
     <a class="card" href="tujian/">
@@ -175,7 +176,7 @@
       <div class="body">
         <h2>每日图鉴</h2>
         <p>每天的图鉴合集，一期不落。</p>
-        <span class="tag">更新见栏目内</span>
+        <span class="tag"></span>
       </div>
     </a>
     <a class="card" href="blog/">
@@ -183,7 +184,7 @@
       <div class="body">
         <h2>每日博客</h2>
         <p>每天一篇值得读完的。</p>
-        <span class="tag">更新见栏目内</span>
+        <span class="tag"></span>
       </div>
     </a>
     <a class="card" href="weekly/">
@@ -191,7 +192,7 @@
       <div class="body">
         <h2>周末推荐</h2>
         <p>每周五出刊，管住七天看什么玩什么。</p>
-        <span class="tag">更新见栏目内</span>
+        <span class="tag"></span>
       </div>
     </a>
   </main>
@@ -201,7 +202,7 @@
 <script>
 (function () {
   var PUBLIC = { "wubao/": 1, "wanbao/": 1, "blog/": 1 };
-  var FALLBACK = "更新见栏目内";
+  var NONE = "";
   var HREF = /^(?:\.\/)?(\d{4})-(\d{2})-(\d{2})T\d{4}-[A-Za-z0-9]+\.html$/;
 
   function beijing(now) {
@@ -227,7 +228,7 @@
     return best;
   }
   function textFor(best, today) {
-    if (!best) return FALLBACK;
+    if (!best) return NONE;
     if (best.y === today.y && best.m === today.m && best.d === today.d) return "今日已更新";
     if (best.y === today.y) return "最新" + best.m + "月" + best.d + "日";
     return "最新" + best.y + "年" + best.m + "月" + best.d + "日";
@@ -249,7 +250,7 @@
           tag.textContent = textFor(latest(html), beijing(new Date()));
         })
         .catch(function () {
-          tag.textContent = FALLBACK;
+          tag.textContent = NONE;
         });
     })(cards[i]);
   }
