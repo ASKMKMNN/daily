@@ -94,29 +94,34 @@
     right: 0;
     bottom: 0;
     z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 2px 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 10px;
+    row-gap: 2px;
     padding: 0 16px 12px;
     min-width: 0;
   }
   .card h2 {
-    order: 1;
+    grid-column: 1 / -1;
     font-size: 20px;
     font-weight: 600;
     line-height: 1.25;
   }
   .card p {
-    order: 3;
-    flex: 1 0 100%;
+    grid-column: 1;
+    min-width: 0;
     font-size: 15.5px;
     color: #d4d0c6;
     line-height: 1.4;
   }
   .card .tag {
-    order: 2;
-    margin-left: auto;
+    grid-column: 2;
+    justify-self: end;
+    align-self: end;
+    margin: 0;
+    max-width: 100%;
+    white-space: nowrap;
     font-size: 12.5px;
     line-height: 1.35;
     color: #e4e1d8;
@@ -154,7 +159,7 @@
       <div class="body">
         <h2>午报</h2>
         <p>每天中午出刊，中午饭后来一份。</p>
-        <span class="tag">每日约 11:25 更新</span>
+        <span class="tag">更新见栏目内</span>
       </div>
     </a>
     <a class="card" href="wanbao/">
@@ -162,7 +167,7 @@
       <div class="body">
         <h2>晚报</h2>
         <p>每天傍晚出刊，收工路上慢慢翻。</p>
-        <span class="tag">每日约 18:25 更新</span>
+        <span class="tag">更新见栏目内</span>
       </div>
     </a>
     <a class="card" href="tujian/">
@@ -170,7 +175,7 @@
       <div class="body">
         <h2>每日图鉴</h2>
         <p>每天的图鉴合集，一期不落。</p>
-        <span class="tag">每日约 18:45 出刊</span>
+        <span class="tag">更新见栏目内</span>
       </div>
     </a>
     <a class="card" href="blog/">
@@ -178,7 +183,7 @@
       <div class="body">
         <h2>每日博客</h2>
         <p>每天一篇值得读完的。</p>
-        <span class="tag">每日更新</span>
+        <span class="tag">更新见栏目内</span>
       </div>
     </a>
     <a class="card" href="weekly/">
@@ -186,12 +191,69 @@
       <div class="body">
         <h2>周末推荐</h2>
         <p>每周五出刊，管住七天看什么玩什么。</p>
-        <span class="tag">每周五约 11:00 更新</span>
+        <span class="tag">更新见栏目内</span>
       </div>
     </a>
   </main>
 
-  <footer>由灵光代编 · 内容仅代表个人兴趣</footer>
+  <footer>由AI代编 · 内容仅代表个人兴趣</footer>
 <script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+<script>
+(function () {
+  var PUBLIC = { "wubao/": 1, "wanbao/": 1, "blog/": 1 };
+  var FALLBACK = "更新见栏目内";
+  var HREF = /^(?:\.\/)?(\d{4})-(\d{2})-(\d{2})T\d{4}-[A-Za-z0-9]+\.html$/;
+
+  function beijing(now) {
+    var t = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+    return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() };
+  }
+  function realDay(y, m, d) {
+    var dt = new Date(Date.UTC(y, m - 1, d));
+    return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+  }
+  function latest(html) {
+    var doc = new DOMParser().parseFromString(html, "text/html");
+    var best = null;
+    var links = doc.querySelectorAll("a[href]");
+    for (var i = 0; i < links.length; i++) {
+      var m = HREF.exec(links[i].getAttribute("href") || "");
+      if (!m) continue;
+      var y = +m[1], mo = +m[2], d = +m[3];
+      if (!realDay(y, mo, d)) continue;
+      var key = y * 10000 + mo * 100 + d;
+      if (!best || key > best.key) best = { y: y, m: mo, d: d, key: key };
+    }
+    return best;
+  }
+  function textFor(best, today) {
+    if (!best) return FALLBACK;
+    if (best.y === today.y && best.m === today.m && best.d === today.d) return "今日已更新";
+    if (best.y === today.y) return "最新" + best.m + "月" + best.d + "日";
+    return "最新" + best.y + "年" + best.m + "月" + best.d + "日";
+  }
+
+  var cards = document.querySelectorAll("main a.card");
+  for (var i = 0; i < cards.length; i++) {
+    (function (card) {
+      var href = card.getAttribute("href");
+      var tag = card.querySelector(".tag");
+      if (!tag || !PUBLIC[href]) return;
+      fetch(href, { credentials: "same-origin", cache: "no-store" })
+        .then(function (res) {
+          if (!res.ok) throw new Error("bad");
+          return res.text();
+        })
+        .then(function (html) {
+          if (!html || html.length > 500000) throw new Error("bad");
+          tag.textContent = textFor(latest(html), beijing(new Date()));
+        })
+        .catch(function () {
+          tag.textContent = FALLBACK;
+        });
+    })(cards[i]);
+  }
+})();
+</script>
 </body>
 </html>
