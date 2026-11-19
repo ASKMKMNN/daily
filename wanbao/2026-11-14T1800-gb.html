@@ -1,0 +1,235 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>兴趣晚报 · 2026.11.14</title><style>
+:root{--bg:#111113;--paper:#1a1a1d;--tx:#ecebe8;--dim:#a29d94;--line:#2c2c30;--hot:#ef9205;--cmt:#201f1c;--cmtline:#3a362e}
+*{box-sizing:border-box}html,body{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.7 -apple-system,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+.gb-screen{padding:40px 0;border-bottom:1px solid var(--line)}
+a{color:inherit}a:focus-visible{outline:2px solid var(--hot);outline-offset:2px;border-radius:3px}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--tx);padding-bottom:12px;gap:16px}
+header h1{font:700 52px/1 "Songti SC","Noto Serif CJK SC",Georgia,serif;margin:0;letter-spacing:.02em}
+header .meta{text-align:right;color:var(--dim);font-size:14px;line-height:1.6}
+.note{border-left:3px solid var(--hot);padding:4px 14px;color:var(--dim);margin:20px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.pill{border:1px solid;border-radius:999px;padding:3px 12px;text-decoration:none;font-size:14px}
+.toc{padding-left:1.2em;margin:0}.toc li{margin:6px 0}.toc a{text-decoration:none}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.thumb{position:relative;aspect-ratio:16/10;background:var(--line)}
+.thumb.feature{aspect-ratio:21/9}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.score{position:absolute;left:14px;top:14px;background:#b4510c;color:#fffdf9;border-radius:999px;padding:2px 12px;font-weight:700;font-size:15px}
+.sc-inl{display:inline-block;background:#b4510c;color:#fffdf9;border-radius:999px;padding:2px 10px;font-weight:700;font-size:14px;margin-left:8px;vertical-align:middle;font-variant-numeric:tabular-nums}
+.body{padding:18px 20px 20px}
+.tag{margin:0 0 4px;font-size:13px;font-weight:600}
+.card h2{font:700 22px/1.4 "Songti SC","Noto Serif CJK SC",Georgia,serif;margin:0 0 10px}
+.card h2 a{text-decoration:none}
+.bline{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 10px;font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bp{display:inline-flex;align-items:center;border:1px solid var(--cmtline);border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.5}
+.bp.mul{color:var(--hot);border-color:#e0c6a4}
+.bp.adj{color:var(--dim)}
+.bp.waive{border-style:dashed}
+.sum{margin:0 0 12px;font-size:16px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;padding:10px 12px;font-size:15px}
+.cmt b{color:var(--hot);margin-right:6px}
+.src{color:var(--dim);font-size:13px;margin:10px 0 0}
+.sec{font:700 22px "Songti SC","Noto Serif CJK SC",Georgia,serif;border-left:4px solid var(--hot);padding-left:10px;margin:0 0 12px}
+.sec small{font:13px sans-serif;color:var(--dim);margin-left:8px}
+.t0bar{padding:14px 20px 0}.st0{position:static;display:inline-block}
+.sp{list-style:none;padding:0;margin:0}.sp li{padding:12px 0;border-bottom:1px solid var(--line)}
+.sp b{font-size:18px;margin-right:10px}.st{font-size:13px;color:var(--hot)}.sp p{margin:6px 0 0;font-size:15px}
+.t0none{color:var(--dim);font-size:14px}
+.grp ol{list-style:none;padding:0;margin:0}
+.grp li{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.grp li>a:not(.ext){flex:1;text-decoration:none}
+.grp li a.carded{font-weight:700}
+.no{color:var(--dim);min-width:1.6em;text-align:right}
+.mini{font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:999px;padding:0 8px;font-size:13px;color:var(--dim);margin-left:6px}
+.rmeta{display:flex;align-items:baseline;gap:0;margin:-2px 0 11px;font-size:12px;color:var(--dim)}
+.rmeta .age,.rmeta .gain{display:inline-flex;align-items:baseline;gap:4px}
+.rmeta .age b{font:700 16.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--tx);font-variant-numeric:tabular-nums}
+.rmeta .gain b{font:700 16.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--hot);font-variant-numeric:tabular-nums}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px}
+.rmeta .sep{width:1px;height:14px;background:var(--cmtline);margin:0 13px;align-self:center}
+footer{color:var(--dim);font-size:14px}
+@media (max-width:520px){header h1{font-size:34px}header{flex-direction:column;align-items:flex-start}header .meta{text-align:left}.card h2{font-size:18px}}
+
+/* v2.6.9 标题必带原文链接：继承颜色、无默认下划线；hover 1px 下划线；:focus-visible */
+.card h2 a,.grp li>a:not(.ext){color:inherit;text-decoration:none}
+.card h2 a:hover,.grp li>a:not(.ext):hover{text-decoration:underline;text-underline-offset:3px}
+a.ext{color:var(--dim);font-size:12px;line-height:1;text-decoration:none;margin-left:4px;flex:none;white-space:nowrap}
+a.ext:hover{color:var(--dim);text-decoration:none}
+a:focus-visible,.card h2 a:focus-visible,.grp li a:focus-visible,a.ext:focus-visible{outline:2px solid var(--hot);outline-offset:2px;border-radius:3px}
+
+/* v2.6.10 全局三位编号 nid：清单编号位与卡片标题旁徽标（不改标题本身视觉） */
+.grp .no.nid{min-width:2.6em;font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.02em}
+.nid{font-variant-numeric:tabular-nums}
+.card h2 .nid,.sp li>.nid{display:inline-block;font:600 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-right:8px;vertical-align:middle;letter-spacing:.02em}
+
+/* v2.6.11 长按标题复制原文链接：-webkit-touch-callout 只加在标题链接上，不改视觉 */
+.card h2 a,.grp li>a,a.ext{-webkit-touch-callout:none}
+#gb-copy-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(16px);background:#2a281f;color:#fffdf9;border:1px solid #3a362e;border-radius:999px;padding:8px 18px;font-size:14px;line-height:1.4;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+#gb-copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#gb-copy-fallback{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px}
+#gb-copy-fallback .gb-fb-box{background:var(--paper);color:var(--tx);border:1px solid var(--line);border-radius:14px;padding:18px 20px;max-width:92vw;width:420px}
+#gb-copy-fallback .gb-fb-box p{margin:0 0 8px;font-size:15px}
+#gb-copy-fallback textarea{display:block;width:100%;min-height:72px;margin:0 0 12px;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;line-height:1.5;word-break:break-all;resize:vertical}
+#gb-copy-fallback button{background:var(--hot);color:#111;border:0;border-radius:999px;padding:6px 16px;font-size:14px;font-weight:600;cursor:pointer}
+</style></head><body><div class="wrap"><section class="gb-screen cover"><header><h1>兴趣晚报 · 2026.11.14</h1><div class="meta">2026 年 11 月 14 日 星期六<br>覆盖：2026-11-14 11:00～18:00（上海时间）；与今日午报不重复；补收今日午报窗口内未收录的若干条<br>全 9 条 · 卡片 9 张 · 9 个主题</div></header><p class="note">本场是周六晚报，窗口里新稿不多。建筑是本场最强的一条线：Wallpaper* 今天刊出考拉海滩办公室「Traces By The Sea」和伦敦 Mayfair 的 Brown Hart Gardens 重修，并补收昨晚正午未收的纽约 Ferrari Style 首店。特别关注四家本期均无更新。科技补收 Perplexity 把 Teammates 智能体做到 Mac；游戏补收今早 Valve 放出的 SteamOS 3.10.0 Preview。开源热议本场不收——云端 repo_seen 显示今日午报/晚报池已收录 Sure、Plannotator、Buzz 等热榜仓库。国际时尚按兴趣清单 GB 处置本场不出。本场够 84 分的只有 3 条。</p><nav aria-label="主题导览"><a class="pill" href="#th0" style="border-color:#60a5fa;color:#60a5fa">科技/AI <small>1</small></a><a class="pill" href="#th1" style="border-color:#2dd4bf;color:#2dd4bf">数码消费 <small>1</small></a><a class="pill" href="#th2" style="border-color:#f472b6;color:#f472b6">国际时尚 <small>0</small></a><a class="pill" href="#th3" style="border-color:#34d399;color:#34d399">建筑与设计 <small>3</small></a><a class="pill" href="#th4" style="border-color:#a78bfa;color:#a78bfa">艺术与绘画 <small>1</small></a><a class="pill" href="#th5" style="border-color:#818cf8;color:#818cf8">游戏 <small>1</small></a><a class="pill" href="#th6" style="border-color:#5eead4;color:#5eead4">旅行 <small>1</small></a><a class="pill" href="#th7" style="border-color:#fbbf24;color:#fbbf24">杂志 <small>1</small></a><a class="pill" href="#th8" style="border-color:#4ade80;color:#4ade80">开源热议 <small>0</small></a></nav><ol class="toc"><li><a href="#t0">Tier 0 · 特别关注</a></li><li><a href="#feat">今日精选</a></li><li><a href="#t3-1">建筑与设计 · 401　Boonserm Premthada 在泰国考拉做海边办公室「Traces By The Sea」：四栋木屋用栈道相连，材料来自旧米仓和学校</a><span class="mini">91</span></li><li><a href="#t3-2">建筑与设计 · 402　伦敦 Mayfair 的 Brown Hart Gardens 重开：Studio Ageli 在二级保护变电站屋顶重修花园，并加一座餐饮亭</a><span class="mini">88</span></li><li><a href="#t3-3">建筑与设计 · 403　（补收）Ferrari Style 纽约首家常设店落户 SoHo：Formafantasma 与 Gonzalez Haase 做拉丝金属立面，二楼设改衣工坊</a><span class="mini">85</span></li></ol></section><section class="t0-sec" id="t0"><div class="gb-screen"><h3 class="sec" style="border-color:var(--hot)">Tier 0 · 特别关注<small>DSH / 国内个人助手 / Apple / Sony</small></h3><ul class="sp"><li><b>Apple</b><span class="t0none">〔Apple〕· 本期无更新</span></li><li><b>Sony</b><span class="t0none">〔Sony〕· 本期无更新</span></li><li><b>DSH</b><span class="t0none">〔DSH〕· 本期无更新</span></li><li><b>国内个人助手</b><span class="t0none">〔国内个人助手〕· 本期无更新</span></li></ul></div></section><section class="feat-sec" id="feat"><div class="gb-screen"><h3 class="sec">今日精选<small>全页最高分 · 本场够 84 分 3 条</small></h3></div><div class="gb-screen"><article class="card" id="t3-1" data-nid="401"><div class="thumb feature"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-01.jpg" alt="Boonserm Premthada 在泰国考拉做海边办公室「Traces By The Sea」：四栋木屋用栈道相连，材料来自旧米仓和学校"><span class="score">91</span></div><div class="body"><p class="tag" style="color:#34d399">建筑与设计</p><h2><span class="nid" aria-label="编号 401">401</span><a href="https://www.wallpaper.com/architecture/office/khao-lak-office-boonserm-bangkok-project-studio-thailand" target="_blank" rel="noopener">Boonserm Premthada 在泰国考拉做海边办公室「Traces By The Sea」：四栋木屋用栈道相连，材料来自旧米仓和学校</a></h2><div class="bline"><span>四维 83</span><span class="bp mul" title="建筑与设计 ×1.1">×1.1 建筑与设计</span><span>≈ 91</span></div><p class="sum">Wallpaper* 11 月 14 日 16:00 报道，曼谷设计工作室的 Boonserm Premthada 在泰国考拉（Khao Lak）的 Matalay 完成海边办公项目「Traces By The Sea」：四栋独立木构体量以甲板和步道相连，强调通风与开放走道。建筑师解释，项目名称里的 traces 指向材料来处——部分来自博他仑府旧米业合作社，部分来自攀牙府的木构学校，运到考拉后保留了原来的油漆、节点和被使用过的表面。Wallpaper* 称这是 Premthada 一贯的材料实验的延续，他曾以象粪砖塔和「百分之五十设计」自宅受到关注，阿瑜陀耶社区餐厅还拿过 2022 年 Wallpaper* Design Award。摄影为 Spaceshift Studio。</p><div class="cmt"><b>💡 点评</b>把旧米仓和学校的木料原表留下来，再拆成四栋用栈道串起来的海边办公，比一座新盖的玻璃盒子有记忆。如果你对热带木构和回收建造感兴趣，这组照片值得点进去看完。</div><p class="src">来源：Wallpaper*</p></div></article></div></section><section class="theme-sec" id="th0"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#60a5fa">科技/AI<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t0-1" data-nid="101"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-02.jpg" alt="（补收）Perplexity 把 Teammates 智能体做到 Mac：可全天候接手增长、排障、调研等任务，目前仅 Max 订阅可用" loading="lazy"><span class="score">78</span></div><div class="body"><p class="tag" style="color:#60a5fa">科技/AI</p><h2><span class="nid" aria-label="编号 101">101</span><a href="https://9to5mac.com/2026/11/13/perplexity-brings-ai-agents-feature-called-teammates-to-the-mac/" target="_blank" rel="noopener">（补收）Perplexity 把 Teammates 智能体做到 Mac：可全天候接手增长、排障、调研等任务，目前仅 Max 订阅可用</a></h2><p class="sum">9to5Mac 11 月 14 日 03:31 报道，Perplexity 本周把主动性智能体功能 Teammates 做到了 Mac 应用，此前只在 iOS 和网页可用。官方说明是：给一个 Teammate 长期职责，例如管增长活动、分拣缺陷、盯指标或做市场调研，它会全天候规划任务，工作变多时再拉进其他智能体，直到交出可供你复核的结果。文章称该功能目前需要付费的 Perplexity Max 订阅，并建立在现有编排系统之上。Perplexity 官方账号 11 月 13 日也发帖确认，Mac 版已向 Max 用户开放，可用于质检、客服、研究与增长等场景。本场按补收处理，因报道落在今日午报窗口、当时未收。</p><p class="src">来源：9to5Mac（11-14 03:31；转述 Perplexity 11-13 官宣）</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="101"><span class="no nid">101</span><a class="carded" href="#t0-1">（补收）Perplexity 把 Teammates 智能体做到 Mac：可全天候接手增长、排障、调研等任务，目前仅 Max 订阅可用</a><a class="ext" href="https://9to5mac.com/2026/11/13/perplexity-brings-ai-agents-feature-called-teammates-to-the-mac/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">78</span></li></ol></div></section><section class="theme-sec" id="th1"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#2dd4bf">数码消费<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t1-1" data-nid="201"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-03.jpg" alt="Wallpaper* 盘点 Apple Home Collection 安防套件：与 LG、施耐德合作的户外摄像与门铃，另有 Eufy、Baseus 新品" loading="lazy"><span class="score">76</span></div><div class="body"><p class="tag" style="color:#2dd4bf">数码消费</p><h2><span class="nid" aria-label="编号 201">201</span><a href="https://www.wallpaper.com/tech/new-home-security-cams-from-apple-anker-eufy-baseus" target="_blank" rel="noopener">Wallpaper* 盘点 Apple Home Collection 安防套件：与 LG、施耐德合作的户外摄像与门铃，另有 Eufy、Baseus 新品</a></h2><p class="sum">Wallpaper* 11 月 14 日 17:08 刊出家庭安防新品盘点，称 Apple 已与 LG、施耐德电气合作推出 Apple Home Collection 智能配件与安防设备，希望在 Google Nest、亚马逊 Ring 之外另开一条路，并最好与昨日开卖的家居中枢 HomeView（文中标价 299 英镑）一起使用。文中列出的产品包括 Apple/LG Floodlight Cam（349.95 英镑）、Outdoor Cam（约 270.5 英镑），以及恒温、门锁和有线门铃；同时也介绍了 Anker Eufy TrackLight Cam S1 和 Baseus W1 窗机。文章带有联盟购链，属于产品盘点而非 Apple 官方新闻室新稿，本场放入数码消费，不作为 Tier 0。</p><p class="src">来源：Wallpaper*</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="201"><span class="no nid">201</span><a class="carded" href="#t1-1">Wallpaper* 盘点 Apple Home Collection 安防套件：与 LG、施耐德合作的户外摄像与门铃，另有 Eufy、Baseus 新品</a><a class="ext" href="https://www.wallpaper.com/tech/new-home-security-cams-from-apple-anker-eufy-baseus" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">76</span></li></ol></div></section><section class="theme-sec" id="th2"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#f472b6">国际时尚<small>0 条</small></h3></div><div class="gb-screen grp"><ol><li><span class="no">–</span>本场无</li></ol></div></section><section class="theme-sec" id="th3"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#34d399">建筑与设计<small>3 条</small></h3></div><div class="gb-screen"><article class="card" id="t3-2" data-nid="402"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-04.jpg" alt="伦敦 Mayfair 的 Brown Hart Gardens 重开：Studio Ageli 在二级保护变电站屋顶重修花园，并加一座餐饮亭" loading="lazy"><span class="score">88</span></div><div class="body"><p class="tag" style="color:#34d399">建筑与设计</p><h2><span class="nid" aria-label="编号 402">402</span><a href="https://www.wallpaper.com/architecture/brown-hart-gardens-studioiageli-london-uk" target="_blank" rel="noopener">伦敦 Mayfair 的 Brown Hart Gardens 重开：Studio Ageli 在二级保护变电站屋顶重修花园，并加一座餐饮亭</a></h2><div class="bline"><span>四维 80</span><span class="bp mul" title="建筑与设计 ×1.1">×1.1 建筑与设计</span><span>≈ 88</span></div><p class="sum">Wallpaper* 11 月 14 日 13:00 报道，伦敦 Mayfair 的 Brown Hart Gardens 以新面貌重新对公众开放。这处相对袖珍的高架开放空间位于 Duke Street，紧邻牛津街，建在一座二级保护的变电站屋顶上，1906 年首次开放，此后多次对公众关闭。由 Mohammed Ageli 领衔的 Studio Ageli 受 Grosvenor Estate 委托、并为相邻的装饰风艺术酒店 The Beaumont Mayfair 改善周边城市界面，加入新的餐饮亭、铺地平台和园林。改造保留了原亭约 75% 的主体结构和主屋面，拆除后来加建的附属体量，并重新强调原本的波特兰石。摄影为 Michele Panzeri。</p><div class="cmt"><b>💡 点评</b>在变电站屋顶把一座时开时闭的花园修回来，还把四分之三的老亭子留下来，这种「少拆多修」比另起一座网红露台更对口味。下次去牛津街，值得拐到 Duke Street 上看一眼。</div><p class="src">来源：Wallpaper*</p></div></article></div><div class="gb-screen"><article class="card" id="t3-3" data-nid="403"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-05.jpg" alt="（补收）Ferrari Style 纽约首家常设店落户 SoHo：Formafantasma 与 Gonzalez Haase 做拉丝金属立面，二楼设改衣工坊" loading="lazy"><span class="score">85</span></div><div class="body"><p class="tag" style="color:#34d399">建筑与设计</p><h2><span class="nid" aria-label="编号 403">403</span><a href="https://www.dezeen.com/2026/11/13/formafantasma-ferrari-new-york-gonzalez-haase-aas/" target="_blank" rel="noopener">（补收）Ferrari Style 纽约首家常设店落户 SoHo：Formafantasma 与 Gonzalez Haase 做拉丝金属立面，二楼设改衣工坊</a></h2><div class="bline"><span>四维 77</span><span class="bp mul" title="建筑与设计 ×1.1">×1.1 建筑与设计</span><span>≈ 85</span></div><p class="sum">Dezeen 11 月 13 日 23:12 报道，Ferrari 时装线 Ferrari Style 在纽约 SoHo 的 Prince Street 与 Mercer Street 转角开出首家常设店，由 Formafantasma、柏林事务所 Gonzalez Haase AAS 与创意总监 Rocco Iannone 合作设计，占据一栋狭长转角建筑的两层。Gonzalez Haase 为建筑覆上拉丝金属，沿街用弧形窗棂和落地玻璃；团队把「Officina（工坊）」当作核心概念，希望在艺术直觉与机械精度之间取得平衡，并让纽约店呼应 SoHo 的尺度与材料，同时与今年早些时候同一团队设计的伦敦店共享红色、暖米色和钢材语言。一层是男装成衣，二层更私密，包括女装、鞋履配饰，以及除伦敦外的全球第二间改衣工坊，以皮革帘围合。本场按补收处理，因稿件落在今日午报窗口、当时未收。</p><div class="cmt"><b>💡 点评</b>这不是新车发布，而是 Ferrari 把「工坊」语言做成 SoHo 转角店：拉丝金属立面和弧形窗棂会先抓住眼睛，二楼那间皮革帘围起来的改衣工坊，才是这条时装线想讲的手感。</div><p class="src">来源：Dezeen</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="401"><span class="no nid">401</span><a class="carded" href="#t3-1">Boonserm Premthada 在泰国考拉做海边办公室「Traces By The Sea」：四栋木屋用栈道相连，材料来自旧米仓和学校</a><a class="ext" href="https://www.wallpaper.com/architecture/office/khao-lak-office-boonserm-bangkok-project-studio-thailand" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="建筑与设计 ×1.1">×1.1</span><span class="mini">91</span></li><li data-nid="402"><span class="no nid">402</span><a class="carded" href="#t3-2">伦敦 Mayfair 的 Brown Hart Gardens 重开：Studio Ageli 在二级保护变电站屋顶重修花园，并加一座餐饮亭</a><a class="ext" href="https://www.wallpaper.com/architecture/brown-hart-gardens-studioiageli-london-uk" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="建筑与设计 ×1.1">×1.1</span><span class="mini">88</span></li><li data-nid="403"><span class="no nid">403</span><a class="carded" href="#t3-3">（补收）Ferrari Style 纽约首家常设店落户 SoHo：Formafantasma 与 Gonzalez Haase 做拉丝金属立面，二楼设改衣工坊</a><a class="ext" href="https://www.dezeen.com/2026/11/13/formafantasma-ferrari-new-york-gonzalez-haase-aas/" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="建筑与设计 ×1.1">×1.1</span><span class="mini">85</span></li></ol></div></section><section class="theme-sec" id="th4"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#a78bfa">艺术与绘画<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t4-1" data-nid="501"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-06.jpg" alt="（补收）Fabrizio Giugiaro 为藏家打造 Peralta D：在碳纤维骨架上手锤紫铜车身，底盘来自玛莎拉蒂 GranTurismo Trofeo" loading="lazy"><span class="score">74</span></div><div class="body"><p class="tag" style="color:#a78bfa">艺术与绘画</p><h2><span class="nid" aria-label="编号 501">501</span><a href="https://design-milk.com/peralta-d-copper-supercar/" target="_blank" rel="noopener">（补收）Fabrizio Giugiaro 为藏家打造 Peralta D：在碳纤维骨架上手锤紫铜车身，底盘来自玛莎拉蒂 GranTurismo Trofeo</a></h2><p class="sum">Design Milk 11 月 14 日 10:23 刊出 GFG Style 创始人 Fabrizio Giugiaro 为墨西哥藏家 Carlos Peralta 打造的单件 Gran Turismo「Peralta D」。车身以手锤紫铜覆盖在全碳纤维承力结构上——Giugiaro 说，选择紫铜是因为藏家的产业与铜有关，而且铜比他们以前用的铝更易成型、焊接和抛光，只是更重，所以要用碳纤维骨架来平衡。底盘来自 2025 款玛莎拉蒂 GranTurismo Trofeo；车门不是常规对开，而是借鉴前作 Peralta S 的罩式开启，侧窗可独立打开，后部以鸥翼方式进入后座。内饰大面积使用铜色皮革，乘客侧有带灯化妆镜和化妆品收纳，后座还配了可收纳的冰箱，可放一瓶香槟和四只铜杯。本场按补收处理，因稿件略早于晚报窗口、午报未收。</p><p class="src">来源：Design Milk</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="501"><span class="no nid">501</span><a class="carded" href="#t4-1">（补收）Fabrizio Giugiaro 为藏家打造 Peralta D：在碳纤维骨架上手锤紫铜车身，底盘来自玛莎拉蒂 GranTurismo Trofeo</a><a class="ext" href="https://design-milk.com/peralta-d-copper-supercar/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">74</span></li></ol></div></section><section class="theme-sec" id="th5"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#818cf8">游戏<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t5-1" data-nid="601"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-07.jpg" alt="（补收）Valve 放出 SteamOS 3.10.0 Preview：AMD 端补上 HDMI 2.1 的 VRR、FRL 与 ALLM，NVIDIA 端增加网格着色器并修了数款游戏画面" loading="lazy"><span class="score">80</span></div><div class="body"><p class="tag" style="color:#818cf8">游戏</p><h2><span class="nid" aria-label="编号 601">601</span><a href="https://store.steampowered.com/news/app/1675200/view/687522235410285333" target="_blank" rel="noopener">（补收）Valve 放出 SteamOS 3.10.0 Preview：AMD 端补上 HDMI 2.1 的 VRR、FRL 与 ALLM，NVIDIA 端增加网格着色器并修了数款游戏画面</a></h2><p class="sum">Valve 于 11 月 14 日 10:04（上海时间）在 Steam Deck 新闻频道发布 SteamOS 3.10.0 Preview，并提醒这是仍在测试的预览版，需在设置 &gt; 系统 &gt; 系统更新频道中切换，可能遇到错误。GamingOnLinux 同日 17:08 整理了更新要点：AMD 显卡新增 HDMI 2.1 的 VRR、FRL 和 ALLM 支持，已知问题是 Dell G3223Q 可能一直黑屏；NVIDIA 则有稳定性与性能改进，图灵及更新架构支持网格着色器，并修复了《古墓丽影：暗影》和《The Surge 2》的画面异常。系统侧把 Arch 基础更新，桌面模式从 Plasma 6.7.3 升到 6.8.2，内核变基到 Linux 7.3；游戏模式还改进了 VRR 下的帧限制、光标和闪烁，并加入华硕 ROG Xbox Ally X20 的 HDR 与亮度调节。本场按补收处理，因官方稿件略早于晚报窗口、午报未收。</p><p class="src">来源：Steam 官方（11-14 10:04）；GamingOnLinux 11-14 17:08 整理</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="601"><span class="no nid">601</span><a class="carded" href="#t5-1">（补收）Valve 放出 SteamOS 3.10.0 Preview：AMD 端补上 HDMI 2.1 的 VRR、FRL 与 ALLM，NVIDIA 端增加网格着色器并修了数款游戏画面</a><a class="ext" href="https://store.steampowered.com/news/app/1675200/view/687522235410285333" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">80</span></li></ol></div></section><section class="theme-sec" id="th6"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#5eead4">旅行<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t6-1" data-nid="701"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-08.jpg" alt="（补收）远洋邮轮 SS United States 在佛罗里达近海沉放，成为所称「世界最大人工礁」，上层甲板已对潜水员开放" loading="lazy"><span class="score">81</span></div><div class="body"><p class="tag" style="color:#5eead4">旅行</p><h2><span class="nid" aria-label="编号 701">701</span><a href="https://www.dezeen.com/2026/11/13/ss-united-ocean-liner-sunk-florida-artificial-reef/" target="_blank" rel="noopener">（补收）远洋邮轮 SS United States 在佛罗里达近海沉放，成为所称「世界最大人工礁」，上层甲板已对潜水员开放</a></h2><div class="bline"><span>四维 74</span><span class="bp mul" title="旅行 ×1.1">×1.1 旅行</span><span>≈ 81</span></div><p class="sum">Dezeen 11 月 14 日 02:00 报道，远洋邮轮 SS United States 于周三在佛罗里达 Destin-Fort Walton Beach 近海以受控方式沉放，下沉约 180 英尺、耗时约八小时，当地政府称之为「世界最大人工礁」。它将加入该海岸已有的约 580 艘退役船舶与构筑物，既作为新老潜水员的目的地，也为海龟、石斑、鲷鱼和马林鱼等提供栖息结构。沉放前经过多年清除有毒材料，通风、线路和螺旋桨等被拆除，螺旋桨将进入配套的陆上博物馆。这艘由 William Francis Gibbs 设计、1952 至 1969 年营运的邮轮，1969 年退役后长期停在费城；保护组织 2009 年接手，2024 年因泊位问题以 100 万美元卖给佛罗里达奥卡洛萨县。报道称船体已直立就位，最上层甲板现已向潜水员开放。本场按补收处理，因稿件落在今日午报窗口、当时未收。</p><p class="src">来源：Dezeen（Destin-Fort Walton Beach 官方）</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="701"><span class="no nid">701</span><a class="carded" href="#t6-1">（补收）远洋邮轮 SS United States 在佛罗里达近海沉放，成为所称「世界最大人工礁」，上层甲板已对潜水员开放</a><a class="ext" href="https://www.dezeen.com/2026/11/13/ss-united-ocean-liner-sunk-florida-artificial-reef/" target="_blank" rel="noopener" aria-label="打开原文">↗</a> <span class="bp mul" title="旅行 ×1.1">×1.1</span><span class="mini">81</span></li></ol></div></section><section class="theme-sec" id="th7"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#fbbf24">杂志<small>1 条</small></h3></div><div class="gb-screen"><article class="card" id="t7-1" data-nid="801"><div class="thumb"><img src="../assets/issue/wanbao/2026-11-14T1800-gb-09.jpg" alt="（补收）Nautilus：MIT 研究称年长后睡眠冲刷大脑的脑脊液波动减弱，但部分 60 岁以上受试者仍接近年轻人水平" loading="lazy"><span class="score">75</span></div><div class="body"><p class="tag" style="color:#fbbf24">杂志</p><h2><span class="nid" aria-label="编号 801">801</span><a href="https://nautil.us/why-sleep-might-not-be-as-restorative-as-we-get-older-1286631/" target="_blank" rel="noopener">（补收）Nautilus：MIT 研究称年长后睡眠冲刷大脑的脑脊液波动减弱，但部分 60 岁以上受试者仍接近年轻人水平</a></h2><p class="sum">Nautilus 刊发 Jake Currie 对一项发表于 Nature Aging 的新研究的报道：睡眠时缓慢脑波会带动脑脊液（CSF）脉动，冲洗白天积累的代谢废物，并与认知健康和记忆巩固相关。MIT 成像团队招募 18–39 岁与 60–84 岁志愿者通宵扫描，结合 fMRI、改良 MRI 测 CSF 流以及脑电。年轻组入睡后慢波增强、CSF 脉动随之增强，年长组的这些波动则明显更弱；清醒时的神经血管耦合和闭气扩血管测试也显示年长组反应减弱，但这两项仍无法完全解释差距。通讯作者 Laura Lewis 指出，部分年长受试者的 CSF 波动仍落在健康年轻成人区间，团队希望继续追问这些人有何不同、又与未来健康结局有何关联。本场按补收处理，因稿件在午报前已上线、当时未收。</p><p class="src">来源：Nautilus（转述 Nature Aging / MIT）</p></div></article></div><div class="gb-screen grp"><ol><li data-nid="801"><span class="no nid">801</span><a class="carded" href="#t7-1">（补收）Nautilus：MIT 研究称年长后睡眠冲刷大脑的脑脊液波动减弱，但部分 60 岁以上受试者仍接近年轻人水平</a><a class="ext" href="https://nautil.us/why-sleep-might-not-be-as-restorative-as-we-get-older-1286631/" target="_blank" rel="noopener" aria-label="打开原文">↗</a><span class="mini">75</span></li></ol></div></section><section class="theme-sec" id="th8"><div class="gb-screen grp-head"><h3 class="sec" style="border-color:#4ade80">开源热议<small>0 条</small></h3></div><div class="gb-screen grp"><ol><li><span class="no">–</span>本场无</li></ol></div></section><section class="gb-screen foot"><footer><p>点标题即可打开原文；回话或要链接请报三位编号（如 603、晚 603）</p><p>本场只取 RSS新闻源清单 fetch_by=grok 的 13 个源（含 V2EX、Product Hunt）；并按规范网页补检索九主题、开源热议与 Tier 0 官号/媒体。Product Hunt 本窗无新条目。国际时尚按兴趣清单 GB=不出。Tier 0：Apple 新闻室本窗无新稿（HomeView 已在 11-13 午报），Sony 无新官方（QSSR 与《战神：斯巴达之子》PS4 已在今日午报），DSH 仍为 11-13 的 v0.2.2-rc.3，国内个人助手本窗无重大进展。补收：9to5Mac 11-14 03:31 的 Perplexity Teammates for Mac、Dezeen 11-13 23:12 的 Ferrari Style 纽约店、Steam 官方 11-14 10:04 的 SteamOS 3.10.0 Preview、Design Milk 11-14 10:23 的 Peralta D、Dezeen 11-14 02:00 的 SS United States 人工礁、Nautilus 睡眠与脑脊液研究（午报未收）。开源热议：拉取云端 repo_seen 后发现 we-promise/sure、block/buzz 已记 2026-11-14 晚报，backnotprop/plannotator 已记 2026-11-14 午报，按 3 天去重不收。</p><p>加分口径：命中偏好乘系数（建筑/旅行/Tier A ×1.1，Tier 0 ×1.15，跨源 ×1.05），多项相乘、不封顶；没标徽章即没命中。</p><p>兴趣晚报 · 2026.11.14</p></footer></section></div><script>
+/* v2.6.11 长按标题约 500ms 复制原文链接：单文件内联、无外部依赖。
+   覆盖：精选大卡 / Tier0 卡 / 主题卡标题、一行式标题、↗。
+   轻点仍打开原文；移动超过 10px 取消；成功 toast「已复制链接」1.5s；
+   clipboard API 失败则 execCommand，再失败弹浮层显示链接供手选。
+   长按后阻止随后的 click 跳转与系统长按菜单；桌面右键不介入。 */
+(function () {
+  'use strict';
+  var HOLD_MS = 500;
+  var MOVE_PX = 10;
+  var TOAST_MS = 1500;
+
+  function isTitleLink(a) {
+    if (!a || a.tagName !== 'A') return false;
+    if (a.classList.contains('ext')) return true;
+    if (a.closest('article.card h2')) return true;
+    if (a.closest('.grp li') && a.getAttribute('href')) return true;
+    return false;
+  }
+
+  function origUrl(a) {
+    if (a.classList.contains('carded')) {
+      var ext = a.parentElement && a.parentElement.querySelector('a.ext');
+      if (ext) {
+        var eh = ext.getAttribute('href') || '';
+        if (eh && eh.charAt(0) !== '#') return ext.href;
+      }
+    }
+    var href = a.getAttribute('href') || '';
+    if (!href || href.charAt(0) === '#') return '';
+    return a.href;
+  }
+
+  function toast(msg) {
+    var el = document.getElementById('gb-copy-toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'gb-copy-toast';
+      el.setAttribute('role', 'status');
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { el.classList.remove('show'); }, TOAST_MS);
+  }
+
+  function fallbackOverlay(url) {
+    var wrap = document.getElementById('gb-copy-fallback');
+    if (wrap) wrap.remove();
+    wrap = document.createElement('div');
+    wrap.id = 'gb-copy-fallback';
+    wrap.innerHTML = '<div class="gb-fb-box"><p>无法自动复制，请选中下方链接后复制</p><textarea readonly></textarea><button type="button">关闭</button></div>';
+    var ta = wrap.querySelector('textarea');
+    ta.value = url;
+    wrap.querySelector('button').onclick = function () { wrap.remove(); };
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) wrap.remove(); });
+    document.body.appendChild(wrap);
+    ta.focus();
+    ta.select();
+  }
+
+  function execCopy(url) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, url.length);
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return !!ok;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  function copyUrl(url, done) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done(true); })
+        .catch(function () { done(execCopy(url) ? true : 'fallback'); });
+    } else {
+      done(execCopy(url) ? true : 'fallback');
+    }
+  }
+
+  function onCopied(a, url, result) {
+    a._gbHoldCopied = true;
+    if (result === true) toast('已复制链接');
+    else fallbackOverlay(url);
+  }
+
+  var timer = null, startX = 0, startY = 0, target = null, moved = false;
+
+  function clearHold() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    target = null;
+    moved = false;
+  }
+
+  function pointerDown(e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!isTitleLink(a)) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    var url = origUrl(a);
+    if (!url) return;
+    startX = e.clientX;
+    startY = e.clientY;
+    target = a;
+    moved = false;
+    a._gbHoldCopied = false;
+    timer = setTimeout(function () {
+      timer = null;
+      if (!target || moved) return;
+      var el = target;
+      var u = origUrl(el);
+      if (!u) return;
+      copyUrl(u, function (result) { onCopied(el, u, result); });
+    }, HOLD_MS);
+  }
+
+  function pointerMove(e) {
+    if (!target) return;
+    var dx = e.clientX - startX;
+    var dy = e.clientY - startY;
+    if ((dx * dx + dy * dy) > (MOVE_PX * MOVE_PX)) {
+      moved = true;
+      if (timer) { clearTimeout(timer); timer = null; }
+    }
+  }
+
+  function pointerUp() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    target = null;
+  }
+
+  document.addEventListener('pointerdown', pointerDown, true);
+  document.addEventListener('pointermove', pointerMove, true);
+  document.addEventListener('pointerup', pointerUp, true);
+  document.addEventListener('pointercancel', pointerUp, true);
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a._gbHoldCopied) {
+      e.preventDefault();
+      e.stopPropagation();
+      a._gbHoldCopied = false;
+    }
+  }, true);
+  document.addEventListener('contextmenu', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a._gbHoldCopied) {
+      e.preventDefault();
+    }
+  }, true);
+})();
+</script><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
