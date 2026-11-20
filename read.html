@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅读 · 每日情报</title>
+<style>
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; background: #181817; color: #e8e6e1; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    overflow: hidden;
+  }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #c8c5bc;
+    outline-offset: 3px;
+  }
+  #reader-app { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+  .reader-bar {
+    flex: none;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 14px;
+    background: #181817;
+    border-bottom: 1px solid #33322e;
+    position: relative;
+    z-index: 30;
+  }
+  .reader-home {
+    flex: none;
+    color: #8a877f;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .reader-home:hover { color: #c8c5bc; }
+  .reader-col {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+  .reader-toggle {
+    flex: none;
+    font: inherit;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #e8e6e1;
+    background: transparent;
+    border: 1px solid rgba(232, 230, 225, .28);
+    border-radius: 999px;
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+  .reader-toggle:hover { border-color: #55534a; }
+  .reader-toggle[aria-expanded="true"] {
+    border-color: #c8c5bc;
+    background: #22221f;
+  }
+  .reader-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    position: relative;
+    background: #181817;
+  }
+  .reader-backdrop { display: none; }
+  #reader-side {
+    width: 280px;
+    flex: none;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: #181817;
+    border-right: 1px solid #33322e;
+  }
+  #reader-side[hidden] { display: none !important; }
+  .reader-side-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 12px 10px;
+    color: #e8e6e1;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  #reader-close {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #8a877f;
+    background: transparent;
+    border: 0;
+    padding: 4px 2px;
+    cursor: pointer;
+  }
+  #reader-close:hover { color: #c8c5bc; }
+  .reader-list {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: 0 12px 12px;
+    overscroll-behavior: contain;
+  }
+  #reader-app .reader-list .day { margin: 14px 0 8px; font-size: 13px; }
+  #reader-app .entry .item {
+    display: flex;
+    align-items: center;
+    background: #22221f;
+    border: 1px solid #33322e;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 0 0 8px;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+  }
+  #reader-app .entry .item h2 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #reader-app .entry .item:hover { border-color: #55534a; }
+  #reader-app .entry .item.is-active {
+    border-color: #e8e6e1;
+    background: #2a2926;
+  }
+  .reader-note { color: #8a877f; font-size: 14px; line-height: 1.6; padding: 4px 2px 8px; }
+  .reader-all {
+    flex: none;
+    display: block;
+    text-align: center;
+    padding: 14px 12px;
+    color: #c8c5bc;
+    text-decoration: none;
+    border-top: 1px solid #33322e;
+    font-size: 14px;
+  }
+  .reader-all:hover { color: #e8e6e1; }
+  #reader-frame {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #181817;
+  }
+  #reader-frame[hidden] { display: none !important; }
+  .reader-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #8a877f;
+    font-size: 15px;
+    padding: 24px;
+  }
+  .reader-empty[hidden] { display: none !important; }
+  .reader-empty a { color: #c8c5bc; }
+  noscript .reader-empty {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: #181817;
+  }
+  @media (max-width: 759px) {
+    #reader-side {
+      position: fixed;
+      z-index: 21;
+      top: 48px;
+      bottom: 0;
+      left: 0;
+      width: min(86vw, 320px);
+      border-right: 1px solid #33322e;
+      box-shadow: 8px 0 24px rgba(0, 0, 0, .45);
+    }
+    .reader-backdrop:not([hidden]) {
+      display: block;
+      position: fixed;
+      z-index: 20;
+      top: 48px;
+      right: 0;
+      bottom: 0;
+      left: min(86vw, 320px);
+      background: rgba(0, 0, 0, .45);
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+  }
+</style>
+<link rel="icon" type="image/png" sizes="48x48" href="/daily/favicon-48.png?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="/daily/favicon-32.png?v=4">
+<link rel="apple-touch-icon" href="/daily/apple-touch-icon.png?v=4">
+<link rel="manifest" href="/daily/manifest.json">
+<meta name="theme-color" content="#181817">
+</head>
+<body>
+  <div id="reader-app">
+    <header class="reader-bar">
+      <a class="reader-home" href="/daily/">← 返回首页</a>
+      <h1 class="reader-col" id="reader-col">每日情报</h1>
+      <button type="button" id="reader-toggle" aria-expanded="false" aria-controls="reader-side">往期</button>
+    </header>
+    <div class="reader-body">
+      <button type="button" id="reader-backdrop" class="reader-backdrop" hidden aria-label="关闭往期"></button>
+      <aside id="reader-side" aria-label="往期" hidden>
+        <div class="reader-side-head">
+          <span>往期</span>
+          <button type="button" id="reader-close">关闭</button>
+        </div>
+        <div id="reader-list" class="reader-list"></div>
+        <a id="reader-all" class="reader-all" href="/daily/">查看全部</a>
+      </aside>
+      <p id="reader-empty" class="reader-empty" hidden>这一期没有打开。 <a href="/daily/">回首页</a></p>
+      <iframe id="reader-frame" title="本期正文"></iframe>
+    </div>
+  </div>
+  <noscript><p class="reader-empty">需要启用脚本才能在这里按栏目阅读。 <a href="/daily/">回首页</a></p></noscript>
+<script src="/daily/assets/reader.js"></script>
+<script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body>
+</html>
