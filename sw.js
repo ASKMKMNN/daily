@@ -1,7 +1,7 @@
 // 页面与 /daily/*.js 永远先取网络，离线才回退缓存。
 // 阅读脚本在 /daily/assets/reader.js，不能跟图片一起缓存优先，否则回访用户会一直拿到旧脚本。
 // 图片、图标、json、密文图仍缓存优先（密文图文件名带 key 指纹，换密码自然换 URL）。
-const CACHE = 'daily-v4';
+const CACHE = 'daily-v5';
 const CORE = ['/daily/', '/daily/read.html', '/daily/wubao/', '/daily/wanbao/', '/daily/tujian/', '/daily/blog/', '/daily/manifest.json'];
 
 self.addEventListener('install', e => {
