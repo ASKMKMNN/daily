@@ -37,11 +37,12 @@
   }
   .reader-home:hover { color: #c8c5bc; }
   .reader-col {
-    flex: 1;
+    margin-left: auto;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: right;
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 1px;
@@ -212,9 +213,9 @@
 <body>
   <div id="reader-app">
     <header class="reader-bar">
-      <a class="reader-home" href="/daily/">← 返回首页</a>
-      <h1 class="reader-col" id="reader-col">每日情报</h1>
+      <a class="reader-home" href="/daily/">← 返回</a>
       <button type="button" id="reader-toggle" aria-expanded="false" aria-controls="reader-side">往期</button>
+      <h1 class="reader-col" id="reader-col">每日情报</h1>
     </header>
     <div class="reader-body">
       <button type="button" id="reader-backdrop" class="reader-backdrop" hidden aria-label="关闭往期"></button>
