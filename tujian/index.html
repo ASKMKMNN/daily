@@ -159,7 +159,7 @@
   </div>
 <script>
 (function () {
-  var DATA = "B0v34HvXF99C0y2yidPue8Us29ACHW4EIFdJ7g4JcIZBsfpIKvgcsEkVURmmf8ba2GqQBZejjinrE7g7g1ytclhqF9BTo7bhFoT/YbqMEpbiH1rMIJEYA0xYR1pq8A81Ea7ahvI9O7bz7FhNUtFvOUoMoukLyyc97TkoAZuG+EieIuuCQ3hM2hnL8aNxRtvXqzECrSUV+U77bcOmKhgwCO0lj1KlUsk0q3arMLRoJWFrUDsSG/pzJ2Wy2LZVi+wKWv8uCukMLdGolGDc6wmK2g65aAAvwXDczQCjqlpKIozdGq0a9KmFaZcOB9ZyR8uY0XHveHG2fE+id6KqZNYMp9iGXT65hJxfGDy99M3XktM5jdECPtBOy1rhtQcOEnuwMZScs2ypbkFIpmzg9KwqfFcak8KKRPRzupVchb9Ql2SGxEY6NQQRHcfXn+xTf6efxSYrFM55Dv2n5Fkz7KswSrJB7fXr8QosGVOXBUt8VGloQIo2IdpxGlMIrcnxylbvzfNLodac1eIpkQlU1WaFB5yGn35wXz1MGNWh+FWVW77D6aY3VM1F29MRA37SJcxhhlOFgeyL7nYspJaLZ9PBDktyF5IcHC0yF32zZuaMBaPJulKsKLW1J+g6UbpOkwzEBfiZp9hR/CFEA35P58+44ZrHKdohh4hxsVjwnoGhULUf3qX4ipkpi+DC8QCAEEkyHwk3mqmNG4SklEc/fxtHdHL2g3/EazFqj+3/Ul5XG7ov72kWRdBo+yXt02Y10+OLsjf0T8M5ICM2RuSb4v8ODPqiRv2ZCYkPJP6im4sZV0mBLcuY/5S8kD6ZuQ==";
+  var DATA = "B0v34HvXF99C0y2yidPuex/IHpNnJiwiEsPPeB3aVa75S4nwZkeRbyOs0gUJdZoXwyT+ajUMtVoUJNE1B++i/H4F0kOhAIcjv4TnyCDmBv7B5J4F7wc7H/ta8C2CfiJUCHBc638zMqfVAlp7oAcZmz/vGKJR3l/8os7Qrk38SvQPuehaiFeLmHgcN5Kv+Tlbu4eIiTAt7LAMT5EPmQ87Fl8mCr8lA4zguQCP7y3bIWawsiw2+/nDZdf61QPgxGaWrm/+S6LW3AVE3VoSnOLVnkcl31BFFW5lGr+BzXxaPFGANl3qTmJ6PtNmWah+63eutjHQRLQO8euL3ZneXIDtl3dc+Ze1vgHgzxmzeebR8+PnT4rfVfTaoKOOKU7czoLm/dY8YCQsTjjxIsgAUXQP4vkqeS/vdsIcYqaUgLx4zxmw7nhvqHGq+Odsh8rP5h25WSkYbS+KCmiZhbERkUU8RhHN5rHEcZ0e6SybawrcPraPtVvtNGVU/1dcOM3mo/fJ7sAJh4rXTn/BZOz7MyV/UChIT6+FB0l5p93stB7ia3Y6+Us8XWoVT8ycEHkeZ1vhSIlc25i8GStx9d2mnjiSOm6+hCLoPE6D5JmCYQ2j4LV1ygUX8W+johbNiPLuDoGbjKZWH8B12DCc3lMDvFjZjnDLj/Y7w8HE0A5LaeG8Yd55j77s1JG7tO0d6WicpDdpWqPaOdV3uM+dQs4tZo/Eb+XRwAaL+0hkBbseSXiHfag2mUb4Hf8LWOLTZMX4Xdal1PHnLohI8q6AZYriUt17ZZ+VR1L9HMr69J0AgNah4al7zjD9lO7qsRh+lfHrGNxyvHstn7AUd+hPurzkfRt5UXu/kHTb6Opj0emXawU76nWEEBseWmsyX1CPXsh1NE2zABO/RHEm/PFOs6vfyoppAu8CSUyw9FjLWet0DisuDPYc/o19BIKjQUcqI201XD3itDbFIYXjaMYz6EI=";
   var COL = "tujian";
   var NAME = "每日图鉴";
   var SLOT = 'daily-key:v2';
@@ -187,8 +187,9 @@
     return t.getUTCFullYear() * 10000 + (t.getUTCMonth() + 1) * 100 + t.getUTCDate();
   }
   function dayText(it) {
-    var now = today(), key = it.y * 10000 + it.m * 100 + it.d;
-    return key === now ? it.m + '月' + it.d + '日' : it.y + '年' + it.m + '月' + it.d + '日';
+    // 与公开三栏 reader.js 一致：同年只写「11月20日」，跨年才带年份。
+    var y = Math.floor(today() / 10000);
+    return it.y === y ? it.m + '月' + it.d + '日' : it.y + '年' + it.m + '月' + it.d + '日';
   }
   function readMap() {
     try {
