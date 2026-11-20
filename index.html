@@ -203,7 +203,7 @@
 (function () {
   var PUBLIC = { "wubao/": 1, "wanbao/": 1, "blog/": 1 };
   var NONE = "";
-  var HREF = /^(?:\.\/)?(\d{4})-(\d{2})-(\d{2})T\d{4}-[A-Za-z0-9]+\.html$/;
+  var HREF = /^(?:\.\/)?(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})-([A-Za-z0-9]+)\.html$/;
 
   function beijing(now) {
     var t = new Date(now.getTime() + 8 * 60 * 60 * 1000);
@@ -218,12 +218,16 @@
     var best = null;
     var links = doc.querySelectorAll("a[href]");
     for (var i = 0; i < links.length; i++) {
-      var m = HREF.exec(links[i].getAttribute("href") || "");
+      var raw = (links[i].getAttribute("href") || "").split("#")[0].split("?")[0];
+      var m = HREF.exec(raw);
       if (!m) continue;
-      var y = +m[1], mo = +m[2], d = +m[3];
-      if (!realDay(y, mo, d)) continue;
-      var key = y * 10000 + mo * 100 + d;
-      if (!best || key > best.key) best = { y: y, m: mo, d: d, key: key };
+      var y = +m[1], mo = +m[2], d = +m[3], hh = +m[4], mm = +m[5];
+      if (!realDay(y, mo, d) || hh > 23 || mm > 59) continue;
+      var key = y * 100000000 + mo * 1000000 + d * 10000 + hh * 100 + mm;
+      if (best && key <= best.key) continue;
+      var author = m[6];
+      var file = m[1] + "-" + m[2] + "-" + m[3] + "T" + m[4] + m[5] + "-" + author + ".html";
+      best = { y: y, m: mo, d: d, key: key, href: /^[a-z]{2}$/.test(author) ? file : "" };
     }
     return best;
   }
@@ -234,24 +238,43 @@
     return "最新" + best.y + "年" + best.m + "月" + best.d + "日";
   }
 
+  // 公开栏目点进去直接打开最新一期（日期 + HHMM）。拉列表失败或没有期号则仍去栏目页。
   var cards = document.querySelectorAll("main a.card");
   for (var i = 0; i < cards.length; i++) {
     (function (card) {
       var href = card.getAttribute("href");
       var tag = card.querySelector(".tag");
       if (!tag || !PUBLIC[href]) return;
-      fetch(href, { credentials: "same-origin", cache: "no-store" })
+      var col = href.replace(/\/$/, "");
+      var fallback = "/daily/" + col + "/";
+      var task = fetch(href, { credentials: "same-origin", cache: "no-store" })
         .then(function (res) {
           if (!res.ok) throw new Error("bad");
           return res.text();
         })
         .then(function (html) {
           if (!html || html.length > 500000) throw new Error("bad");
-          tag.textContent = textFor(latest(html), beijing(new Date()));
+          var best = latest(html);
+          tag.textContent = textFor(best, beijing(new Date()));
+          if (best && best.href) {
+            var dest = "/daily/read.html#" + col + "/" + best.href;
+            card.setAttribute("href", dest);
+            return dest;
+          }
+          return fallback;
         })
         .catch(function () {
           tag.textContent = NONE;
+          return fallback;
         });
+      card.addEventListener("click", function (e) {
+        if (e.defaultPrevented) return;
+        if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var current = card.getAttribute("href") || "";
+        if (current.indexOf("/daily/read.html#") === 0) return;
+        e.preventDefault();
+        task.then(function (dest) { location.assign(dest); });
+      });
     })(cards[i]);
   }
 })();
