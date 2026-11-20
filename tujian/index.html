@@ -5,141 +5,369 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#181817">
 <meta name="robots" content="noindex, nofollow">
-<title>受保护 · 每日情报</title>
+<title>每日图鉴 · 每日情报</title>
 <style>
   :root { color-scheme: dark; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { overflow-x: clip; }
-  body {
+  a:focus-visible, button:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 4px; }
+  #gate {
     background: #181817; color: #e8e6e1;
     font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     padding: 40px 20px;
   }
-  .gate { width: 100%; max-width: 380px; }
-  .gate h1 { font-size: 21px; font-weight: 600; letter-spacing: 1px; margin-bottom: 10px; }
-  .gate .tip { color: #8a877f; font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
-  .gate input {
+  #gate .gate { width: 100%; max-width: 380px; }
+  #gate h1 { font-size: 21px; font-weight: 600; letter-spacing: 1px; margin-bottom: 10px; }
+  #gate .tip { color: #8a877f; font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+  #gate input {
     width: 100%; padding: 14px 16px; font-size: 16px;
     background: #22221f; color: #e8e6e1;
     border: 1px solid #33322e; border-radius: 12px;
     font-family: inherit; outline: none;
   }
-  .gate input:focus { border-color: #55534a; outline: 2px solid #55534a; outline-offset: 2px; }
-  .gate button {
+  #gate input:focus { border-color: #55534a; outline: 2px solid #55534a; outline-offset: 2px; }
+  #gate button[type=submit] {
     width: 100%; margin-top: 12px; padding: 14px;
     background: #2c2b27; color: #e8e6e1; border: 1px solid #3d3c35;
     border-radius: 12px; font-size: 15px; font-family: inherit; cursor: pointer;
     transition: border-color .15s ease;
   }
-  .gate button:hover { border-color: #6a6860; }
-  .gate button:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; }
-  .gate button:disabled { opacity: .45; cursor: default; }
-  .gate .msg { margin-top: 16px; font-size: 13px; min-height: 20px; color: #c98d7d; }
-  .gate .ok { color: #8a877f; }
-  a.back { display: inline-block; margin-top: 28px; color: #8a877f; text-decoration: none; font-size: 13px; }
-  a.back:hover { color: #c8c5bc; }
-  a.back:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; border-radius: 4px; }
+  #gate button[type=submit]:hover { border-color: #6a6860; }
+  #gate button[type=submit]:disabled { opacity: .45; cursor: default; }
+  #gate .msg { margin-top: 16px; font-size: 13px; min-height: 20px; color: #c98d7d; }
+  #gate a.back { display: inline-block; margin-top: 28px; color: #8a877f; text-decoration: none; font-size: 13px; }
+  #gate a.back:hover { color: #c8c5bc; }
+
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; background: #181817; color: #e8e6e1; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; overflow: hidden; }
+  a:focus-visible, button:focus-visible { outline: 2px solid #c8c5bc; outline-offset: 3px; }
+  #reader-app { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+  .reader-bar {
+    flex: none; height: 48px; display: flex; align-items: center; gap: 12px;
+    padding: 0 14px; background: #181817; border-bottom: 1px solid #33322e;
+    position: relative; z-index: 30;
+  }
+  .reader-home { flex: none; color: #8a877f; text-decoration: none; font-size: 14px; }
+  .reader-home:hover { color: #c8c5bc; }
+  .reader-col {
+    margin-left: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+    white-space: nowrap; text-align: right; font-size: 15px; font-weight: 600;
+    letter-spacing: 1px; line-height: 1.2;
+  }
+  .reader-toggle {
+    flex: none; font: inherit; font-size: 13px; line-height: 1.35; color: #e8e6e1;
+    background: transparent; border: 1px solid rgba(232,230,225,.28);
+    border-radius: 999px; padding: 4px 12px; cursor: pointer;
+  }
+  .reader-toggle:hover { border-color: #55534a; }
+  .reader-toggle[aria-expanded="true"] { border-color: #c8c5bc; background: #22221f; }
+  .reader-body { flex: 1; min-height: 0; display: flex; position: relative; background: #181817; }
+  .reader-backdrop { display: none; }
+  #reader-side {
+    width: 280px; flex: none; min-height: 0; display: flex; flex-direction: column;
+    background: #181817; border-right: 1px solid #33322e;
+  }
+  #reader-side[hidden] { display: none !important; }
+  .reader-side-head {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; padding: 12px 12px 10px; color: #e8e6e1;
+    font-size: 14px; font-weight: 600; letter-spacing: 1px;
+  }
+  #reader-close {
+    font: inherit; font-size: 13px; font-weight: 400; letter-spacing: 0;
+    color: #8a877f; background: transparent; border: 0; padding: 4px 2px; cursor: pointer;
+  }
+  #reader-close:hover { color: #c8c5bc; }
+  .reader-list { flex: 1; min-height: 0; overflow: auto; padding: 0 12px 12px; overscroll-behavior: contain; }
+  #reader-app .reader-list .day { margin: 14px 0 8px; font-size: 13px; font-weight: 600; color: #c8c5bc; }
+  #reader-app .entry .item {
+    display: flex; align-items: center; background: #22221f; border: 1px solid #33322e;
+    border-radius: 10px; padding: 10px 12px; margin: 0 0 8px;
+    text-decoration: none; color: inherit; min-width: 0;
+  }
+  #reader-app .entry .item h2 {
+    font-size: 14px; font-weight: 600; line-height: 1.35;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  #reader-app .entry .item:hover { border-color: #55534a; }
+  #reader-app .entry .item.is-active { border-color: #e8e6e1; background: #2a2926; }
+  #reader-app .entry.is-read .item h2 { color: #c8c5bc; }
+  .reader-note { color: #8a877f; font-size: 14px; line-height: 1.6; padding: 4px 2px 8px; }
+  .reader-all {
+    flex: none; display: block; text-align: center; padding: 14px 12px;
+    color: #c8c5bc; text-decoration: none; border-top: 1px solid #33322e; font-size: 14px;
+  }
+  .reader-all:hover { color: #e8e6e1; }
+  #reader-frame { flex: 1; min-width: 0; width: 100%; height: 100%; border: 0; background: #181817; }
+  #reader-frame[hidden] { display: none !important; }
+  .reader-empty {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    color: #8a877f; font-size: 15px; padding: 24px;
+  }
+  .reader-empty[hidden] { display: none !important; }
+  .reader-empty a { color: #c8c5bc; }
+  @media (max-width: 759px) {
+    #reader-side {
+      position: fixed; z-index: 21; top: 48px; bottom: 0; left: 0;
+      width: min(86vw, 320px); border-right: 1px solid #33322e;
+      box-shadow: 8px 0 24px rgba(0,0,0,.45);
+    }
+    .reader-backdrop:not([hidden]) {
+      display: block; position: fixed; z-index: 20; top: 48px; right: 0; bottom: 0;
+      left: min(86vw, 320px); background: rgba(0,0,0,.45); border: 0; padding: 0; cursor: pointer;
+    }
+  }
+  [hidden] { display: none !important; }
 </style>
 </head>
 <body>
-  <div class="gate">
-    <h1>这一期要密码</h1>
-    <p class="tip">内容是加密存放的，密码对了才解得开。这台设备记 30 天，期间不用再输。</p>
-    <form id="f">
-      <input id="pw" type="password" autocomplete="current-password" placeholder="密码" required>
-      <button id="go" type="submit">打开</button>
-    </form>
-    <p class="msg" id="msg"></p>
-    <a class="back" href="../">← 返回首页</a>
+
+  <div id="gate">
+    <div class="gate">
+      <h1>这一期要密码</h1>
+      <p class="tip">内容是加密存放的，密码对了才解得开。这台设备记 30 天，期间不用再输。</p>
+      <form id="f">
+        <input id="pw" type="password" autocomplete="current-password" placeholder="密码" required>
+        <button id="go" type="submit">打开</button>
+      </form>
+      <p class="msg" id="msg"></p>
+      <a class="back" href="../">← 返回首页</a>
+    </div>
+  </div>
+
+  <div id="reader-app" hidden>
+    <header class="reader-bar">
+      <a class="reader-home" href="../">← 返回</a>
+      <button type="button" id="reader-toggle" aria-expanded="false" aria-controls="reader-side">往期</button>
+      <h1 class="reader-col" id="reader-col"></h1>
+    </header>
+    <div class="reader-body">
+      <button type="button" id="reader-backdrop" class="reader-backdrop" hidden aria-label="关闭往期"></button>
+      <aside id="reader-side" aria-label="往期" hidden>
+        <div class="reader-side-head">
+          <span>往期</span>
+          <button type="button" id="reader-close">关闭</button>
+        </div>
+        <div id="reader-list" class="reader-list"></div>
+        <a id="reader-all" class="reader-all" href="./list.html">查看全部</a>
+      </aside>
+      <p id="reader-empty" class="reader-empty" hidden>这一栏还没有期号。 <a href="../">回首页</a></p>
+      <iframe id="reader-frame" title="本期正文" hidden></iframe>
+    </div>
   </div>
 <script>
 (function () {
-  var DATA = "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";
+  var DATA = "B0v34HvXF99C0y2yidPue8Us29ACHW4EIFdJ7g4JcIZBsfpIKvgcsEkVURmmf8ba2GqQBZejjinrE7g7g1ytclhqF9BTo7bhFoT/YbqMEpbiH1rMIJEYA0xYR1pq8A81Ea7ahvI9O7bz7FhNUtFvOUoMoukLyyc97TkoAZuG+EieIuuCQ3hM2hnL8aNxRtvXqzECrSUV+U77bcOmKhgwCO0lj1KlUsk0q3arMLRoJWFrUDsSG/pzJ2Wy2LZVi+wKWv8uCukMLdGolGDc6wmK2g65aAAvwXDczQCjqlpKIozdGq0a9KmFaZcOB9ZyR8uY0XHveHG2fE+id6KqZNYMp9iGXT65hJxfGDy99M3XktM5jdECPtBOy1rhtQcOEnuwMZScs2ypbkFIpmzg9KwqfFcak8KKRPRzupVchb9Ql2SGxEY6NQQRHcfXn+xTf6efxSYrFM55Dv2n5Fkz7KswSrJB7fXr8QosGVOXBUt8VGloQIo2IdpxGlMIrcnxylbvzfNLodac1eIpkQlU1WaFB5yGn35wXz1MGNWh+FWVW77D6aY3VM1F29MRA37SJcxhhlOFgeyL7nYspJaLZ9PBDktyF5IcHC0yF32zZuaMBaPJulKsKLW1J+g6UbpOkwzEBfiZp9hR/CFEA35P58+44ZrHKdohh4hxsVjwnoGhULUf3qX4ipkpi+DC8QCAEEkyHwk3mqmNG4SklEc/fxtHdHL2g3/EazFqj+3/Ul5XG7ov72kWRdBo+yXt02Y10+OLsjf0T8M5ICM2RuSb4v8ODPqiRv2ZCYkPJP6im4sZV0mBLcuY/5S8kD6ZuQ==";
+  var COL = "tujian";
+  var NAME = "每日图鉴";
   var SLOT = 'daily-key:v2';
-  var TTL = 2592000000; // 30 天
+  var TTL = 2592000000;
   var ITER = 120000;
+  var READ = 'daily-read:v1';
+  var gate = document.getElementById('gate');
+  var app = document.getElementById('reader-app');
+  var frame = document.getElementById('reader-frame');
+  var empty = document.getElementById('reader-empty');
+  var listBox = document.getElementById('reader-list');
+  var label = document.getElementById('reader-col');
   var msg = document.getElementById('msg');
   var btn = document.getElementById('go');
-  var form = document.getElementById('f');
+  var key = null, items = [], cur = '', boot = false;
 
   function b64(s) {
     var bin = atob(s), out = new Uint8Array(bin.length);
     for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
     return out;
   }
-
-  async function keyFrom(pass, salt) {
-    var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
-    return crypto.subtle.deriveKey({name:'PBKDF2', salt:salt, iterations:ITER, hash:'SHA-256'},
-      base, {name:'AES-GCM', length:256}, true, ['decrypt']);
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function today() {
+    var t = new Date(Date.now() + 8 * 3600 * 1000);
+    return t.getUTCFullYear() * 10000 + (t.getUTCMonth() + 1) * 100 + t.getUTCDate();
   }
-
-  // Edge/Chromium 在异步流程里会忽略 document.open/write，导致密码门与正文并排。
-  // 改为解析后用 DOM 替换，再手工重挂 script（innerHTML 不执行脚本）。
-  function mount(html) {
-    var doc = new DOMParser().parseFromString(html, 'text/html');
-    document.documentElement.lang = doc.documentElement.getAttribute('lang') || 'zh-CN';
-    document.head.innerHTML = doc.head.innerHTML;
-    document.body.removeAttribute('class');
-    document.body.removeAttribute('style');
-    var bc = doc.body.getAttribute('class'), bs = doc.body.getAttribute('style');
-    if (bc) document.body.className = bc;
-    if (bs) document.body.setAttribute('style', bs);
-    document.body.innerHTML = doc.body.innerHTML;
-    var list = document.querySelectorAll('body script');
-    for (var i = 0; i < list.length; i++) {
-      var old = list[i], s = document.createElement('script');
-      for (var j = 0; j < old.attributes.length; j++) {
-        s.setAttribute(old.attributes[j].name, old.attributes[j].value);
-      }
-      s.textContent = old.textContent;
-      old.parentNode.replaceChild(s, old);
+  function dayText(it) {
+    var now = today(), key = it.y * 10000 + it.m * 100 + it.d;
+    return key === now ? it.m + '月' + it.d + '日' : it.y + '年' + it.m + '月' + it.d + '日';
+  }
+  function readMap() {
+    try {
+      var o = JSON.parse(localStorage.getItem(READ) || '{}');
+      return o && typeof o === 'object' ? o : {};
+    } catch (e) { return {}; }
+  }
+  function markRead(p) {
+    try {
+      var m = readMap();
+      if (!m[p]) { m[p] = 1; localStorage.setItem(READ, JSON.stringify(m)); }
+    } catch (e) {}
+  }
+  function keyFrom(pass, salt) {
+    return crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey'])
+      .then(function (base) {
+        return crypto.subtle.deriveKey(
+          { name: 'PBKDF2', salt: salt, iterations: ITER, hash: 'SHA-256' },
+          base, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
+      });
+  }
+  function saveKey(k) {
+    return crypto.subtle.exportKey('raw', k).then(function (raw) {
+      var s = '', u = new Uint8Array(raw);
+      for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]);
+      localStorage.setItem(SLOT, JSON.stringify({ k: btoa(s), t: Date.now() }));
+    });
+  }
+  function drawList() {
+    while (listBox.firstChild) listBox.removeChild(listBox.firstChild);
+    if (!items.length) {
+      var p = document.createElement('p');
+      p.className = 'reader-note';
+      p.textContent = '这一栏还没有期号';
+      listBox.appendChild(p);
+      return;
     }
-    window.scrollTo(0, 0);
+    var map = readMap(), groups = [], by = {};
+    items.forEach(function (it) {
+      var k = it.y * 10000 + it.m * 100 + it.d;
+      if (!by[k]) { by[k] = { it: it, list: [] }; groups.push(by[k]); }
+      by[k].list.push(it);
+    });
+    groups.forEach(function (g) {
+      var h = document.createElement('h2');
+      h.className = 'day';
+      h.textContent = dayText(g.it);
+      listBox.appendChild(h);
+      g.list.forEach(function (it) {
+        var entry = document.createElement('div');
+        entry.className = 'entry' + (map[COL + '/' + it.f] ? ' is-read' : '');
+        var a = document.createElement('a');
+        a.className = 'item' + (it.f === cur ? ' is-active' : '');
+        a.href = './index.html#' + it.f;
+        if (it.f === cur) a.setAttribute('aria-current', 'page');
+        var h2 = document.createElement('h2');
+        h2.textContent = it.label || it.f;
+        a.appendChild(h2);
+        if (it.title) a.setAttribute('title', it.title);
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          setOpen(false);
+          if (it.f !== cur) location.hash = it.f;
+        });
+        entry.appendChild(a);
+        listBox.appendChild(entry);
+      });
+    });
   }
-
-  async function open(key) {
+  function setOpen(open) {
+    var side = document.getElementById('reader-side');
+    var tg = document.getElementById('reader-toggle');
+    var bd = document.getElementById('reader-backdrop');
+    if (!side || !tg) return;
+    side.hidden = !open;
+    tg.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (bd) bd.hidden = !open || !window.matchMedia('(max-width: 759px)').matches;
+    if (!open) return;
+    var act = side.querySelector('.item.is-active');
+    if (act && act.scrollIntoView) act.scrollIntoView({ block: 'nearest' });
+  }
+  function showEmpty() {
+    if (frame) frame.hidden = true;
+    if (empty) empty.hidden = false;
+    label.textContent = NAME;
+  }
+  function openIssue(file) {
+    var it = null;
+    for (var i = 0; i < items.length; i++) if (items[i].f === file) it = items[i];
+    if (!it) { showEmpty(); return; }
+    cur = file;
+    label.textContent = NAME;
+    empty.hidden = true;
+    frame.hidden = false;
+    drawList();
+    markRead(COL + '/' + file);
+    fetch('./' + file, { cache: 'no-store' })
+      .then(function (r) { return r.text(); })
+      .then(function (shell) {
+        var m = /var DATA = "([^"]+)"/.exec(shell);
+        if (!m) throw new Error('no data');
+        var raw = b64(m[1]);
+        return crypto.subtle.decrypt({ name: 'AES-GCM', iv: raw.slice(16, 28) }, key, raw.slice(28));
+      })
+      .then(function (plain) {
+        var html = new TextDecoder().decode(plain);
+        html = html.replace('</body>', "<script>\nwindow.__DAILY_BOOT = function (K) {\n  window.__DAILY_KEY = K;\n  var imgs = Array.prototype.slice.call(document.querySelectorAll('img[data-enc]'));\n  function load(img) {\n    var p = img.getAttribute('data-enc');\n    fetch(p).then(function (r) { return r.arrayBuffer(); }).then(function (buf) {\n      var d = new Uint8Array(buf);\n      return crypto.subtle.decrypt({ name: 'AES-GCM', iv: d.slice(0, 12) }, K, d.slice(12));\n    }).then(function (plain) {\n      img.src = URL.createObjectURL(new Blob([plain], { type: 'image/webp' }));\n      img.removeAttribute('data-enc');\n    })['catch'](function (e) { console.warn('img fail', p, e); });\n  }\n  function all() { imgs.forEach(function (i) { if (i.getAttribute('data-enc')) load(i); }); }\n  try {\n    if ('IntersectionObserver' in window) {\n      var io = new IntersectionObserver(function (es) {\n        es.forEach(function (en) { if (en.isIntersecting) { io.unobserve(en.target); load(en.target); } });\n      }, { rootMargin: '800px 0px' });\n      imgs.forEach(function (i) { io.observe(i); });\n      setTimeout(all, 1200);\n    } else { all(); }\n  } catch (e) { all(); }\n};\n<\/script>" + '</body>');
+        frame.onload = function () {
+          try {
+            var w = frame.contentWindow;
+            if (w && w.__DAILY_BOOT) w.__DAILY_BOOT(key);
+            if (w && w.document && w.document.title) document.title = w.document.title;
+            w.scrollTo(0, 0);
+          } catch (e) {}
+        };
+        frame.srcdoc = html;
+      })
+      ['catch'](function () {
+        try { localStorage.removeItem(SLOT); } catch (e) {}
+        frame.hidden = true;
+        empty.hidden = false;
+        empty.textContent = '这一期打不开，请回首页重进。';
+      });
+  }
+  function enter(manifest) {
+    items = manifest.issues || [];
+    gate.hidden = true;
+    app.hidden = false;
+    label.textContent = NAME;
+    drawList();
+    var want = (location.hash || '').slice(1);
+    openIssue(want && items.some(function (i) { return i.f === want; }) ? want : (items[0] && items[0].f) || '');
+    window.addEventListener('hashchange', function () {
+      var f = (location.hash || '').slice(1);
+      if (f && f !== cur) openIssue(f);
+    });
+  }
+  function decryptManifest(k) {
     var raw = b64(DATA);
-    var plain = await crypto.subtle.decrypt({name:'AES-GCM', iv:raw.slice(16,28)}, key, raw.slice(28));
-    window.__DAILY_KEY = key;
-    mount(new TextDecoder().decode(plain));
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: raw.slice(16, 28) }, k, raw.slice(28))
+      .then(function (plain) { return JSON.parse(new TextDecoder().decode(plain)); });
+  }
+  function unlockWith(k) {
+    key = k;
+    return decryptManifest(k).then(function (m) { enter(m); });
   }
 
-  form.addEventListener('submit', async function (e) {
+  document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
     btn.disabled = true;
-    msg.className = 'msg';
     msg.textContent = '解开中…';
-    try {
-      var raw = b64(DATA);
-      var key = await keyFrom(document.getElementById('pw').value, raw.slice(0,16));
-      await open(key);
-      var kraw = await crypto.subtle.exportKey('raw', key);
-      localStorage.setItem(SLOT, JSON.stringify({
-        k: btoa(String.fromCharCode.apply(null, new Uint8Array(kraw))), t: Date.now()
-      }));
-    } catch (err) {
-      msg.textContent = '密码不对。';
-      btn.disabled = false;
-    }
+    var raw = b64(DATA);
+    keyFrom(document.getElementById('pw').value, raw.slice(0, 16))
+      .then(function (k) { return unlockWith(k).then(function () { return saveKey(k); }); })
+      ['catch'](function () { msg.textContent = '密码不对。'; btn.disabled = false; });
   });
 
-  // 记住设备：30 天内同浏览器打开任意加密页都不再问密码（换密码后旧 key 自动失效）
-  (async function () {
-    var saved = localStorage.getItem(SLOT);
+  (function restore() {
+    var saved = localStorage.getItem(SLOT), o;
     if (!saved) return;
-    var o;
     try { o = JSON.parse(saved); } catch (e) { localStorage.removeItem(SLOT); return; }
     if (!o || !o.k || !o.t || Date.now() - o.t > TTL) { localStorage.removeItem(SLOT); return; }
-    try {
-      var key = await crypto.subtle.importKey('raw', b64(o.k), {name:'AES-GCM'}, true, ['decrypt']);
-      await open(key);
-      localStorage.setItem(SLOT, JSON.stringify({ k: o.k, t: Date.now() }));
-    } catch (e) {
-      localStorage.removeItem(SLOT);
-    }
+    crypto.subtle.importKey('raw', b64(o.k), { name: 'AES-GCM' }, true, ['decrypt'])
+      .then(unlockWith)
+      .then(function () { localStorage.setItem(SLOT, JSON.stringify({ k: o.k, t: Date.now() })); })
+      ['catch'](function () { localStorage.removeItem(SLOT); });
   })();
+
+  var tg = document.getElementById('reader-toggle');
+  var cl = document.getElementById('reader-close');
+  var bd = document.getElementById('reader-backdrop');
+  if (tg) tg.addEventListener('click', function () { setOpen(tg.getAttribute('aria-expanded') !== 'true'); });
+  if (cl) cl.addEventListener('click', function () { setOpen(false); if (tg) tg.focus(); });
+  if (bd) bd.addEventListener('click', function () { setOpen(false); if (tg) tg.focus(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var side = document.getElementById('reader-side');
+    if (side && !side.hidden) { setOpen(false); if (tg) tg.focus(); }
+  });
 })();
 </script>
 </body>
