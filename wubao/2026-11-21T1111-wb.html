@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兴趣午报 · 2026.11.21</title>
+<style>
+:root{--bg:#f7f5f0;--paper:#fdfcf7;--tx:#191817;--dim:#6f6a62;--line:#e6e1d6;
+--hot:#b4510c;--cmt:#f7f3e8;--cmtline:#e2d8c0;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f10;--paper:#171718;--tx:#eceae6;
+--dim:#9c968c;--line:#2a2a2b;--hot:#ef9205;--cmt:#1d1c1a;--cmtline:#33302a;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+/* A7 横向溢出 */
+html,body{overflow-x:clip}
+/* A2 焦点态：键盘用户必须看得见光标在哪 */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--hot);outline-offset:3px;border-radius:4px}
+/* C1 竖排数字对齐 */
+.score,.row .sc,footer{font-variant-numeric:tabular-nums}
+/* selfcheck:waive B2 · 报头 6px 字距与「主题 · N」的 1.2px 是用户指定的日报编号/报头格式，不是 tracked-caps 小标签 */
+/* selfcheck:waive B3 · 页脚署名与「主题 · N」里的中点是用户指定的格式（B3 管的是拿中点当万能分隔符） */
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+/* 报头 */
+.mast{border-bottom:2px solid var(--tx);padding-bottom:14px;margin-bottom:26px;
+display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:44px;line-height:1;
+letter-spacing:6px;font-weight:700}
+.mast .meta{color:var(--dim);font-size:13px;text-align:right;line-height:1.9}
+.mast .meta b{color:var(--tx);font-weight:600}
+/* 编者按 */
+.note{border-left:3px solid var(--hot);padding:6px 0 6px 16px;color:var(--dim);
+font-size:14.5px;margin:0 0 26px}
+/* 主题导览 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.nav a{font-size:13px;color:var(--dim);text-decoration:none;border:1px solid var(--line);
+border-radius:999px;padding:4px 12px;background:var(--paper)}
+.nav a b{color:var(--tx);margin-left:4px;font-weight:600}
+/* 区块标题 */
+.sec{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:24px;letter-spacing:2px;
+margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:10px}
+.sec span{font-size:13px;color:var(--dim);letter-spacing:0;font-family:inherit}
+/* 卡片 */
+.lead{grid-column:1/-1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;display:flex;flex-direction:column;break-inside:avoid}
+.thumb{position:relative;display:block;background:#ddd}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.score{position:absolute;left:14px;top:14px;min-width:46px;text-align:center;
+font-weight:700;font-size:17px;color:#fdfaf3;padding:3px 10px;border-radius:999px;
+background:#b4510c;box-shadow:0 2px 10px rgba(24,22,18,.25)}
+/* 无横版题图的卡片：不出图版，分数挪进 kicker 行做行内徽章 */
+.sc-inl{display:inline-block;font-weight:700;font-size:13px;letter-spacing:0;
+color:#fdfaf3;background:#b4510c;border-radius:999px;padding:1px 9px;
+margin-right:8px;vertical-align:1px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.kick{font-size:12px;letter-spacing:1.2px;font-weight:600;margin-bottom:6px}
+.card h3{margin:0 0 8px;font-size:19px;line-height:1.5;font-family:"Songti SC",Georgia,"Noto Serif SC",serif}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--hot)}
+/* 数据条：创建天数 / 今日星增（元信息从标题拆出，2026-10-29） */
+.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;margin:-2px 0 11px}
+.rmeta span{display:flex;align-items:baseline;gap:4px;font-size:12.5px;color:var(--dim)}
+.rmeta span+span{border-left:1px solid var(--cmtline);margin-left:13px;padding-left:13px}
+.rmeta i{font-style:normal;font-size:12px;letter-spacing:.4px}
+.rmeta b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font-size:16.5px;font-weight:700;color:var(--tx);letter-spacing:-.2px;line-height:1.2}
+.rmeta .gain b{color:var(--hot)}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px;margin-left:2px;opacity:.9}
+.lead .rmeta b{font-size:19px}
+/* 评分构成：四维 N ＋3 建筑与设计 = 总分（2026-11-03 用户定：加分必须可见，便于核对遗漏） */
+.bline{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:-3px 0 12px;
+font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bhead{font-size:12px;color:var(--dim);letter-spacing:.3px}
+.bline .bp{margin:0}
+.beq{margin-left:1px;color:var(--tx);font-weight:600}
+.bp{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--cmtline);
+border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.65;white-space:nowrap}
+.bp i{font-style:normal;letter-spacing:.2px}
+.bp b{font-weight:700;font-size:12px}
+.bp.up,.bp.mul{border-color:#e0c6a4;color:var(--hot)}
+.bp.up b,.bp.mul b{color:var(--hot)}
+.bp.adj{color:var(--dim)}
+.bp.waive{color:var(--dim);border-style:dashed}
+.bp.sm{padding:1px 7px;font-size:12px;margin-left:2px}
+.row .bp.sm{flex:none}
+@media (prefers-color-scheme:dark){.bp.up,.bp.mul{border-color:#4a3a24}}
+.card p{margin:0 0 12px;color:var(--dim);font-size:14.5px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;
+padding:10px 12px;font-size:13.5px;color:var(--dim);margin-top:auto}
+.cmt b{color:var(--hot);font-weight:600;margin-right:6px}
+.src{margin-top:10px;font-size:12px;color:var(--dim);letter-spacing:.5px}
+.lead img{aspect-ratio:21/9}
+.lead h3{font-size:30px;line-height:1.35}
+.lead p{font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+/* 完整清单 */
+.theme{font-size:16px;margin:30px 0 10px;letter-spacing:1px;display:flex;
+align-items:center;gap:8px}
+.theme:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--hot)}
+.theme span{color:var(--dim);font-size:12px;font-weight:400}
+.tnote{margin:-2px 0 12px;font-size:12.5px;color:var(--dim)}
+ul.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dotted var(--line);
+font-size:14.5px;color:var(--dim)}
+.row a{color:inherit;text-decoration:none;flex:1}
+.row a:hover{color:var(--hot)}
+.row.hot{color:var(--tx)}
+.row.hot a{font-weight:500}
+.row .no{width:18px;flex:none;color:var(--dim);font-size:12px;text-align:right}
+.row .sc{flex:none;font-size:12px;padding:1px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim)}
+.row.hot .sc{color:#fdfaf3;border:0;background:#b4510c}
+/* Tier 0 固定节目：无更新状态条 */
+.t0none{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.t0none span{font-size:13px;color:var(--dim);border:1px dashed var(--line);
+border-radius:999px;padding:6px 14px;line-height:1.4}
+.t0none span b{color:var(--tx);font-weight:700}
+/* 页脚 */
+footer{margin-top:52px;border-top:2px solid var(--tx);padding-top:20px;color:var(--dim);font-size:13px}
+footer details{margin-bottom:14px}
+footer summary{cursor:pointer;color:var(--dim)}
+footer .kbd{background:var(--cmt);border:1px solid var(--cmtline);border-radius:6px;
+padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+@media print{body{background:#fdfcf7}.nav,footer details{display:none}}
+@media (max-width:520px){
+  .wrap{padding:22px 16px 56px}
+  .brand{font-size:32px;letter-spacing:4px}
+  .mast .meta{text-align:left}
+  .lead h3{font-size:22px}
+  .lead img{aspect-ratio:2/1}
+  .card h3{font-size:17px}
+  .sec{font-size:20px}
+}
+.card h3,.row a,footer p{overflow-wrap:break-word}
+</style></head>
+<body><div class="wrap">
+
+<div class="mast">
+  <div class="brand">兴趣午报</div>
+  <div class="meta"><b>入选 37 / 139</b><br>
+   <b>2026.11.21　周六</b><br>
+   午报 · 卡片 20 张 · 9 个主题 · 特别关注 无更新</div>
+</div>
+
+<p class="note">Anthropic 数学家宣称借 Claude 给出黎曼猜想证明、Lean 形式化代码引全场热议；GTA 6 以 37.9 亿美元首日收入改写娱乐行业纪录。</p>
+
+<nav class="nav"><a href="#t-科技/AI">科技/AI<b>14</b></a><a href="#t-数码消费">数码消费<b>5</b></a><a href="#t-国际时尚">国际时尚<b>5</b></a><a href="#t-建筑与设计">建筑与设计<b>1</b></a><a href="#t-艺术与绘画">艺术与绘画<b>2</b></a><a href="#t-游戏">游戏<b>1</b></a><a href="#t-旅行">旅行<b>2</b></a><a href="#t-杂志">杂志<b>2</b></a><a href="#t-开源热议">开源热议<b>5</b></a><a href="#t-特别关注">特别关注</a></nav>
+
+<h2 class="sec" style="margin-top:48px" id="t-特别关注">特别关注<span>Tier 0 · 四家固定跟踪 · 命中 ×1.15</span></h2><p style="margin:16px 0 0;padding-top:11px;border-top:1px dotted var(--line);font-size:13px;color:var(--dim)">本期无更新：Apple、Sony、DSH（DeepSeek Harness）、国内个人助手</p>
+
+<h2 class="sec" style="margin-top:48px">今日精选<span>本场最高分 · 点标题看原文</span></h2>
+<article class="card lead" id="c-科技/AI-1">
+  <a class="thumb" href="https://www.ithome.com/1/030/297.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-01.jpg" alt=""><span class="score">90</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 101</div>
+    <h3><a href="https://www.ithome.com/1/030/297.htm" target="_blank" rel="noopener">黎曼猜想真被 Claude 证明了？Anthropic 数学家发 25 万页证明与 Lean 代码，陶哲轩称验证仍需时间</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 86</span><span class="bp mul"><i>跨源 ×1.05（Anthropic 数学家声明 / 陶哲轩博客盘点 / Hacker News 1648 点讨论）</i><b>×1.05</b></span><span class="beq">≈ 90</span></div>
+    <p>Anthropic 数学家 Levent Alpöge 11 月 20 日宣称与 Claude 合作找到黎曼猜想及广义黎曼猜想的证明，称 Claude 在证明收尾阶段「远远超过了我」。公开的仅有 4 页说明与分为 14 个压缩包、约 1700 万行的 Lean 形式化代码，完整文字证明超 25 万页未公开。菲尔兹奖得主陶哲轩在博客做了初步盘点，认为论证似乎动用朗兰兹纲领，但强调验证仍需大量时间；Hacker News 相关讨论帖达 1648 点、739 条评论，为当日全场最热。</p>
+    <div class="cmt"><b>💡 点评</b>这是 AI 首次在「人类百年未解猜想」层面给出可形式化检验的产出，但「投稿级证明」与「被学界接受」之间还隔着漫长的同行评议。真正的看点不是宣布，而是那 1700 万行 Lean 代码能否被社区逐行验完。</div>
+    <div class="src">IT之家 / Hacker News · 原文 →</div>
+  </div>
+</article>
+
+<h2 class="sec" style="margin-top:48px">完整清单<span>每主题前三已做成卡片 · 其余一行式</span></h2>
+<h3 class="theme" id="t-科技/AI">科技/AI<span>14 条</span></h3><div class="grid tgrid"><article class="card" id="c-科技/AI-2">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">85</span>科技/AI · 102</div>
+    <h3><a href="https://thinkingmachines.ai/news/inkling-2-mini/" target="_blank" rel="noopener">Thinking Machines 发布 Inkling 2 Mini：26B 参数的「循环 MoE」模型，20GB 内存可在笔记本本地跑长程 Agent</a></h3>
+    
+    
+    <p>Thinking Machines Lab 于 11 月 20 日发布 Inkling 2 Mini——开放权重、可本地运行的高性能模型，主打长时程 agentic 工作与高效推理。它采用 24 层 looped transformer / MoE 架构，总参数 26.4B、活跃参数 3.4B，含循环的每 token 权重激活 5.4B，内存占用约 20GB，并以 NVFP4 训练部署。在参数量低于 100B 的开放权重模型中，它在 DeepSWE v1.1（48.2%）、Vals Index v2.2（46.5%）等基准上领先，Hacker News 讨论达 727 点、124 条评论。</p>
+    <div class="cmt"><b>💡 点评</b>把「循环深度」当第四个扩展维度来调，而不是一味堆参数，是这波小模型路线里少见的工程取向；20GB 内存能塞进笔记本，意味着长程 Agent 正在从云端下沉到本机。</div>
+    <div class="src">Hacker News / Thinking Machines · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-3">
+  <a class="thumb" href="https://www.ithome.com/1/030/302.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-02.jpg" alt="" loading="lazy"><span class="score">84</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 103</div>
+    <h3><a href="https://www.ithome.com/1/030/302.htm" target="_blank" rel="noopener">跌掉一个亚马逊：英伟达市值较 10 月高点蒸发 2.73 万亿美元，纳指创 2020 年 3 月以来最差单周</a></h3>
+    
+    
+    <p>11 月 20 日收盘英伟达股价下跌 14%，创 2025 年 5 月以来最低，连续第七周收跌，为 2008 年金融危机以来最长周线连跌。据《华尔街日报》，其市值约 3.03 万亿美元，较 10 月 6 日约 5.76 万亿美元的历史高点累计下跌约 47%，蒸发超 2.73 万亿美元，规模超过整个亚马逊。同日标普 500 跌 3.7%、纳指跌 5.3%，AMD 与美光分别跌 13.3% 和 13.9%。</p>
+    <div class="cmt"><b>💡 点评</b>市场对 AI 高估值与巨额资本开支的耐心正在被重新定价；当一家公司的单周跌幅能抹掉一个亚马逊，问题已不在某份财报，而在整条算力叙事的兑现节奏。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row hot"><span class="no">101</span><a href="#c-科技/AI-1">黎曼猜想真被 Claude 证明了？Anthropic 数学家发 25 万页证明与 Lean 代码，陶哲轩称验证仍需时间</a><span class="bp sm mul" title="跨源 ×1.05（Anthropic 数学家声明 / 陶哲轩博客盘点 / Hacker News 1648 点讨论） ×1.05">×1.05</span><span class="sc">90</span></li><li class="row"><span class="no">104</span><a href="https://www.ithome.com/1/030/322.htm" target="_blank" rel="noopener">近 200 万条请求揭开 AI 隐私漏洞：宣称「零数据保留」也会泄密，黑客拿诱饵密钥发起数万次云调用</a><span class="sc">83</span></li><li class="row"><span class="no">105</span><a href="https://www.ithome.com/1/030/296.htm" target="_blank" rel="noopener">440 亿美元！阿波罗与高盛完成迄今最大 GPU 融资定价，资金用于 SpaceX 采购英伟达 Vera Rubin 芯片</a><span class="sc">82</span></li><li class="row"><span class="no">106</span><a href="https://www.ithome.com/1/030/319.htm" target="_blank" rel="noopener">OpenAI 公布反蒸馏防护：GPT-6.2 Astra 思考链提取成功率从 54% 降至 0.2%</a><span class="sc">82</span></li><li class="row"><span class="no">107</span><a href="https://www.ithome.com/1/030/308.htm" target="_blank" rel="noopener">「几乎所有人将永久失业」：Anthropic 研究员预测 2027 年底 AI 在几乎所有领域超越顶尖专家</a><span class="sc">81</span></li><li class="row"><span class="no">108</span><a href="https://www.ithome.com/1/030/333.htm" target="_blank" rel="noopener">微软 Win11 将推 AI 整理神器：Copilot 授权后可查找、分类、移动、重命名本地文件</a><span class="sc">80</span></li><li class="row"><span class="no">109</span><a href="https://www.ithome.com/1/030/298.htm" target="_blank" rel="noopener">700 多台 POS 机滞后约 2 年未打补丁，超 100 万张银行卡资料集体沦陷</a><span class="sc">80</span></li><li class="row"><span class="no">110</span><a href="https://www.ithome.com/1/030/285.htm" target="_blank" rel="noopener">PostgreSQL 19 正式发布：新增并发 REPACK、查询计划稳定性控制与异步 I/O</a><span class="sc">79</span></li><li class="row"><span class="no">111</span><a href="https://www.ithome.com/1/030/301.htm" target="_blank" rel="noopener">OpenAI 推出 MedChemBench 基准：99 道题评估 AI 辅助药物研发，长于结构重建、弱于化合物筛选</a><span class="sc">79</span></li><li class="row"><span class="no">112</span><a href="https://www.ithome.com/1/030/287.htm" target="_blank" rel="noopener">谷歌搜索首页新增 AI 侧边栏，可「接着聊」此前 AI 模式提问话题</a><span class="sc">78</span></li><li class="row"><span class="no">113</span><a href="https://news.ycombinator.com/item?id=50581438" target="_blank" rel="noopener">英伟达遭美国 SEC 调查：或被查会计问题，Hacker News 讨论达 238 点</a><span class="sc">77</span></li><li class="row"><span class="no">114</span><a href="https://www.ithome.com/1/030/288.htm" target="_blank" rel="noopener">OpenAI 向 ChatGPT Plus 开放 Spaces 协作空间，支持多人共同编辑文档与文件</a><span class="sc">78</span></li></ul><h3 class="theme" id="t-数码消费">数码消费<span>5 条</span></h3><div class="grid tgrid"><article class="card" id="c-数码消费-1">
+  <a class="thumb" href="https://www.ithome.com/1/030/331.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-03.jpg" alt="" loading="lazy"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 201</div>
+    <h3><a href="https://www.ithome.com/1/030/331.htm" target="_blank" rel="noopener">荣耀 700/700 Pro 核心配置汇总：骁龙 8s Gen4 / 8 Gen5、9000mAh 电池 + 背屏，11 月 23 日发布</a></h3>
+    
+    
+    <p>荣耀 700/700 Pro 将于 11 月 23 日 14:30 发布，博主 @数码闲聊站 曝光核心配置：6.57 英寸 1.5K+120Hz LTPS 直屏、0.98mm 四等边、1.59 英寸原生背屏，骁龙 8s Gen4 / 8 Gen5 处理器，9000mAh 电池 + 80W 有线充，200MP 主摄 + 50MP 3.5X 潜望长焦。荣耀官网显示该系列有 Pro、标准版、S 三杯，全系采用背屏设计，支持后置自拍、AI 互动与健康监测。</p>
+    <div class="cmt"><b>💡 点评</b>把 9000mAh 电池和背屏同时塞进主流价位段，是荣耀在这代的差异化押注；背屏能否从「炫技」变成常用入口，取决于第三方适配速度。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-2">
+  <a class="thumb" href="https://www.ithome.com/1/030/324.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-04.jpg" alt="" loading="lazy"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 202</div>
+    <h3><a href="https://www.ithome.com/1/030/324.htm" target="_blank" rel="noopener">华为 Mate X8 大折叠黑白双色亮相，11 月 24 日发布，新增虚拟光标单手操控区</a></h3>
+    
+    
+    <p>华为公布 Mate X8 大折叠手机黑白双色官图，新机将于 11 月 24 日 14:30 发布，已现身官网并公开部分配置与全部配色，提供 12GB+256GB 到 16GB+1TB 典藏版多档。预告显示 Mate X8 在屏幕右下方新增一块虚拟光标操控区，在该区域滑动、轻点即可控制屏幕光标，可点到顶部、左侧、右上角等单手不易触及的位置。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-3">
+  <a class="thumb" href="https://www.ithome.com/1/030/295.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-05.jpg" alt="" loading="lazy"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 203</div>
+    <h3><a href="https://www.ithome.com/1/030/295.htm" target="_blank" rel="noopener">国际版三星 Galaxy S27 Pro 跑分曝光：Exynos 2700 芯片、12GB 内存、安卓 17</a></h3>
+    
+    
+    <p>型号 SM-S957B 的三星手机现身 GeekBench 跑分库，单核 3061 分、多核 10967 分，线索指向 Galaxy S27 Pro 国际版。跑分页显示芯片代号 S5E9975，对应三星 Exynos 2700，采用第二代 2nm GAA 工艺 SF2P、10 核四集群设计（1+4+1+4），GPU 为 Xclipse 970，测试机配 12GB 内存、运行安卓 17。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">204</span><a href="https://www.ithome.com/1/030/307.htm" target="_blank" rel="noopener">现价近 7000 欧元的 RTX 5090 FE 送修后被销毁，平台只愿退原价 2369 欧元</a><span class="sc">72</span></li><li class="row"><span class="no">205</span><a href="https://www.ithome.com/1/030/315.htm" target="_blank" rel="noopener">摩托罗拉首款宽折叠 Razr Flex 爆料：配高通未发布的 SM8845 Pro 芯片</a><span class="sc">72</span></li></ul><h3 class="theme" id="t-国际时尚">国际时尚<span>5 条</span></h3><div class="grid tgrid"><article class="card" id="c-国际时尚-1">
+  <a class="thumb" href="https://www.elle.com/fashion/a74463210/azzedine-alaia-sculpting-fashion-legion-of-honor-exhibition/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-06.jpg" alt="" loading="lazy"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 301</div>
+    <h3><a href="https://www.elle.com/fashion/a74463210/azzedine-alaia-sculpting-fashion-legion-of-honor-exhibition/" target="_blank" rel="noopener">Azzedine Alaïa 以一己之力改写时尚：法国荣誉军团勋章大展汇集 80 件作品</a></h3>
+    
+    
+    <p>ELLE 报道，一场新展览致敬传奇设计师 Azzedine Alaïa，汇集 80 件代表作，并恰逢其获法国荣誉军团勋章。Alaïa 以「雕塑般」的贴身剪裁著称，坚持按自己的节奏工作、拒绝潮流日历的束缚，被视为改写时尚规则的设计师之一。</p>
+    <div class="cmt"><b>💡 点评</b>在快节奏的时尚产业里，Alaïa 的价值恰恰来自他的「不合群」——用 decades 级的耐心打磨版型，而不是每季度交作业。这场展是把这种稀缺性重新摆到公众面前。</div>
+    <div class="src">ELLE · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-2">
+  <a class="thumb" href="https://www.elle.com/fashion/shopping/a74490341/cecilie-bahnsen-uniqlo-collection-launch-news-2026/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-07.jpg" alt="" loading="lazy"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 302</div>
+    <h3><a href="https://www.elle.com/fashion/shopping/a74490341/cecilie-bahnsen-uniqlo-collection-launch-news-2026/" target="_blank" rel="noopener">Cecilie Bahnsen 二度联手优衣库：把抓绒重新做成斯堪的纳维亚芭蕾风</a></h3>
+    
+    
+    <p>ELLE 报道，丹麦设计师 Cecilie Bahnsen 与优衣库推出第二次联名系列，以蓬松廓形、薄纱与细腻褶皱重新诠释抓绒（fleece）单品，被形容为「斯堪的纳维亚冬日芭蕾梦」。</p>
+    
+    <div class="src">ELLE · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-3">
+  <a class="thumb" href="https://www.elle.com/fashion/trend-reports/a74466060/tutu-fashion-trend-explained/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-08.jpg" alt="" loading="lazy"><span class="score">71</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 303</div>
+    <h3><a href="https://www.elle.com/fashion/trend-reports/a74466060/tutu-fashion-trend-explained/" target="_blank" rel="noopener">Tutu 芭蕾纱裙成为当下最「可触摸」的时尚单品</a></h3>
+    
+    
+    <p>ELLE 分析认为，芭蕾纱裙（tutu）的时尚生命力持续延续，凭体积感与触感成为本季从秀场走向日常的热门元素。</p>
+    
+    <div class="src">ELLE · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">304</span><a href="https://www.vogue.com/fashion-shows/pre-fall-2027/casablanca" target="_blank" rel="noopener">Casablanca 2027 早秋系列发布</a><span class="sc">70</span></li><li class="row"><span class="no">305</span><a href="https://www.vogue.com/article/burgundy-boots-winter-trend" target="_blank" rel="noopener">今冬靴子的顶流色不是棕也不是黑，而是酒红</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-建筑与设计">建筑与设计<span>1 条</span></h3><p class="tnote">建筑与设计主题 ×1.1 系数已在该主题条目上标注。</p><div class="grid tgrid"><article class="card" id="c-建筑与设计-1">
+  <div class="body">
+    <div class="kick" style="color:#0f766e"><span class="sc-inl">79</span>建筑与设计 · 401</div>
+    <h3><a href="https://www.archdaily.cn/zh/1188963/zhan-shi-zhuang-zhi-configuracion-visual" target="_blank" rel="noopener">展示装置 / Configuración Visual：为建筑模型造一个能容纳集体聚会的临时载体</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 72</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 79</span></div>
+    <p>该「展示装置」（Artefacto Expositivo）由智利 UNIACC 大学建筑学院委托，为学生建筑模型在学术庆典中建造临时展示载体。设计试图拓展展示装置的可能性：一个用于承载物体的结构，同时也可以营造容纳集体聚会的空间氛围。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-艺术与绘画">艺术与绘画<span>2 条</span></h3><div class="grid tgrid"><article class="card" id="c-艺术与绘画-1">
+  <a class="thumb" href="https://www.elle.com/culture/art-design/a74424492/sheroanawe-hakihiiwe-fondation-cartier-ica-miami/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-09.jpg" alt="" loading="lazy"><span class="score">71</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 501</div>
+    <h3><a href="https://www.elle.com/culture/art-design/a74424492/sheroanawe-hakihiiwe-fondation-cartier-ica-miami/" target="_blank" rel="noopener">landmark 展览致敬 Sheroanawe Hakihiiwe 的亚诺马米根源：卡地亚基金会与 ICA Miami 呈现 25 年创作</a></h3>
+    
+    
+    <p>ELLE 报道，由卡地亚基金会（Fondation Cartier）与迈阿密当代艺术学院（ICA Miami）联合呈现的展览，系统梳理委内瑞拉亚诺马米族艺术家 Sheroanawe Hakihiiwe 长达 25 年的创作，聚焦其文化根源与身份表达。</p>
+    
+    <div class="src">ELLE · 原文 →</div>
+  </div>
+</article><article class="card" id="c-艺术与绘画-2">
+  <div class="body">
+    <div class="kick" style="color:#7c3aed"><span class="sc-inl">70</span>艺术与绘画 · 502</div>
+    <h3><a href="https://culturedmag.com/article/2026/11/20/parties-ballroom-marfa-gala-neil-patrick-harris/" target="_blank" rel="noopener">Neil Patrick Harris 与 Lyle Lovett 现身 Ballroom Marfa 2026 慈善晚会</a></h3>
+    
+    
+    <p>Cultured 报道，西得州艺术机构 Ballroom Marfa 在纽约圣约翰大教堂举办 2026 年慈善晚会，向艺术、音乐与文化领域三位杰出人物致敬，Neil Patrick Harris 与 Lyle Lovett 到场。</p>
+    
+    <div class="src">Cultured · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-游戏">游戏<span>1 条</span></h3><div class="grid tgrid"><article class="card" id="c-游戏-1">
+  <a class="thumb" href="https://www.ithome.com/1/030/289.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-10.jpg" alt="" loading="lazy"><span class="score">86</span></a>
+  <div class="body">
+    <div class="kick" style="color:#4f46e5">游戏 · 601</div>
+    <h3><a href="https://www.ithome.com/1/030/289.htm" target="_blank" rel="noopener">《GTA 6》首日收入 37.9 亿美元创娱乐行业纪录，远超《复联 4》全球总票房</a></h3>
+    
+    
+    <p>Take-Two Interactive 11 月 21 日宣布，《侠盗猎车手 6》首发当日零售销售额达 37.9 亿美元（截至 11 月 19 日的全球估算），创下电子游戏乃至整个娱乐行业的首发收入纪录，超过电影《复仇者联盟 4》约 29 亿美元的全球累计票房。上线还带动全球互联网流量与直播观看量大增，DE-CIX 交换节点吞吐量 11 月 18 日达 33.03 Tbps 刷新纪录。</p>
+    <div class="cmt"><b>💡 点评</b>首日 37.9 亿美元把游戏推到了娱乐产业单品天花板的位置；更值得注意的是它同时制造了一次全球级的网络流量峰值——游戏首发已经变成基础设施事件。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-旅行">旅行<span>2 条</span></h3><p class="tnote">旅行主题 ×1.1 系数已在该主题条目上标注。</p><div class="grid tgrid"><article class="card" id="c-旅行-1">
+  <a class="thumb" href="https://www.elle.com/culture/travel-food/a74492752/nina-garcia-insider-guide-los-angeles-california/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-11.jpg" alt="" loading="lazy"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 701</div>
+    <h3><a href="https://www.elle.com/culture/travel-food/a74492752/nina-garcia-insider-guide-los-angeles-california/" target="_blank" rel="noopener">Nina Garcia 的洛杉矶内行指南：跳出游客路线的城市玩法</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>ELLE 刊出《Vogue》创意总监 Nina Garcia 的洛杉矶内行指南，分享她常去的餐厅、街区与玩法，提供一份跳出常规游客路线的城市清单。</p>
+    
+    <div class="src">ELLE · 原文 →</div>
+  </div>
+</article><article class="card" id="c-旅行-2">
+  <a class="thumb" href="https://www.vogue.com/slideshow/parker-selman-and-karan-rai-wedding" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-12.jpg" alt="" loading="lazy"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 702</div>
+    <h3><a href="https://www.vogue.com/slideshow/parker-selman-and-karan-rai-wedding" target="_blank" rel="noopener">巨型向日葵步道：一场融合四种文化传统的 Sun Valley 婚礼</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>Vogue 报道 Parker Selman 与 Karan Rai 在爱达荷州 Sun Valley 一场 4-H 营地举行的婚礼，融合旁遮普、印度教、犹太与圣公会传统，新人铺设巨型向日葵步道，新娘礼服灵感来自 1955 年 Christian Dior。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-杂志">杂志<span>2 条</span></h3><div class="grid tgrid"><article class="card" id="c-杂志-1">
+  <div class="body">
+    <div class="kick" style="color:#a15c1d"><span class="sc-inl">71</span>杂志 · 801</div>
+    <h3><a href="https://culturedmag.com/article/2026/11/20/culture-indie-playwright-theater-career-advice/" target="_blank" rel="noopener">独立剧作家从来没有这么时髦，但靠它活下去到底要付出什么？</a></h3>
+    
+    
+    <p>Cultured 的「Are You Hiring?」专栏采访一位少年成名的匿名剧作家，后者坦谈票房收入、兼职副业，以及为什么必须学会「表现得自己很忙」。</p>
+    
+    <div class="src">Cultured · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-2">
+  <div class="body">
+    <div class="kick" style="color:#a15c1d"><span class="sc-inl">70</span>杂志 · 802</div>
+    <h3><a href="https://culturedmag.com/article/2026/11/20/theater-rope-off-broadway-play-leopold-loeb/" target="_blank" rel="noopener">1924 年那对「完美犯罪」的同性恋人，百年后仍在被反复讲述</a></h3>
+    
+    
+    <p>Cultured 报道外百老汇新剧《Rope》，改编自 Nathan Leopold 与 Richard Loeb 1924 年绑架谋杀案，明确以两人的同性恋与犹太身份为中心，重新检视这桩启发了百年改编的作品。</p>
+    
+    <div class="src">Cultured · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-开源热议">开源热议<span>5 条</span></h3><p class="tnote">取材当日 GitHub Trending 三榜；去重池近 3 天已报的 21 仓不收。库龄 ≤90 天 +5、91 天–1 年 −3、&gt;1 年 −5；单日 ≥1000★ 或当日总榜前 10 才豁免库龄减分，本批均未达豁免线，故照扣。当日 OK 池中无 ≤90 天新项目，故未硬凑。</p><div class="grid tgrid"><article class="card" id="c-开源热议-1">
+  <a class="thumb" href="https://github.com/zhouxiaoka/autoclip" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-13.jpg" alt="" loading="lazy"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 901</div>
+    <h3><a href="https://github.com/zhouxiaoka/autoclip" target="_blank" rel="noopener">zhouxiaoka/autoclip：，一个链接一键出片的开源 AI 视频剪辑桌面工具</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>501</b>天</span><span class="gain"><i>今日</i><b>+979</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp adj"><i>库龄 501 天（&gt;1 年 −5）</i><b>−5</b></span><span class="beq">= 77</span></div>
+    <p>AutoClip 把播客、访谈、课程等长视频自动剪成适配抖音、小红书、TikTok、Reels 与 YouTube Shorts 的短视频，自动生成字幕、封面与发布文案。今日新增 979★（总星 1.2 万），位列当日 Trending 总榜，仓库 2025 年 7 月创建、501 天；因单日不足 1000★ 且不在前 10，库龄减分照扣。</p>
+    <div class="cmt"><b>💡 点评</b>一键出片工具已不新鲜，AutoClip 今天的涨星说明「长视频批量转短内容」仍是刚需；今天的新动静是它登上当日榜并单日拿到近千星。</div>
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-2">
+  <a class="thumb" href="https://github.com/Tracer-Cloud/opensre" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-14.jpg" alt="" loading="lazy"><span class="score">75</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 902</div>
+    <h3><a href="https://github.com/Tracer-Cloud/opensre" target="_blank" rel="noopener">Tracer-Cloud/opensre：，给 CI/CD 可靠性用的开源 SRE Agent</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>312</b>天</span><span class="gain"><i>今日</i><b>+466</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 78</span><span class="bp adj"><i>库龄 312 天（91 天–1 年 −3）</i><b>−3</b></span><span class="beq">= 75</span></div>
+    <p>OpenSRE 是面向 CI/CD 可靠性的开源 agent，主打故障根因分析与自动修复，可对接 Datadog、Grafana、GitLab CI、Slack 等，并支持 Ollama 本地模型。今日新增 466★（总星 1.36 万），位列当日 Trending 榜，仓库 2026 年 1 月创建、312 天。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-3">
+  <a class="thumb" href="https://github.com/phone-harness/phone-harness" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-21T1111-wb-15.jpg" alt="" loading="lazy"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 903</div>
+    <h3><a href="https://github.com/phone-harness/phone-harness" target="_blank" rel="noopener">phone-harness/phone-harness：，让你的 Agent 控制手机</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>106</b>天</span><span class="gain"><i>今日</i><b>+198</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp adj"><i>库龄 106 天（91 天–1 年 −3）</i><b>−3</b></span><span class="beq">= 73</span></div>
+    <p>phone-harness 提供让 AI Agent 控制手机的框架，属移动自动化与开发者工具方向。今日新增 198★（总星 5377），位列当日 Trending 榜，仓库 2026 年 8 月创建、106 天，是当日榜单中较新的项目。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">904</span><a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">〔创建 570 天〕anomalyco/opencode：今日 +247★，开源编码 Agent</a><span class="bp sm adj" title="库龄 570 天（&gt;1 年 −5） −5">−5</span><span class="sc">71</span></li><li class="row"><span class="no">905</span><a href="https://github.com/toeverything/AFFiNE" target="_blank" rel="noopener">〔创建 1574 天〕toeverything/AFFiNE：今日 +676★，隐私优先的 Notion / Miro 替代</a><span class="bp sm adj" title="库龄 1574 天（&gt;1 年 −5） −5">−5</span><span class="sc">71</span></li></ul>
+
+<footer>
+<details><summary>本次抓取报错源</summary>无（25 个 wb 源实抓，0 失败）</details>
+<p>评分口径：四维（有用 / 能核对 / 合口味 / 新鲜不重复，各 25 分）之和为基数，命中偏好按<b>系数相乘</b>——建筑与设计、旅行 ×1.1，Tier A 人物/主题 ×1.1，Tier 0 ×1.15，跨源 ×1.05（多项命中相乘，如 ×1.1×1.1=×1.21），<b>不封顶</b>（乘完破 100 就照写，分档线 84/70 判最终分）；开源另按库龄加减 3/5 分。条目里的「四维 N ×… ≈ 总分」就是这条的明细；<b>没标就是没命中</b>，可以据此核有没有漏的。</p>
+<p>想看哪条，直接报三位编号（比如 902、午 902），我把原文链接发给你。标题本身已可点。</p>
+<p>报头「入选 x/y」：x = 本场 ≥70 分入选条数，y = 本次浏览过的候选总数（含 <70 分被丢弃的条目）。本场浏览 139 条、入选 37 条。</p>
+<p>扫描/分享：整页自包含，图片已内嵌，离线也能看。</p>
+</footer>
+</div><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
