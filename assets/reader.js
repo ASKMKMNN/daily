@@ -387,6 +387,21 @@
       if (toggle) toggle.focus();
     });
     if (frame) {
+      var lastH = 0;
+      // iframe 内部滚动不会让移动端浏览器收起地址栏：把 iframe 拉成正文实际高度，
+      // 让主文档承担滚动。同源，可直接量 contentDocument。
+      var fit = function () {
+        try {
+          var d = frame.contentDocument;
+          if (!d || !d.documentElement) return;
+          var h = Math.max(d.documentElement.scrollHeight,
+                           d.body ? d.body.scrollHeight : 0);
+          if (h > 120 && Math.abs(h - lastH) > 2) {
+            lastH = h;
+            frame.style.height = h + "px";
+          }
+        } catch (err) {}
+      };
       frame.addEventListener("load", function () {
         try {
           var t = frame.contentDocument && frame.contentDocument.title;
@@ -395,7 +410,20 @@
             frame.title = t;
           }
         } catch (err) {}
+        lastH = 0;
+        fit();
+        try {
+          var d = frame.contentDocument;
+          if (d) {
+            var imgs = d.images || [];
+            for (var i = 0; i < imgs.length; i++) {
+              if (!imgs[i].complete) imgs[i].addEventListener("load", fit);
+            }
+            if (window.ResizeObserver) new ResizeObserver(fit).observe(d.documentElement);
+          }
+        } catch (err) {}
       });
+      window.addEventListener("resize", fit);
     }
     var mq = window.matchMedia(NARROW);
     var onMq = function () {
