@@ -417,6 +417,7 @@
           if (d) {
             var imgs = d.images || [];
             for (var i = 0; i < imgs.length; i++) {
+              try { imgs[i].decoding = "async"; } catch (err2) {}
               if (!imgs[i].complete) imgs[i].addEventListener("load", fit);
             }
             if (window.ResizeObserver) new ResizeObserver(fit).observe(d.documentElement);
