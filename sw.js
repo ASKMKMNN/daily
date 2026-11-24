@@ -20,6 +20,11 @@ function isScript(pathname) {
   return pathname.startsWith('/daily/') && /\.js$/.test(pathname);
 }
 
+// 栏目角标数据每天在变，必须网络优先；落到下面的缓存优先会一直显示旧日期。
+function isLatest(pathname) {
+  return /\/latest\.json$/.test(pathname);
+}
+
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
@@ -27,7 +32,7 @@ self.addEventListener('fetch', e => {
   if (url.origin !== location.origin) return;
 
   // 页面，以及阅读脚本等 .js：网络优先，拿不到才用缓存
-  if (req.mode === 'navigate' || isScript(url.pathname)) {
+  if (req.mode === 'navigate' || isScript(url.pathname) || isLatest(url.pathname)) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);
       try {
