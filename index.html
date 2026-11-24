@@ -42,7 +42,9 @@
     width: 100%;
     margin: 28px auto 0;
   }
-  @media (min-width: 760px) {
+  /* 600 起两列：折叠屏展开后各浏览器的 CSS 视口宽度不一致（DPR 不同，
+     同一块屏可能算成 604 或 697），原来卡 760 会让其中一侧掉回单列 */
+  @media (min-width: 600px) {
     .grid { grid-template-columns: 1fr 1fr; gap: 16px 18px; }
   }
   a.card {
