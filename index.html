@@ -202,6 +202,7 @@
 <script>
 (function () {
   var PUBLIC = { "wubao/": 1, "wanbao/": 1, "blog/": 1 };
+  var META = { "tujian/": 1, "weekly/": 1 };
   var NONE = "";
   var HREF = /^(?:\.\/)?(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})-([A-Za-z0-9]+)\.html$/;
 
@@ -244,7 +245,20 @@
     (function (card) {
       var href = card.getAttribute("href");
       var tag = card.querySelector(".tag");
-      if (!tag || !PUBLIC[href]) return;
+      if (!tag) return;
+      // 加密两栏：正文与列表都是密文，只取明文 latest.json 里的日期当角标
+      if (META[href]) {
+        fetch(href + "latest.json", { credentials: "same-origin", cache: "no-store" })
+          .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
+          .then(function (j) {
+            var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec((j && j.date) || "");
+            if (!p) return;
+            tag.textContent = textFor({ y: +p[1], m: +p[2], d: +p[3] }, beijing(new Date()));
+          })
+          .catch(function () { tag.textContent = NONE; });
+        return;
+      }
+      if (!PUBLIC[href]) return;
       var col = href.replace(/\/$/, "");
       var fallback = "/daily/" + col + "/";
       var task = fetch(href, { credentials: "same-origin", cache: "no-store" })
