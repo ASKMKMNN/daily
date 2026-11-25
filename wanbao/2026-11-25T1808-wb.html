@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兴趣晚报 · 2026.11.25</title>
+<style>
+:root{--bg:#f7f5f0;--paper:#fdfcf7;--tx:#191817;--dim:#6f6a62;--line:#e6e1d6;
+--hot:#b4510c;--cmt:#f7f3e8;--cmtline:#e2d8c0;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f10;--paper:#171718;--tx:#eceae6;
+--dim:#9c968c;--line:#2a2a2b;--hot:#ef9205;--cmt:#1d1c1a;--cmtline:#33302a;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+/* A7 横向溢出 */
+html,body{overflow-x:clip}
+/* A2 焦点态：键盘用户必须看得见光标在哪 */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--hot);outline-offset:3px;border-radius:4px}
+/* C1 竖排数字对齐 */
+.score,.row .sc,footer{font-variant-numeric:tabular-nums}
+/* selfcheck:waive B2 · 报头 6px 字距与「主题 · N」的 1.2px 是用户指定的日报编号/报头格式，不是 tracked-caps 小标签 */
+/* selfcheck:waive B3 · 页脚署名与「主题 · N」里的中点是用户指定的格式（B3 管的是拿中点当万能分隔符） */
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+/* 报头 */
+.mast{border-bottom:2px solid var(--tx);padding-bottom:14px;margin-bottom:26px;
+display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:44px;line-height:1;
+letter-spacing:6px;font-weight:700}
+.mast .meta{color:var(--dim);font-size:13px;text-align:right;line-height:1.9}
+.mast .meta b{color:var(--tx);font-weight:600}
+/* 编者按 */
+.note{border-left:3px solid var(--hot);padding:6px 0 6px 16px;color:var(--dim);
+font-size:14.5px;margin:0 0 26px}
+/* 主题导览 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.nav a{font-size:13px;color:var(--dim);text-decoration:none;border:1px solid var(--line);
+border-radius:999px;padding:4px 12px;background:var(--paper)}
+.nav a b{color:var(--tx);margin-left:4px;font-weight:600}
+/* 区块标题 */
+.sec{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:24px;letter-spacing:2px;
+margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:10px}
+.sec span{font-size:13px;color:var(--dim);letter-spacing:0;font-family:inherit}
+/* 卡片 */
+.lead{grid-column:1/-1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;display:flex;flex-direction:column;break-inside:avoid}
+.thumb{position:relative;display:block;background:#ddd}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.score{position:absolute;left:14px;top:14px;min-width:46px;text-align:center;
+font-weight:700;font-size:17px;color:#fdfaf3;padding:3px 10px;border-radius:999px;
+background:#b4510c;box-shadow:0 2px 10px rgba(24,22,18,.25)}
+/* 无横版题图的卡片：不出图版，分数挪进 kicker 行做行内徽章 */
+.sc-inl{display:inline-block;font-weight:700;font-size:13px;letter-spacing:0;
+color:#fdfaf3;background:#b4510c;border-radius:999px;padding:1px 9px;
+margin-right:8px;vertical-align:1px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.kick{font-size:12px;letter-spacing:1.2px;font-weight:600;margin-bottom:6px}
+.card h3{margin:0 0 8px;font-size:19px;line-height:1.5;font-family:"Songti SC",Georgia,"Noto Serif SC",serif}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--hot)}
+/* 数据条：创建天数 / 今日星增（元信息从标题拆出，2026-10-29） */
+.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;margin:-2px 0 11px}
+.rmeta span{display:flex;align-items:baseline;gap:4px;font-size:12.5px;color:var(--dim)}
+.rmeta span+span{border-left:1px solid var(--cmtline);margin-left:13px;padding-left:13px}
+.rmeta i{font-style:normal;font-size:12px;letter-spacing:.4px}
+.rmeta b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font-size:16.5px;font-weight:700;color:var(--tx);letter-spacing:-.2px;line-height:1.2}
+.rmeta .gain b{color:var(--hot)}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px;margin-left:2px;opacity:.9}
+.lead .rmeta b{font-size:19px}
+/* 评分构成：四维 N ＋3 建筑与设计 = 总分（2026-11-03 用户定：加分必须可见，便于核对遗漏） */
+.bline{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:-3px 0 12px;
+font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bhead{font-size:12px;color:var(--dim);letter-spacing:.3px}
+.bline .bp{margin:0}
+.beq{margin-left:1px;color:var(--tx);font-weight:600}
+.bp{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--cmtline);
+border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.65;white-space:nowrap}
+.bp i{font-style:normal;letter-spacing:.2px}
+.bp b{font-weight:700;font-size:12px}
+.bp.up,.bp.mul{border-color:#e0c6a4;color:var(--hot)}
+.bp.up b,.bp.mul b{color:var(--hot)}
+.bp.adj{color:var(--dim)}
+.bp.waive{color:var(--dim);border-style:dashed}
+.bp.sm{padding:1px 7px;font-size:12px;margin-left:2px}
+.row .bp.sm{flex:none}
+@media (prefers-color-scheme:dark){.bp.up,.bp.mul{border-color:#4a3a24}}
+.card p{margin:0 0 12px;color:var(--dim);font-size:14.5px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;
+padding:10px 12px;font-size:13.5px;color:var(--dim);margin-top:auto}
+.cmt b{color:var(--hot);font-weight:600;margin-right:6px}
+.src{margin-top:10px;font-size:12px;color:var(--dim);letter-spacing:.5px}
+.lead img{aspect-ratio:21/9}
+.lead h3{font-size:30px;line-height:1.35}
+.lead p{font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+/* 完整清单 */
+.theme{font-size:16px;margin:30px 0 10px;letter-spacing:1px;display:flex;
+align-items:center;gap:8px}
+.theme:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--hot)}
+.theme span{color:var(--dim);font-size:12px;font-weight:400}
+.tnote{margin:-2px 0 12px;font-size:12.5px;color:var(--dim)}
+ul.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dotted var(--line);
+font-size:14.5px;color:var(--dim)}
+.row a{color:inherit;text-decoration:none;flex:1}
+.row a:hover{color:var(--hot)}
+.row.hot{color:var(--tx)}
+.row.hot a{font-weight:500}
+.row .no{width:18px;flex:none;color:var(--dim);font-size:12px;text-align:right}
+.row .sc{flex:none;font-size:12px;padding:1px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim)}
+.row.hot .sc{color:#fdfaf3;border:0;background:#b4510c}
+/* Tier 0 固定节目：无更新状态条 */
+.t0none{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.t0none span{font-size:13px;color:var(--dim);border:1px dashed var(--line);
+border-radius:999px;padding:6px 14px;line-height:1.4}
+.t0none span b{color:var(--tx);font-weight:700}
+/* 页脚 */
+footer{margin-top:52px;border-top:2px solid var(--tx);padding-top:20px;color:var(--dim);font-size:13px}
+footer details{margin-bottom:14px}
+footer summary{cursor:pointer;color:var(--dim)}
+footer .kbd{background:var(--cmt);border:1px solid var(--cmtline);border-radius:6px;
+padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+@media print{body{background:#fdfcf7}.nav,footer details{display:none}}
+@media (max-width:520px){
+  .wrap{padding:22px 16px 56px}
+  .brand{font-size:32px;letter-spacing:4px}
+  .mast .meta{text-align:left}
+  .lead h3{font-size:22px}
+  .lead img{aspect-ratio:2/1}
+  .card h3{font-size:17px}
+  .sec{font-size:20px}
+}
+.card h3,.row a,footer p{overflow-wrap:break-word}
+</style></head>
+<body><div class="wrap">
+
+<div class="mast">
+  <div class="brand">兴趣晚报</div>
+  <div class="meta"><b>入选 46 / 46</b><br>
+   <b>2026.11.25　周三</b><br>
+   晚报 · 卡片 22 张 · 9 个主题 · 特别关注 1</div>
+</div>
+
+<p class="note">神舟二十四号实现中外航天员首次「太空握手」、应急发射 20 天成军领衔下午场；阿里千问 Go 全面开放免费代打电话，把个人助手推进到线下办事。蔚来 NIO IN 一天连发 NOMI 4.0 与世界模型 NWM 3.0，AWS 悬空 DNS 可 3 美元接管财政部子域名；建筑与设计、艺术、游戏、杂志均有当日新料。本场够 84 分的只有 1 条。</p>
+
+<nav class="nav"><a href="#t-科技/AI">科技/AI<b>13</b></a><a href="#t-数码消费">数码消费<b>7</b></a><a href="#t-国际时尚">国际时尚<b>10</b></a><a href="#t-建筑与设计">建筑与设计<b>1</b></a><a href="#t-艺术与绘画">艺术与绘画<b>2</b></a><a href="#t-游戏">游戏<b>5</b></a><a href="#t-旅行">旅行<b>0</b></a><a href="#t-杂志">杂志<b>3</b></a><a href="#t-开源热议">开源热议<b>5</b></a><a href="#t-特别关注">特别关注<b>1</b></a></nav>
+
+<h2 class="sec" style="margin-top:48px" id="t-特别关注">特别关注<span>Tier 0 · 四家固定跟踪 · 命中 ×1.15</span></h2><div class="grid"><article class="card" id="c-特别关注-1">
+  <div class="body">
+    <div class="kick" style="color:#333"><span class="sc-inl">94</span>特别关注 · 001</div>
+    <h3><a href="https://www.bjnews.com.cn/detail/1795583213129768.html" target="_blank" rel="noopener">千问 Go 全面开放免费代打电话：可订餐厅、查失物、问快递，支持定时外呼</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp mul"><i>Tier 0 · 国内个人助手</i><b>×1.15</b></span><span class="beq">≈ 94</span></div>
+    <p>11 月 25 日，阿里千问 Go 全面开放代打电话服务，向所有用户免费开放。用户告知拨打对象与通话需求并授权后，千问即可代为联系餐厅预订包间、向酒店查询遗失物品、联系快递员确认配送进度并反馈结果，还支持提前设置拨打时间的定时外呼。代打电话需经用户授权、通话中主动表明 AI 助手身份，并设有外呼安全防护机制筛查拦截风险请求。经济参考报、新京报、每日经济新闻、南方新闻网等多家一手媒体当日各自报道了同一发布。</p>
+    <div class="cmt"><b>💡 点评</b>这是国内个人助手第一次把「替你打电话」这种线下最后一百米的活儿做成全量免费能力——从内测资格走向人人可用，才是 Personal Agent 真正开始 reclaim 日常事务的节点。真正要盯的是它能调动的阿里生态（淘宝、飞猪、高德、支付宝）能否把这通电话接成一次完整闭环。</div>
+    <div class="src">科技媒体检索 · 原文 →</div>
+  </div>
+</article></div><p style="margin:16px 0 0;padding-top:11px;border-top:1px dotted var(--line);font-size:13px;color:var(--dim)">本期无更新：Apple、Sony、DSH（DeepSeek Harness）</p>
+
+<h2 class="sec" style="margin-top:48px">今日精选<span>本场最高分 · 点标题看原文</span></h2>
+<article class="card lead" id="c-科技/AI-1">
+  <a class="thumb" href="https://www.ithome.com/1/032/378.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-01.jpg" alt=""><span class="score">84</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 1</div>
+    <h3><a href="https://www.ithome.com/1/032/378.htm" target="_blank" rel="noopener">神舟二十四号发射成功：中外航天员首次「太空握手」，我国完全恢复「打一备一」常态运行</a></h3>
+    
+    
+    <p>北京时间 11 月 25 日 12 时 11 分，神舟二十二号飞船在酒泉卫星发射中心升空，3.5 小时后抵达中国空间站，航天员乘组顺利进驻并与在轨乘组实现中外航天员首次「太空握手」。据央视军事报道，从去年神舟二十号舷窗疑似遭空间碎片撞击到这次应急发射仅用 20 天，中国载人航天工程总设计师周建平介绍此次采用 16 天应急方案。中国航天科技集团李喆表示，随着神舟二十四号任务完成，飞船与火箭「双发并行、一主一备」的发射模式已完全恢复常态运行。</p>
+    <div class="cmt"><b>💡 点评</b>从异常到应急发射只用 20 天，把「打一备一」从纸面预案跑成了真流程——这是空间站长期运营最硬的一项底层能力。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article>
+
+<h2 class="sec" style="margin-top:48px">完整清单<span>每主题前三已做成卡片 · 其余一行式</span></h2>
+<h3 class="theme" id="t-科技/AI">科技/AI<span>13 条</span></h3><div class="grid tgrid"><article class="card" id="c-科技/AI-2">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">80</span>科技/AI · 2</div>
+    <h3><a href="https://www.intruder.io/research/taking-over-us-treasury-subdomains-for-3-each" target="_blank" rel="noopener">用 3 美元接管美国财政部子域名：AWS 弹性 IP 悬空 DNS 劫持仍有效（HN 79 分）</a></h3>
+    
+    
+    <p>安全公司 Intruder 的研究员 Tom Steer 公布研究：AWS 弹性 IP（EIP）的悬空 DNS 记录可被攻击者抢注，48 小时内他们循环申领 45 万个 IP、发现 28 个真实接管，其中 5 个是美国财政部子域名（ftp、irssearch、pcp、rdgw、ww5.treasury.gov），单次有效接管成本仅 3 美元。由于 .gov 加 HTTPS 会自动获得信任，攻击者还能通过域名验证拿到可信 TLS 证书做钓鱼。所有发现已通过漏洞赏金上报并修复，AWS 表示不计划改变现有机制。当日 Hacker News 79 分、17 条评论。</p>
+    <div class="cmt"><b>💡 点评</b>一次只花 3 美元、只扫 0.56% 的 IP 空间就拿下 5 个财政部子域名，把「悬空 DNS」从教科书漏洞变成了批量可收割的攻击面。AWS 明确不改，意味着这套玩法短期内依然成立。</div>
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-3">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">79</span>科技/AI · 3</div>
+    <h3><a href="https://gpu-demo-gallery.pages.dev/" target="_blank" rel="noopener">老 Nvidia 与 ATI 技术演示重回浏览器：22 个 1998–2006 年 Graphics Demo 可交互运行（HN 116 分）</a></h3>
+    
+    
+    <p>一个名为 GPU demos 的站点把 1998 至 2006 年间显卡厂商用来炫技的技术演示，从原始文件重建并搬进浏览器、可点击交互运行。收录包括 3dfx Voodoo2 的 Borg/Donut、NVIDIA GeForce 系列的 Lightning/Grass/Wolfman、ATI Radeon 9700 的 Car Paint/Natural Light/Bear，直到 2006 年 GeForce 8 的 Box of Smoke，共 22 个。当日 Hacker News 116 分、25 条评论。</p>
+    <div class="cmt"><b>💡 点评</b>这些是慢速演进的图形学活化石：多遍纹理、凹凸贴图、焦散、毛发渲染，全在固定管线时代一笔一笔雕出来。能在浏览器里亲手戳一下「会冒烟的盒子」，比看任何图形 API 编年史都直观。</div>
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row hot"><span class="no">1</span><a href="#c-科技/AI-1">神舟二十四号发射成功：中外航天员首次「太空握手」，我国完全恢复「打一备一」常态运行</a><span class="sc">84</span></li><li class="row"><span class="no">4</span><a href="https://www.ithome.com/1/032/376.htm" target="_blank" rel="noopener">三星计划 2027 年初出样 CXL 3.2 内存模组 MD310：单条 256GB，额外注入 72GB/s 带宽</a><span class="sc">76</span></li><li class="row"><span class="no">5</span><a href="https://www.marginalia.nu/log/a_141_marginalia_update/" target="_blank" rel="noopener">Marginalia Search 独立搜索项目更新：赞助增长，尝试把索引从 Java 迁往 C++（HN 111 分）</a><span class="sc">76</span></li><li class="row"><span class="no">6</span><a href="https://www.ithome.com/1/032/357.htm" target="_blank" rel="noopener">富士通 CTO：FUJITSU-MONAKA 服务器 CPU 初期需求旺盛，超出企业预期</a><span class="sc">74</span></li><li class="row"><span class="no">7</span><a href="https://www.ithome.com/1/032/353.htm" target="_blank" rel="noopener">用户称 Adobe Acrobat 浏览器扩展后台狂写 SSD：三天数百 GB</a><span class="sc">74</span></li><li class="row"><span class="no">8</span><a href="https://buttons.joshwcomeau.com/" target="_blank" rel="noopener">按钮音效合集：专业录制的按键与点击声收藏站（HN 368 分）</a><span class="sc">73</span></li><li class="row"><span class="no">9</span><a href="https://www.ithome.com/1/032/355.htm" target="_blank" rel="noopener">亚马逊 Prime Air 送货无人机在密歇根坠机：勾住光纤线路后撞上居民车库</a><span class="sc">72</span></li><li class="row"><span class="no">10</span><a href="https://www.ithome.com/1/032/346.htm" target="_blank" rel="noopener">开发者推出 win4wine：可在 Debian Linux 下直接运行 Windows XP 桌面外壳</a><span class="sc">72</span></li><li class="row"><span class="no">11</span><a href="https://noahbuilt.it/writing/qwen-on-5600-lambdas" target="_blank" rel="noopener">用 5600 个 AWS Lambda 跑 Qwen：一次有趣但倒赔 80 倍的实验（HN 68 分）</a><span class="sc">72</span></li><li class="row"><span class="no">12</span><a href="https://www.ithome.com/1/032/358.htm" target="_blank" rel="noopener">金山软件 2026 财年第三财季归母亏损 2.04 亿元，同比由盈转亏</a><span class="sc">70</span></li><li class="row"><span class="no">13</span><a href="https://www.ithome.com/1/032/371.htm" target="_blank" rel="noopener">网民捏造华为「千亿营销费用」等虚假信息被行政处罚</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-数码消费">数码消费<span>7 条</span></h3><div class="grid tgrid"><article class="card" id="c-数码消费-1">
+  <a class="thumb" href="https://www.ithome.com/1/032/373.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-02.jpg" alt="" loading="lazy" decoding="async"><span class="score">83</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 14</div>
+    <h3><a href="https://www.ithome.com/1/032/373.htm" target="_blank" rel="noopener">蔚来发布 NOMI Intelligence 4.0：系统级架构重构，能感知车内外环境并调用整车工具</a></h3>
+    
+    
+    <p>在今日广州举办的第三届 NIO IN 创新科技日上，蔚来发布面向整车原生的全场景情感智能 NOMI Intelligence 4.0。NOMI 完成系统级架构重构，把大模型矩阵与整车原生智能体框架、系统底座及整车安全深度融合，能感知环境、调用整车工具、自主决策并持续行动，官方称行业首创整车原生智能体框架。首版 Cedar 雪松 2.0.0 将于 12 月初提交备案后推送，Cedar S 与 Banyan 系统预计 2027 年二季度适配。</p>
+    <div class="cmt"><b>💡 点评</b>把「智能体」直接焊进整车系统底座、让 NOMI 能调用全车工具，而不是做一层语音壳——这是车载助手从对话框走向执行层的关键一步。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-2">
+  <a class="thumb" href="https://www.ithome.com/1/032/345.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-03.jpg" alt="" loading="lazy" decoding="async"><span class="score">81</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 15</div>
+    <h3><a href="https://www.ithome.com/1/032/345.htm" target="_blank" rel="noopener">蔚来世界模型 NWM 3.0 发布：隐式空间单步推演提速约 100 倍，整车控制时延压 54%</a></h3>
+    
+    
+    <p>蔚来在 NIO IN 2026 发布世界模型 NWM 3.0，综合数据量较 2.5 版提升 7 倍、训练效率提升 5 倍，优化驾驶博弈、会车、避让、匝道变道等性能。测试显示整车控制时延压缩 54%、智驾控制时延压缩 40%、底盘控制时延压缩 78%。新模型采用「显式空间+隐式空间双闭环强化学习」，隐式空间不生成完整画面而直接生成未来场景的结构化表示，号称单步推演速度较视频世界模型提升约 100 倍。</p>
+    <div class="cmt"><b>💡 点评</b>用紧凑的隐空间表示替代逐帧渲染，把世界模型从「会画画的模型」拉回「能实时决策的控制器」——100 倍推演提速意味着闭环控制终于跟得上真实路况。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-3">
+  <a class="thumb" href="https://www.ithome.com/1/032/349.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-04.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 16</div>
+    <h3><a href="https://www.ithome.com/1/032/349.htm" target="_blank" rel="noopener">荣耀一碰传更新：实现与 OPPO、vivo、小米、Apple 跨品牌原图互传</a></h3>
+    
+    
+    <p>荣耀研发工程师今日宣布一碰传更新，实现与 OPPO、vivo、小米、Apple 的跨品牌原图文件互传，并打通影石 Insta360 相机原图直传。高德地图、百度网盘、喜马拉雅等也加入一碰生态，一碰传已支持 70 余款应用内容。属系统级文件互传能力的跨品牌扩展。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">17</span><a href="https://www.ithome.com/1/032/377.htm" target="_blank" rel="noopener">8.99 万元起，奇瑞捷途环游者 EV 上市 20 小时大定破万</a><span class="sc">74</span></li><li class="row"><span class="no">18</span><a href="https://www.ithome.com/1/032/343.htm" target="_blank" rel="noopener">联想天津高性能服务器产线落成：年产 20 万台通用、10 万台 AI 服务器</a><span class="sc">72</span></li><li class="row"><span class="no">19</span><a href="https://www.ithome.com/1/032/372.htm" target="_blank" rel="noopener">HMD PureView 手机更多配置曝光：骁龙 8 Elite Gen 5，圆形四摄含 6 倍潜望</a><span class="sc">72</span></li><li class="row"><span class="no">20</span><a href="https://www.ithome.com/1/032/347.htm" target="_blank" rel="noopener">到 2030 年蔚来换电站将超 1 万座，年度充换电消费量超 100 亿 kWh</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-国际时尚">国际时尚<span>10 条</span></h3><div class="grid tgrid"><article class="card" id="c-国际时尚-1">
+  <a class="thumb" href="https://www.vogue.com/article/who-topped-the-2026-vogue-business-watch-index" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-05.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 21</div>
+    <h3><a href="https://www.vogue.com/article/who-topped-the-2026-vogue-business-watch-index" target="_blank" rel="noopener">2026 Vogue Business 腕表指数榜单：K-pop 与文化 nuances 成突围关键</a></h3>
+    
+    
+    <p>Vogue Business 发布 2026 腕表指数，梳理在拥挤市场中如何靠 K-pop 联名与文化洞察脱颖而出、谁又在榜单登顶。相关报道指出爱彼、浪琴、万宝龙等品牌今年借跨界合作与流行文化触达新客群，而奢侈品腕表的线上转化仍是行业难题。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-2">
+  <a class="thumb" href="https://www.ellechina.com/fashion/news/a74527387/louis-vuitton-2026-festival-campaign/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-06.jpg" alt="" loading="lazy" decoding="async"><span class="score">75</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 22</div>
+    <h3><a href="https://www.ellechina.com/fashion/news/a74527387/louis-vuitton-2026-festival-campaign/" target="_blank" rel="noopener">路易威登呈献 2026 节日广告特辑：以经典符号重释火车站出发之地</a></h3>
+    
+    
+    <p>路易威登发布 2026 节日广告特辑，由摄影师 Oliver Hadlee Pearch 掌镜，以品牌经典符号重新诠释火车站这一出发之地，礼赞亲友欢聚的温暖与启程前行的欣喜。</p>
+    
+    <div class="src">ELLE China · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-3">
+  <a class="thumb" href="https://www.vogue.com/article/why-luxury-watch-brands-are-still-struggling-online" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-07.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 23</div>
+    <h3><a href="https://www.vogue.com/article/why-luxury-watch-brands-are-still-struggling-online" target="_blank" rel="noopener">奢侈腕表品牌线上仍步履维艰：卡地亚数字榜居首，线上线下打通滞后</a></h3>
+    
+    
+    <p>Vogue Business 分析奢侈腕表品牌的数字表现：卡地亚在数字排名中居首，但即便社交表现突出的品牌，在线上到线下的整合上仍明显滞后。属对腕表行业渠道数字化的一手观察。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">24</span><a href="https://www.vogue.com/fashion-shows/pre-fall-2027/the-garment" target="_blank" rel="noopener">The Garment Pre-Fall 2027：伦敦品牌早秋系列发布</a><span class="sc">73</span></li><li class="row"><span class="no">25</span><a href="https://www.vogue.com/fashion-shows/pre-fall-2027/baum-und-pferdgarten" target="_blank" rel="noopener">Baum und Pferdgarten Pre-Fall 2027：丹麦品牌早秋系列发布</a><span class="sc">72</span></li><li class="row"><span class="no">26</span><a href="https://www.ellechina.com/fashion/news/a74526201/moose-knuckles-first-flagship-store-opens-in-shanghai/" target="_blank" rel="noopener">Moose Knuckles 中国首家旗舰店落位上海南京西路</a><span class="sc">72</span></li><li class="row"><span class="no">27</span><a href="https://www.vogue.com.tw/article/how-to-pair-midi-coat-with-heels" target="_blank" rel="noopener">「中长版大衣」怎么挑：5 套搭配高跟鞋的秋冬街拍示范</a><span class="sc">72</span></li><li class="row"><span class="no">28</span><a href="https://www.vogue.com.tw/article/hilary-swank-pregnant-third-baby-at-52-late-motherhood" target="_blank" rel="noopener">52 岁希拉蕊·史旺怀第三胎，正面回应高龄生育争议</a><span class="sc">71</span></li><li class="row"><span class="no">29</span><a href="https://www.vogue.com.tw/article/rain-on-please-take-care-of-my-refrigerator-kim-tae-hee-married-life" target="_blank" rel="noopener">Rain、金泰希结婚 9 年：睽违近 10 年作客《拜托了冰箱》分享婚姻与育儿</a><span class="sc">70</span></li><li class="row"><span class="no">30</span><a href="https://www.vogue.com/slideshow/30-classic-photos-of-john-f-kennedy-jr" target="_blank" rel="noopener">纪念小肯尼迪 66 岁诞辰：30 张定义其公众形象经典照片</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-建筑与设计">建筑与设计<span>1 条</span></h3><p class="tnote">建筑与设计主题 ×1.1 系数已在该主题条目上标注。</p><div class="grid tgrid"><article class="card" id="c-建筑与设计-1">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189185/cong-zheng-ce-dao-pu-zhuang-da-fei-zhou-jiao-di-qu-cheng-shi-ying-dui-e-er-ni-nuo-xian-xiang-de-zhun-bei-gong-zuo" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-08.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 31</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189185/cong-zheng-ce-dao-pu-zhuang-da-fei-zhou-jiao-di-qu-cheng-shi-ying-dui-e-er-ni-nuo-xian-xiang-de-zhun-bei-gong-zuo" target="_blank" rel="noopener">从政策到铺装：大非洲角地区城市应对厄尔尼诺现象的准备工作</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 71</span><span class="bp mul"><i>建筑与设计</i><b>×1.1</b></span><span class="beq">≈ 78</span></div>
+    <p>为减轻 10 至 12 月厄尔尼诺降雨灾害损失，政府间发展组织旗下气候机构 ICPAC 与联合国人居署联合发布面向非洲之角城市的实用指南。IGAD 发布的高级别行动倡议确立从被动灾害应对转向主动防范的区域承诺，强调跨国协调与本土知识价值，指出气候与灾害风险不分国界。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-艺术与绘画">艺术与绘画<span>2 条</span></h3><div class="grid tgrid"><article class="card" id="c-艺术与绘画-1">
+  <a class="thumb" href="https://science.nasa.gov/image-article/apod-2026-november-25-spherex-seeing-through-dust/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-09.jpg" alt="" loading="lazy" decoding="async"><span class="score">75</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 32</div>
+    <h3><a href="https://science.nasa.gov/image-article/apod-2026-november-25-spherex-seeing-through-dust/" target="_blank" rel="noopener">APOD 11 月 25 日：SPHEREx 穿透尘埃看银河系中心</a></h3>
+    
+    
+    <p>NASA 每日天文图今日主题为「SPHEREx Seeing Through Dust」，展示 NASA 的 SPHEREx 太空望远镜如何穿透银河系中心的尘埃带观测被遮蔽的区域。图像由 NASA/JPL-Caltech 的 SPHEREx 数据与 NASA/IPAC IRSA 数据合成处理。</p>
+    
+    <div class="src">NASA · 原文 →</div>
+  </div>
+</article><article class="card" id="c-艺术与绘画-2">
+  <a class="thumb" href="https://science.nasa.gov/earth/earth-observatory/georgias-pecan-belt/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-10.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 33</div>
+    <h3><a href="https://science.nasa.gov/earth/earth-observatory/georgias-pecan-belt/" target="_blank" rel="noopener">乔治亚州山核桃带：Landsat 8 捕捉秋收时节的农田肌理</a></h3>
+    
+    
+    <p>NASA 地球观测站今日图片展示乔治亚州西南部的山核桃种植带，Landsat 8 的 OLI 传感器于 10 月 23 日山核桃收获季拍摄下奥尔巴尼周边景象，山核桃林与花生、棉花、玉米田交错分布，构成一张大地图案。</p>
+    
+    <div class="src">NASA · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-游戏">游戏<span>5 条</span></h3><div class="grid tgrid"><article class="card" id="c-游戏-1">
+  <a class="thumb" href="https://www.ithome.com/1/032/329.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-11.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#4f46e5">游戏 · 34</div>
+    <h3><a href="https://www.ithome.com/1/032/329.htm" target="_blank" rel="noopener">玩家统计《GTA 6》可进入建筑达 1563 栋，远超此前传闻的 700 座</a></h3>
+    
+    
+    <p>《GTA 6》发售后，一名玩家统计发现 5588 栋建筑中有 1563 栋可进入，远超去年爆料的 700 座。这份统计暂时难以独立核验，但社区普遍认为可信。讨论中最受称道的是 Rockstar 对室内场景的细节打磨，如有房子标注可进入却无法从正门进入，玩家绕到后院灌木丛后才找到隐蔽地下室入口。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-游戏-2">
+  <a class="thumb" href="https://www.ithome.com/1/032/351.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-12.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#4f46e5">游戏 · 35</div>
+    <h3><a href="https://www.ithome.com/1/032/351.htm" target="_blank" rel="noopener">卡普空《怪物猎人：崛起》登陆 iOS / 安卓，需 Netflix 会员</a></h3>
+    
+    
+    <p>Netflix 日本今日宣布卡普空《怪物猎人：崛起》正式登陆移动端，已上架 App Store 与 Google Play，商店页明确标注需要 Netflix 会员资格、无需另购游戏。移动版保留核心狩猎玩法、支持最多 4 人联机，并针对触屏新增「恢复按钮」自动选择合适恢复道具。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-游戏-3">
+  <a class="thumb" href="https://www.ithome.com/1/032/370.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-13.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#4f46e5">游戏 · 36</div>
+    <h3><a href="https://www.ithome.com/1/032/370.htm" target="_blank" rel="noopener">高负载考验主机散热：主播称连续玩《GTA 6》时 PS5 损毁</a></h3>
+    
+    
+    <p>据 TweakTown 报道，《GTA 6》11 月 19 日登陆 PS5 与 Xbox Series 后不到一周，陆续有玩家反馈闪退、关机甚至主机损坏，两名 Twitch 主播在直播途中遭遇主机报废。其中主播希夫贾姆称游戏「烧坏了我的 PS5」，画面卡死出现绿色花屏、此后无法开机，他放出风扇照片反驳积灰致故障的说法。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">37</span><a href="https://www.ithome.com/1/032/348.htm" target="_blank" rel="noopener">2027 科隆游戏展开幕之夜移师朗盛竞技场，观众容纳量翻倍至超 1 万人</a><span class="sc">72</span></li><li class="row"><span class="no">38</span><a href="https://www.ithome.com/1/032/375.htm" target="_blank" rel="noopener">B 站官宣 12 月 6 日播出漫威剧《洛基 第一季》，为《复联 5》必过剧情</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-旅行">旅行<span>0 条</span></h3><p class="tnote">本场旅行主题无 70 分以上条目，整块不出。</p><h3 class="theme" id="t-杂志">杂志<span>3 条</span></h3><div class="grid tgrid"><article class="card" id="c-杂志-1">
+  <div class="body">
+    <div class="kick" style="color:#a15c1d"><span class="sc-inl">74</span>杂志 · 39</div>
+    <h3><a href="https://brutus.jp/post-539319/" target="_blank" rel="noopener">《我々は宇宙人》门胁康平精选：3 部挑战新表现的动画电影</a></h3>
+    
+    
+    <p>日本杂志 BRUTUS 请《我々は宇宙人》导演门胁康平选出 3 部「挑战新表现」的动画电影。他以「是否在探索表现」为选片标准，特别推崇皮克斯持续追求下一代表达的坚持，并谈及看完《怪兽电力公司》后深受其创意与角色剪影调度启发。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-2">
+  <a class="thumb" href="https://brutus.jp/post-539575/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-14.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 40</div>
+    <h3><a href="https://brutus.jp/post-539575/" target="_blank" rel="noopener">安全气囊变身托特包：Honda × rerer 用报废材料做包</a></h3>
+    
+    
+    <p>BRUTUS 介绍 Honda 与 rerer 合作的安全气囊托特包，售价 9350 日元、约 H35×W58cm。原本用来在冲击中保护人的安全气囊被改造成托特包，保留原材料圆润造型，收紧开口可改变轮廓，因通过汽车安全标准而格外结实。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-3">
+  <a class="thumb" href="https://www.vogue.com.tw/article/food-2026-11" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-15.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 41</div>
+    <h3><a href="https://www.vogue.com.tw/article/food-2026-11" target="_blank" rel="noopener">11 月吃什么：王品阪前铁板烧、夏花餐室新菜单与麝香葡萄甜甜圈</a></h3>
+    
+    
+    <p>Vogue Taiwan 盘点 11 月台湾餐饮新品，包括王品「阪前铁板烧」《火艺之宴》、夏花餐室全新菜单、庆尚北道麝香葡萄与美国 EATDONUT 联名水果生甜甜圈等秋冬新菜。</p>
+    
+    <div class="src">Vogue Taiwan · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-开源热议">开源热议<span>5 条</span></h3><p class="tnote">取材当日 GitHub Trending 三榜（all/python/typescript）；去重池近 3 天已报的 27 仓全部剔除（含午报已报的 autoclip / AFFiNE / opensre / opencode）。OK 池无 ≤90 天新项目，不拿老项目硬凑，只收有当日榜位证据者。库龄 &gt;1 年 −5、91 天–1 年 −3；当日分语言榜前 10 豁免减分（标注 waive）。标题「今日 +N★」为当日星增证据。开源卡片上限 3 条。</p><div class="grid tgrid"><article class="card" id="c-开源热议-1">
+  <a class="thumb" href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-16.jpg" alt="" loading="lazy" decoding="async"><span class="score">79</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 42</div>
+    <h3><a href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener">microsoft/markitdown： Python 榜第 4，文件转 Markdown 工具</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>742</b>天</span><span class="gain"><i>今日</i><b>+202</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 79</span><span class="bp waive">库龄 742 天（&gt;1 年 −5）已豁免（当日 Python 榜第 4）</span><span class="beq">= 79</span></div>
+    <p>今天的新动静是单日涨 202 颗星、位列 GitHub Python 榜第 4。微软开源的 markitdown 可把 PDF、Office 文档、图片、音频等各类文件转换为 Markdown，便于喂给大模型与做文档处理，是当下 AI 工作流里常用的格式转换基础设施。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-2">
+  <a class="thumb" href="https://github.com/nginx/nginx" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-17.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 43</div>
+    <h3><a href="https://github.com/nginx/nginx" target="_blank" rel="noopener">nginx/nginx： 总榜第 7，老牌开源 Web 服务器重回热榜</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>4,173</b>天</span><span class="gain"><i>今日</i><b>+158</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 74</span><span class="bp waive">库龄 4173 天（&gt;1 年 −5）已豁免（当日总榜第 7）</span><span class="beq">= 74</span></div>
+    <p>今天的新动静是单日 +158★、位列 GitHub 总榜第 7。NGINX 是老牌开源 Web 服务器与反向代理，此次因 AI 基础设施与高并发场景重新受到关注，创建至今已逾 11 年。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-3">
+  <a class="thumb" href="https://github.com/earendil-works/pi" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-25T1808-wb-18.jpg" alt="" loading="lazy" decoding="async"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 44</div>
+    <h3><a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">earendil-works/pi： TypeScript 榜第 13，统一 LLM 接口的 AI 智能体工具箱</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>473</b>天</span><span class="gain"><i>今日</i><b>+204</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 78</span><span class="bp adj"><i>库龄 473 天（&gt;1 年 −5）</i><b>−5</b></span><span class="beq">= 73</span></div>
+    <p>今天的新动静是单日 +204★、位列 TypeScript 榜第 13。pi 是一套 AI 智能体工具箱，提供统一的 LLM API、agent loop、TUI 与编码智能体 CLI，把搭建智能体所需的底座能力集中在一个项目里。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">45</span><a href="https://github.com/phone-harness/phone-harness" target="_blank" rel="noopener">〔创建 110 天〕phone-harness/phone-harness：今日 +91★ Python 榜第 13，让智能体控制手机</a><span class="bp sm adj" title="库龄 110 天（91 天–1 年 −3） −3">−3</span><span class="sc">73</span></li><li class="row"><span class="no">46</span><a href="https://github.com/awslabs/cli-agent-orchestrator" target="_blank" rel="noopener">〔创建 484 天〕awslabs/cli-agent-orchestrator：今日 +23★ Python 榜第 7，多智能体编排</a><span class="bp sm waive" title="库龄 484 天（&gt;1 年 −5）已豁免（当日 Python 榜第 7）">豁免</span><span class="sc">71</span></li></ul>
+
+<footer>
+<details><summary>本次抓取报错源</summary>Cultured（HTTP 403，重试一次仍失败）；grok/skip 源不抓、不计失败。</details>
+<p>评分口径：四维（有用 / 能核对 / 合口味 / 新鲜不重复，各 25 分）之和为基数，命中偏好按<b>系数相乘</b>——建筑与设计、旅行 ×1.1，Tier A 人物/主题 ×1.1，Tier 0 ×1.15，跨源 ×1.05（多项命中相乘，如 ×1.1×1.1=×1.21），<b>不封顶</b>（乘完破 100 就照写，分档线 84/70 判最终分）；开源另按库龄加减 3/5 分。条目里的「四维 N ×… ≈ 总分」就是这条的明细；<b>没标就是没命中</b>，可以据此核有没有漏的。</p>
+<p>想看哪条，直接报三位编号（比如 902、午 902），我把原文链接发给你。标题本身已可点。</p>
+<p>报头「入选 x/y」：x = 本场 ≥70 分入选条数，y = 本次浏览过的候选总数（含 <70 分被丢弃的条目）。本场浏览 46 条、入选 46 条。</p>
+<p>扫描/分享：整页自包含，图片已内嵌，离线也能看。</p>
+</footer>
+</div><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
