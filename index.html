@@ -139,7 +139,12 @@
     font-size: 13px;
     line-height: 1.6;
     text-align: center;
+    -webkit-tap-highlight-color: transparent;
   }
+  /* 分享模式（2026-11-25）：默认藏加密两栏，只有 data-mode="full" 才放开。
+     写在这一侧而不是靠脚本，脚本挂了也是藏着的。 */
+  html:not([data-mode="full"]) [data-private] { display: none !important; }
+  html[data-mode="full"] [data-share-only] { display: none !important; }
 </style>
 <link rel="icon" type="image/png" sizes="48x48" href="/daily/favicon-48.png?v=4">
 <link rel="icon" type="image/png" sizes="32x32" href="/daily/favicon-32.png?v=4">
@@ -152,7 +157,7 @@
     <img src="assets/hero.jpg" alt="英伟达 Rubin GPU 渲染图">
     <div class="hero-text">
       <h1>每日情报</h1>
-      <p>午报 · 晚报 · 图鉴 · 博客 · 周末推荐</p>
+      <p>午报 · 晚报 · <span data-private>图鉴 · </span>博客<span data-private> · 周末推荐</span></p>
     </div>
   </div>
 
@@ -173,7 +178,7 @@
         <span class="tag"></span>
       </div>
     </a>
-    <a class="card" href="tujian/">
+    <a class="card" href="tujian/" data-private>
       <img src="assets/card-tujian.jpg" alt="Julia Fox 街拍">
       <div class="body">
         <h2>每日图鉴</h2>
@@ -189,7 +194,7 @@
         <span class="tag"></span>
       </div>
     </a>
-    <a class="card" href="weekly/">
+    <a class="card" href="weekly/" data-private>
       <img src="assets/card-weekly.jpg" alt="周末的沙发与咖啡">
       <div class="body">
         <h2>周末推荐</h2>
@@ -200,6 +205,7 @@
   </main>
 
   <footer>由AI代编 · 内容仅代表个人兴趣</footer>
+<script src="assets/mode.js"></script>
 <script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
 <script>
 (function () {
