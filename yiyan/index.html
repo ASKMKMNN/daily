@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一言</title>
+<!--
+  一言 · 每天一句。数据本体：Project 2259831 / 一言池.md（灵光侧唯一抽取端）。
+  每天 06:35 由灵光选定当天一条并重发本页；last_used / count 记在池文件。
+  硬规则：只出现「句子 + 出处」，不加解读、共勉、追问、打卡、完成状态。
+-->
+<style>
+  :root {
+    --paper: #181817;
+    --paper-soft: #1f1e1c;
+    --ink: #ece7db;
+    --ink-dim: #a39c8d;
+    --ink-faint: #6f6a5e;
+    --mark: #f2c94c;
+    --mark-soft: rgba(242, 201, 76, 0.14);
+    --line: rgba(236, 231, 219, 0.14);
+    --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    --mono: "SFMono-Regular", "Menlo", "Courier New", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(242, 201, 76, 0.05), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 24px 60px; }
+
+  header.cover { padding: 64px 0 36px; }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    color: var(--ink-dim);
+  }
+  h1.masthead {
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: clamp(56px, 22vw, 110px);
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  h1.masthead .stroked { position: relative; }
+  h1.masthead .stroked::after {
+    content: "";
+    position: absolute;
+    left: -4%;
+    right: -6%;
+    bottom: 6%;
+    height: 34%;
+    background: linear-gradient(96deg, var(--mark), rgba(242, 201, 76, 0.55));
+    transform: rotate(-1.2deg);
+    z-index: -1;
+    border-radius: 2px;
+  }
+  .cover-meta { margin-top: 18px; font-size: 14px; color: var(--ink-dim); }
+  .cover-meta strong { color: var(--ink); font-weight: 600; }
+  hr.rule { border: none; border-top: 1px solid var(--line); margin: 30px 0 0; }
+
+  .today-label {
+    display: block;
+    margin: 34px 0 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+  }
+  blockquote.today-quote {
+    margin: 14px 0 10px;
+    font-size: clamp(24px, 7vw, 34px);
+    line-height: 1.75;
+    font-weight: 600;
+  }
+  .today-meta {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    color: var(--ink-dim);
+  }
+  .today-meta .src { color: var(--mark); }
+
+  .pool { margin-top: 48px; }
+  .pool-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .pool-group {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-dim);
+    margin: 26px 0 4px;
+  }
+  .entry {
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .entry:last-child { border-bottom: none; }
+  .entry.today {
+    background: var(--paper-soft);
+    border: 1px solid var(--mark);
+    padding: 14px 16px;
+    margin: 0 -16px;
+  }
+  .entry-text { font-size: 15.5px; line-height: 1.9; }
+  .entry-text .en { display: block; }
+  .entry-text .zh { display: block; color: var(--ink-dim); }
+  .entry-meta {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+  .entry-meta .oid { color: var(--mark); }
+  .entry-meta .today-flag { color: var(--mark); }
+
+  footer.foot {
+    margin-top: 52px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-faint);
+    line-height: 1.9;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .kicker, h1.masthead, blockquote.today-quote { animation: rise 0.7s 0.1s ease both; }
+  @media (prefers-reduced-motion: reduce) {
+    .kicker, h1.masthead, blockquote.today-quote { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="cover">
+    <p class="kicker">一言 · 每天一句 · 池 22 条</p>
+    <h1 class="masthead">一言</h1>
+    <p class="cover-meta">每天 <strong>06:35</strong> 换一句 · 30 天内不重复 · 池上限 40 条</p>
+    <hr class="rule">
+  </header>
+
+  <span class="today-label">今天 TODAY · 2026-11-25</span>
+  <blockquote class="today-quote">这些天来，有些计划是以乐观精神制订的，明知很有可能无法实现。然而，想象力占了上风。它能让我们省掉怀疑，去往任何地方。</blockquote>
+  <p class="today-meta">《从昨日醒来》 · <span class="src">E02</span></p>
+
+  <div class="pool">
+    <span class="pool-label">池子 POOL · 只装升格的句子</span>
+
+    <p class="pool-group">本人（8）</p>
+    <div class="entry">
+      <p class="entry-text">最低限度的拥有，可以使你将注意力放在更加重要的事情上，而不必被不必要的物品分散注意力。</p>
+      <p class="entry-meta"><span class="oid">A01</span> · 《物品极简》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">不要为了给别人留下好印象而买，要清楚买来的东西是你用来生活的。</p>
+      <p class="entry-meta"><span class="oid">A02</span> · 《狄德罗效应》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">把 should 换成 must。</p>
+      <p class="entry-meta"><span class="oid">A03</span> · 《极简主义》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">语言在我来看只是一个工具。</p>
+      <p class="entry-meta"><span class="oid">A04</span> · 《自律、极简背后的无聊》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">极简生活的理论只有那些，到底是实践大于理论的东西。</p>
+      <p class="entry-meta"><span class="oid">A05</span> · 《零杂物》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">图像与影视通常是剥离语境的。</p>
+      <p class="entry-meta"><span class="oid">A06</span> · 《娱乐至死》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">自律和极简是相辅相成的。</p>
+      <p class="entry-meta"><span class="oid">A07</span> · 《自律、极简背后的无聊》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">毛姆的作品虽然结尾震撼，但直到最后都略显平淡，有些吃力。</p>
+      <p class="entry-meta"><span class="oid">A10</span> · 《2016 总结》</p>
+    </div>
+
+    <p class="pool-group">别人（14）</p>
+    <div class="entry">
+      <p class="entry-text">風味來自雜質。<br>技藝就是受控的失控。</p>
+      <p class="entry-meta"><span class="oid">E01</span> · 《一天世界》Jedi</p>
+    </div>
+    <div class="entry today">
+      <p class="entry-text">这些天来，有些计划是以乐观精神制订的，明知很有可能无法实现。然而，想象力占了上风。它能让我们省掉怀疑，去往任何地方。</p>
+      <p class="entry-meta"><span class="oid">E02</span> · 《从昨日醒来》 · <span class="today-flag">今天这句</span></p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">这件事对我来说很简单／对你的爱是那么强烈／我可以在灵魂里看到你／一整天都和你交谈。</p>
+      <p class="entry-meta"><span class="oid">E03</span> · 胡安娜修女，转引自《从昨日醒来》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">1971年，纽约。戴上面具，向面具的供应商表示敬意。生日快乐，鲍勃·迪伦。</p>
+      <p class="entry-meta"><span class="oid">E04</span> · 《从昨日醒来》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">有多少次我心醉神迷地坐在那儿，看着某个长腿小妞离开曼哈顿的夜店回家，肩上披着一条贵得离谱的皮草，走进第五大道的门厅，按下电梯按钮，上到她的公寓，直到黎明在《突如其来》("Out of Nowhere")＊的舒缓旋律中到来才转身进家门。</p>
+      <p class="entry-meta"><span class="oid">E05</span> · 《毫无意义》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">在那些宏伟的建筑后面，在浮华的名号还有众多享有厚禄的高官后面，但没有任何一个机构能有效运作起来，没有井然的秩序，只有纷乱的人群，还有在拥挤的街上各种卖东西的人。</p>
+      <p class="entry-meta"><span class="oid">E06</span> · 《失踪的孩子》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">是什么让数百万人在看《泰坦尼克号》时潸然泪下，却如此疯狂地去毁坏荷兰博物馆中的一幅名画？是什么促使全球数百万人一起为戴安娜王妃哭泣，却在自己的左邻右舍去世时漠不关心？我想我知道答案，但我觉得还是不说为妙，因为这个答案很恐怖，令我颤抖。</p>
+      <p class="entry-meta"><span class="oid">E07</span> · 《多谢不阅》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">这抗议源于我的一个历史性觉悟：原来，这世上的每个人都可以写书了，文学不再是那个我多年来怀着浪漫主义理想不断登攀的高峰了，而我曾以为它只属于坚持不懈懂得献身的人，以为只有勇攀文学之峰的人才能获得写作的权利。</p>
+      <p class="entry-meta"><span class="oid">E08</span> · 《多谢不阅》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Establish boundaries around your time-consuming habits.<br>Limit your screen time and social media usage to specific times of the day or set a timer for your TV watching.</span><span class="zh">给那些耗你时间的习惯设定界限。<br>把屏幕时间和社交媒体限制在一天里的特定时段，或者给看电视设个计时器。</span></p>
+      <p class="entry-meta"><span class="oid">D01</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Instead of scrolling through social media, spend that time reading a book, exercising, or pursuing a hobby.<br>Swap binge-watching for quality time with loved ones or learning something new.</span><span class="zh">与其刷社交媒体，不如把这段时间用来读书、运动，或做点爱好。<br>把追剧换成和亲近的人相处，或者学点新东西。</span></p>
+      <p class="entry-meta"><span class="oid">D03</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Notice when you're reaching for your phone out of habit rather than necessity.</span><span class="zh">留意自己拿手机是因为习惯，还是真的需要。</span></p>
+      <p class="entry-meta"><span class="oid">D06</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Pay attention to your body's hunger signals and choose nutritious snacks that fuel you rather than drain your energy.</span><span class="zh">注意身体的饥饿信号，选那些给你能量、而不是消耗你的零食。</span></p>
+      <p class="entry-meta"><span class="oid">D07</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Awareness is the first step in making changes to your habits.<br>You can't quit a bad habit until you notice and admit that you have it.</span><span class="zh">觉察是改变习惯的第一步。<br>除非你注意到并承认自己有个坏习惯，否则你戒不掉它。</span></p>
+      <p class="entry-meta"><span class="oid">D08</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Waiting at least a day before purchasing can also help you more clearly see if the item would benefit or burden your life.</span><span class="zh">买之前至少等一天，这样能更清楚看出这东西是帮你的生活，还是压你的生活。</span></p>
+      <p class="entry-meta"><span class="oid">D09</span> · The Simplicity Habit</p>
+    </div>
+  </div>
+
+  <footer class="foot">
+    本页由灵光每天 06:35 选定当天一句并更新；出入池都经你确认。
+  </footer>
+
+</div>
+
+</body>
+</html>
