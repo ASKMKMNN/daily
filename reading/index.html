@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>读书摘录归档</title>
+<!--
+  设计判断：
+  锚点：文学阅读手账 / 编辑杂志风（深色纸面 + 荧光笔划痕）。
+  封面概念：390px 首屏前两秒看到一行超大衬线标题「读书摘录」，其中「摘录」二字被一道
+  手写感荧光笔道划过（对应「划线」这一动作本身），下方一行小字交代来源与节奏。无图封面，
+  走超尺度标题锁合。
+  编辑标记：每条摘录前的「¶ 编号 + 日期」档案标记，与首屏荧光笔同色。
+-->
+<style>
+  :root {
+    --paper: #181817;
+    --paper-soft: #1f1e1c;
+    --ink: #ece7db;
+    --ink-dim: #a39c8d;
+    --ink-faint: #6f6a5e;
+    --mark: #f2c94c;
+    --mark-soft: rgba(242, 201, 76, 0.14);
+    --line: rgba(236, 231, 219, 0.14);
+    --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    --mono: "SFMono-Regular", "Menlo", "Courier New", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(242, 201, 76, 0.05), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- 首屏封面 ---------- */
+  header.cover { padding: 72px 0 40px; }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    animation: rise 0.7s ease both;
+  }
+  h1.masthead {
+    margin-top: 22px;
+    font-weight: 700;
+    font-size: clamp(40px, 13.5vw, 88px);
+    line-height: 1.12;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    animation: rise 0.7s 0.12s ease both;
+  }
+  h1.masthead .stroked {
+    position: relative;
+    white-space: nowrap;
+  }
+  h1.masthead .stroked::after {
+    content: "";
+    position: absolute;
+    left: -4%;
+    right: -6%;
+    bottom: 12%;
+    height: 0.34em;
+    background: linear-gradient(96deg, rgba(242,201,76,0.55), rgba(242,201,76,0.22));
+    transform: rotate(-1.4deg);
+    border-radius: 2px;
+    z-index: -1;
+  }
+  .cover-meta {
+    margin-top: 26px;
+    font-size: 14px;
+    color: var(--ink-dim);
+    animation: rise 0.7s 0.24s ease both;
+  }
+  .cover-meta strong { color: var(--ink); font-weight: 600; }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 34px 0 0; }
+
+  /* ---------- 章节与摘录 ---------- */
+  section.book { padding: 52px 0 8px; }
+  .book-index {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    color: var(--mark);
+  }
+  h2.book-title {
+    margin-top: 10px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .book-author { margin-top: 6px; font-size: 14px; color: var(--ink-dim); }
+  .progress-line {
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+  }
+
+  .chapter {
+    margin-top: 36px;
+    padding-top: 26px;
+    border-top: 1px dashed var(--line);
+  }
+  h3.chapter-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--mark);
+    letter-spacing: 0.06em;
+  }
+  blockquote {
+    margin: 20px 0 8px;
+    padding-left: 18px;
+    border-left: 3px solid var(--mark);
+    font-size: 17px;
+    line-height: 2.0;
+    color: var(--ink);
+  }
+  blockquote em {
+    font-style: normal;
+    background: linear-gradient(180deg, transparent 58%, var(--mark-soft) 58%);
+  }
+  .entry-tag {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.14em;
+  }
+  .excerpt + .excerpt { margin-top: 30px; }
+  .src-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .src-link:hover { color: var(--mark); }
+  .oneword-badge {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 1px 8px;
+    border: 1px solid var(--mark);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--mark);
+    vertical-align: 1px;
+  }
+
+  /* ---------- 书签说明 ---------- */
+  .bookmark-note {
+    margin-top: 48px;
+    padding: 20px 22px;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    font-size: 14.5px;
+    color: var(--ink-dim);
+  }
+  .bookmark-note strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- 目录 ---------- */
+  nav.toc {
+    margin: 30px 0 8px;
+    padding: 14px 20px;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+  }
+  nav.toc .toc-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  nav.toc ul { list-style: none; margin: 0; padding: 0; }
+  nav.toc li { margin: 0; }
+  nav.toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 6px 0;
+    font-size: 14.5px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--line);
+    min-width: 0;
+  }
+  nav.toc li:last-child a { border-bottom: none; }
+  nav.toc a:hover .toc-book { background: linear-gradient(180deg, transparent 58%, var(--mark-soft) 58%); }
+  nav.toc .toc-book { white-space: nowrap; flex-shrink: 0; }
+  nav.toc .toc-snip {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+  nav.toc .toc-count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ---------- 随手一瞥 ---------- */
+  section.glance {
+    margin: 8px 0 8px;
+    padding: 18px 20px 16px;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+  }
+  section.glance .toc-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .glance-quote {
+    margin: 0 0 12px;
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: var(--ink);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+  .glance-meta {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+  .glance-meta a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px dashed var(--line); }
+  .glance-meta a:hover { color: var(--mark); }
+  .glance-book { color: var(--ink); font-weight: 600; }
+  a.toc-back {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-decoration: none;
+    margin-left: 12px;
+    white-space: nowrap;
+  }
+  a.toc-back:hover { color: var(--mark); }
+
+
+  /* 一言池（2026-11-25 并入归档） */
+  .pool { margin-top: 48px; }
+  .pool-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .pool-group {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-dim);
+    margin: 26px 0 4px;
+  }
+  .pool .entry {
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .pool .entry:last-child { border-bottom: none; }
+  .pool .entry.today {
+    background: var(--paper-soft);
+    border: 1px solid var(--mark);
+    padding: 14px 16px;
+    margin: 0 -16px;
+  }
+  .pool .entry-text { font-size: 15.5px; line-height: 1.9; }
+  .pool .entry-text .en { display: block; }
+  .pool .entry-text .zh { display: block; color: var(--ink-dim); }
+  .pool .entry-meta {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+  .pool .entry-meta .oid { color: var(--mark); }
+  .pool .entry-meta .today-flag { color: var(--mark); }
+
+  footer.foot {
+    margin-top: 56px;
+    padding: 26px 0 64px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-faint);
+    line-height: 1.9;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .kicker, h1.masthead, .cover-meta { animation: none; }
+  }
+</style>
+</head>
+<body data-visualization-style="general-editorial">
+
+<div class="wrap">
+
+  <header class="cover">
+    <p class="kicker">微信读书 · 豆瓣阅读 · 划线与想法</p>
+    <h1 class="masthead">读书<span class="stroked">摘录</span>归档</h1>
+    <p class="cover-meta">起于 <strong>2026年11月19日</strong> · 已收录 15 条 · 最近更新 <strong>2026年11月24日</strong><br>每周五 20:35 收集新摘录并推送</p>
+    <hr class="rule">
+  </header>
+
+  <nav class="toc" id="top">
+    <span class="toc-label">目录 INDEX</span>
+    <ul>
+      <li><a href="#b1"><span class="toc-book">多谢不阅</span><span class="toc-snip">我不懂明星产品的消费者为什么都这么激进……</span><span class="toc-count">4 条</span></a></li>
+      <li><a href="#b2"><span class="toc-book">从昨日醒来：帕蒂·史密斯的影像日记</span><span class="toc-snip">想象力占了上风。它能让我们省掉怀疑，去往任何地方。</span><span class="toc-count">7 条</span></a></li>
+      <li><a href="#b3"><span class="toc-book">驾驶我的车</span><span class="toc-snip">家福一般听贝多芬的弦乐四重奏……</span><span class="toc-count">1 条</span></a></li>
+      <li><a href="#b4"><span class="toc-book">毫无意义</span><span class="toc-snip">我是最年轻的，因而最鲜嫩。</span><span class="toc-count">2 条</span></a></li>
+      <li><a href="#b5"><span class="toc-book">失踪的孩子</span><span class="toc-snip">没有任何一个城市像那不勒斯这么喧闹，这么嘈杂。</span><span class="toc-count">1 条</span></a></li>
+    </ul>
+  </nav>
+
+  <section class="glance" aria-label="今日一言">
+    <span class="toc-label">今日一言 DAILY</span>
+    <blockquote class="glance-quote">这些天来，有些计划是以乐观精神制订的，明知很有可能无法实现。然而，想象力占了上风。它能让我们省掉怀疑，去往任何地方。</blockquote>
+    <p class="glance-meta"><span class="glance-book">《从昨日醒来》</span> · E02 · 2026-11-25</p>
+  </section>
+
+  <section class="book" id="b1">
+    <p class="book-index">01 / 在读<a class="toc-back" href="#top">↑ 目录</a></p>
+    <h2 class="book-title">多谢不阅</h2>
+    <p class="book-author">[荷] 杜布拉夫卡·乌格雷西奇 著 · 何静芝 译</p>
+    <p class="progress-line">阅读进度 40% · 已收录划线 3 段 · 截图补录 1 段</p>
+
+    <div class="chapter">
+      <h3 class="chapter-title">炼金术</h3>
+
+      <div class="excerpt">
+        <blockquote>我不懂明星产品的消费者为什么都这么激进，这么不宽容。每次我一质疑拥有百万拥趸的任何东西，就会遭到疯狂攻击。究竟是什么让这么多《炼金术士》的拥护者紧紧团结在一起，又让喜欢博胡米尔·赫拉巴尔的一小撮人各持己见？是什么让数百万人在看《泰坦尼克号》时潸然泪下，却如此疯狂地去毁坏荷兰博物馆中的一幅名画？是什么促使全球数百万人一起为戴安娜王妃哭泣，却在自己的左邻右舍去世时漠不关心？我想我知道答案，但我觉得还是不说为妙，因为这个答案很恐怖，令我颤抖。</blockquote>
+        <span class="entry-tag">¶ 001 · 2026-11-19</span><span class="oneword-badge">已入一言 · E07</span>
+      </div>
+
+      <div class="excerpt">
+        <blockquote>意大利艺术家皮耶罗·曼佐尼在还当红的时候封存了九十罐自己的大便。每一罐都编了号，签了名，并以当时的金价卖了出去。我认识一个艺术品商人，他对我说，当时的价格定得实在太低了。</blockquote>
+        <span class="entry-tag">¶ 002 · 2026-11-19</span>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">柯克·道格拉斯在我生命中的角色</h3>
+
+      <div class="excerpt">
+        <blockquote>这抗议源于我的一个历史性觉悟：原来，这世上的每个人都可以写书了，文学不再是那个我多年来怀着浪漫主义理想不断登攀的高峰了，而我曾以为它只属于坚持不懈懂得献身的人，以为只有勇攀文学之峰的人才能获得写作的权利。</blockquote>
+        <span class="entry-tag">¶ 003 · 2026-11-19</span><span class="oneword-badge">已入一言 · E08</span>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">有益身心的乐观主义</h3>
+
+      <div class="excerpt">
+        <blockquote>……起"隐私之痛"或"不治之症"。这些解释虽然说得过去，但应当弄清……当天，绝望者的某个朋友是否用漠不关心的口气跟他说过话。此人罪责难逃。因为这足以把他逼上绝路：所有未了的怨恨和倦怠统统促他坠入绝境。我们要借此机会表明本散论的相对性质。自杀确实可以跟一些光彩得多的思考联系在一起。比如，在中国革命中，有过所谓表示抗议的政治性自杀。</blockquote>
+        <span class="entry-tag">¶ 004 · 2026-11-24 · 截图补录，选段起于句中</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_72ffd59457ee4955a599acc20d01aacd.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="book" id="b2">
+    <p class="book-index">02 / 在读<a class="toc-back" href="#top">↑ 目录</a></p>
+    <h2 class="book-title">从昨日醒来：帕蒂·史密斯的影像日记</h2>
+    <p class="book-author">[美] 帕蒂·史密斯 著 · 董楠 译</p>
+
+    <div class="chapter">
+      <h3 class="chapter-title">二月 FEBRUARY · 2月5日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>……的大门——垮掉派、嬉皮士，还有我们，只是孩子，如今门已关闭。<br><br>1975年9月20日，和威廉·巴勒斯在他包厘街的住处"地堡"合影，由艾伦·金斯伯格拍摄。<br><br>我怀念走在他身边的时光，我永远为此感到高兴和自豪。生日快乐，亲爱的威廉，愿你金色的风帆抵达圣徒的港口。</blockquote>
+        <span class="entry-tag">¶ 006 · 2026-11-24 · 截图补录，首行起于句中</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_c780b77ed6224441b0d30a12d4a5910e.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">四月 APRIL · 4月29日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>这些天来，有些计划是以乐观精神制订的，明知很有可能无法实现。然而，想象力占了上风。它能让我们省掉怀疑，去往任何地方。</blockquote>
+        <span class="entry-tag">¶ 005 · 2026-11-24 · 截图补录</span><span class="oneword-badge">已入一言 · E02</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_0b9652eb3bb34a05a4ab0bf1d9198c93.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">五月 MAY · 5月24日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>1971年，纽约。戴上面具，向面具的供应商表示敬意。生日快乐，鲍勃·迪伦。</blockquote>
+        <span class="entry-tag">¶ 007 · 2026-11-24 · 截图补录</span><span class="oneword-badge">已入一言 · E04</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_f4476695f7fa42109cf0ab6d97b81807.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">七月 JULY · 7月26日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>山姆在肯塔基的阿迪朗达克椅。我们会在这里喝咖啡，聊写作，或者舒服地陷入沉默，看着太阳下山。</blockquote>
+        <span class="entry-tag">¶ 008 · 2026-11-24 · 截图补录</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_4f0fa06c76924afdafc665b0dbbac5ef.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">九月 SEPTEMBER · 9月17日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>极具影响力的美国创作歌手汉克·威廉姆斯在他短暂而动荡的一生中录制了五十五首单曲。《相思病布鲁斯》(Lovesick Blues)、《你不忠的心》(Your Cheatin' Heart)、《我寂寞得想哭》(I'm So Lonesome I Could Cry)……生日快乐，汉克，谢……</blockquote>
+        <span class="entry-tag">¶ 009 · 2026-11-24 · 截图补录，末行止于句中</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_96b166cc574d488891a487829a13a107.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">九月 SEPTEMBER · 9月23日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>音乐家约翰·柯川将精神追求融入不断进化的作品之中；他的即兴创作是一种祈祷。由五首曲子组成的专辑《冥想》(Meditations)带我们走向天国的入口，赋无形之物以形式，它无拘无束却又可以感知，鼓舞人心而又庄严神圣。</blockquote>
+        <span class="entry-tag">¶ 010 · 2026-11-24 · 截图补录</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_1783340cde2d434b95f272afde415fa2.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <h3 class="chapter-title">十一月 NOVEMBER · 11月12日笔记页</h3>
+
+      <div class="excerpt">
+        <blockquote>墨西哥哲学家、作曲家、诗人和女权主义出现之前的女权主义者，胡安娜·伊内斯·德·拉·克鲁兹修女在这一天出生。她的生命如此丰富，可谓世所罕见；然而她的话语就像儿歌一样单纯："这件事对我来说很简单／对你的爱是那么强烈／我可以在灵魂里看到你／一整天都和你交谈。"</blockquote>
+        <span class="entry-tag">¶ 011 · 2026-11-24 · 截图补录</span><span class="oneword-badge">已入一言 · E03</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_50130ba71b3e48d482e1acd8a20a3299.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="bookmark-note">
+      这本书里你标记了 <strong>3 个书签</strong>（2026-11-19）。书签只记位置、暂不能导出内容；
+      之后的<strong>划线和想法</strong>会照常收录进来。
+    </div>
+  </section>
+
+  <section class="book" id="b3">
+    <p class="book-index">03 / 在读<a class="toc-back" href="#top">↑ 目录</a></p>
+    <h2 class="book-title">驾驶我的车</h2>
+    <p class="book-author">[日] 村上春树 著</p>
+
+    <div class="chapter">
+      <div class="excerpt">
+        <blockquote>为了让心情镇静下来，他还是要天天重复台词。这已成为长期以来的习惯。<br><br>回程路上，家福一般听贝多芬的弦乐四重奏。所以偏爱贝多芬的弦乐四重奏，是因为那基本上是听不够的音乐，而且适于边听边想事或什么也不想。当他更想听轻音乐的时候，就听美国的老摇滚乐："沙滩男孩"(The Beach Boys)、"流氓乐队"(The Rascals)、克里登斯清水复兴合唱团(Creedence Clearwater Revival)、"诱惑合唱团"(The Temptations)都是家福年轻时流行的音乐。渡利对家福放的音乐不发表感想。至于那些音乐听起来是让她中意还是痛苦，抑或根本没听，家福哪个都无法判断。一个感情不形于色的女孩。</blockquote>
+        <span class="entry-tag">¶ 012 · 2026-11-24 · 截图补录</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_9f6c571e29264ee1b12e01efc95f1696.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="book" id="b4">
+    <p class="book-index">04 / 在读<a class="toc-back" href="#top">↑ 目录</a></p>
+    <h2 class="book-title">毫无意义</h2>
+    <p class="book-author">[美] 伍迪·艾伦 著 · 豆瓣阅读</p>
+
+    <div class="chapter">
+      <div class="excerpt">
+        <blockquote>……候，派拉蒙开门了，我就会去看电影和舞台剧，我总是喜欢喜剧。我记得去罗克西夜总会的时候，就见过艾灵顿公爵乐队，而当时电影一结束，正是这支乐队从乐队席升起，演奏《搭乘A列车》("Take the 'A' Train")，我的头顶炸开了。从那时起，任何一部以纽约为背景的电影我都看。有多少次我心醉神迷地坐在那儿，看着某个长腿小妞离开曼哈顿的夜店回家，肩上披着一条贵得离谱的皮草，走进第五大道的门厅，按下电梯按钮，上到她的公寓，直到黎明在《突如其来》("Out of Nowhere")＊的舒缓旋律中到来才转身进家门。<br><br>每次我回到布鲁克林，我都想住在河对岸的城市。我渴望有一天可以走进一家曼哈顿酒吧，说："老规矩。"多年后，莫特·萨尔有了个好主意，他想对电……</blockquote>
+        <span class="entry-tag">¶ 013 · 2026-11-24 · 截图补录，首末行均止于句中</span><span class="oneword-badge">已入一言 · E05</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_60dd7780a6564aa4ba43c55a4148341e.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="excerpt">
+        <blockquote>我开始感到有点恐慌，当我在机场看到其他作家在自动售货机上购买飞行险时（你投币，然后出来一份保单，这样如果你的飞机坠毁，指定受益人就可以收款），我的脸色变得苍白。我担心的不是死于坠机，而是坠落在某个荒山野岭中，失联数周，没有食物，而其他作家会投票吃掉我，我是最年轻的，因而最鲜嫩。<br><br>幸运的是，我们没有坠机，我成功……新鲜雾霾＊之后，我上了一辆等候着的豪华轿车，很快就住进了好莱坞大道的一家酒店。比空难更可怕的消息是，我将与一个名叫米尔特·罗森的人同住一间房间，他是一位更年长的、发福的喜剧作家，将在那儿与另半打作家老炮一起为拯救《高露洁喜剧时间》而奋斗。我不……<br><br>（页面脚注：20世纪40至50年代，洛杉矶雾霾严重，一些好莱坞明星想出了"雾霾罐头"的点子，以唤起人们的环保意识。）</blockquote>
+        <span class="entry-tag">¶ 014 · 2026-11-24 · 截图补录，注释气泡遮住部分文字，末行止于句中</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_144ba38ecd3943299f6b3ac48fc97ae4.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="book" id="b5">
+    <p class="book-index">05 / 在读<a class="toc-back" href="#top">↑ 目录</a></p>
+    <h2 class="book-title">失踪的孩子</h2>
+    <p class="book-author">[意] 埃莱娜·费兰特 著 · 那不勒斯四部曲之四</p>
+
+    <div class="chapter">
+      <div class="excerpt">
+        <blockquote>对某件事情产生兴趣，之后这种兴趣会变弱，会消失。就我所知，现在她一会儿研究王宫旁边的陶瓷厂，一会儿收集关于马热拉的圣彼得罗的信息，一会儿又在搜集外国游客在那不勒斯居留的痕迹。她觉得那就像追踪一些迷人又让人讨厌的事儿。<br><br>她说，一个世纪又一个世纪，所有人都赞美海港、大海、船只、城堡、高大的维苏威火山和它愤怒的火焰，还有这座城市的大剧院、花园、菜园和大楼，但一个世纪又一个世纪，人们都在抱怨这里的低效、腐败、物质和精神的贫困。在那些宏伟的建筑后面，在浮华的名号还有众多享有厚禄的高官后面，但没有任何一个机构能有效运作起来，没有井然的秩序，只有纷乱的人群，还有在拥挤的街上各种卖东西的人。人们说话声音都极大，满街小混混还有叫花子。啊！没有任何一个城市像那不勒斯这么喧闹，这么嘈杂。</blockquote>
+        <span class="entry-tag">¶ 015 · 2026-11-24 · 截图补录</span><span class="oneword-badge">已入一言 · E06</span>
+        <a class="src-link" href="https://mdn.alipayobjects.com/asap_serivce/uri/file/as/upload_image_8cf83ba00c6d4be29d970392adc24304.jpg" target="_blank" rel="noopener">查看原文截图</a>
+      </div>
+    </div>
+  </section>
+
+<div class="pool">
+    <span class="pool-label">池子 POOL · 只装升格的句子</span>
+
+    <p class="pool-group">本人（8）</p>
+    <div class="entry">
+      <p class="entry-text">最低限度的拥有，可以使你将注意力放在更加重要的事情上，而不必被不必要的物品分散注意力。</p>
+      <p class="entry-meta"><span class="oid">A01</span> · 《物品极简》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">不要为了给别人留下好印象而买，要清楚买来的东西是你用来生活的。</p>
+      <p class="entry-meta"><span class="oid">A02</span> · 《狄德罗效应》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">把 should 换成 must。</p>
+      <p class="entry-meta"><span class="oid">A03</span> · 《极简主义》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">语言在我来看只是一个工具。</p>
+      <p class="entry-meta"><span class="oid">A04</span> · 《自律、极简背后的无聊》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">极简生活的理论只有那些，到底是实践大于理论的东西。</p>
+      <p class="entry-meta"><span class="oid">A05</span> · 《零杂物》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">图像与影视通常是剥离语境的。</p>
+      <p class="entry-meta"><span class="oid">A06</span> · 《娱乐至死》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">自律和极简是相辅相成的。</p>
+      <p class="entry-meta"><span class="oid">A07</span> · 《自律、极简背后的无聊》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">毛姆的作品虽然结尾震撼，但直到最后都略显平淡，有些吃力。</p>
+      <p class="entry-meta"><span class="oid">A10</span> · 《2016 总结》</p>
+    </div>
+
+    <p class="pool-group">别人（14）</p>
+    <div class="entry">
+      <p class="entry-text">風味來自雜質。<br>技藝就是受控的失控。</p>
+      <p class="entry-meta"><span class="oid">E01</span> · 《一天世界》Jedi</p>
+    </div>
+    <div class="entry today">
+      <p class="entry-text">这些天来，有些计划是以乐观精神制订的，明知很有可能无法实现。然而，想象力占了上风。它能让我们省掉怀疑，去往任何地方。</p>
+      <p class="entry-meta"><span class="oid">E02</span> · 《从昨日醒来》 · <span class="today-flag">今天这句</span></p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">这件事对我来说很简单／对你的爱是那么强烈／我可以在灵魂里看到你／一整天都和你交谈。</p>
+      <p class="entry-meta"><span class="oid">E03</span> · 胡安娜修女，转引自《从昨日醒来》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">1971年，纽约。戴上面具，向面具的供应商表示敬意。生日快乐，鲍勃·迪伦。</p>
+      <p class="entry-meta"><span class="oid">E04</span> · 《从昨日醒来》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">有多少次我心醉神迷地坐在那儿，看着某个长腿小妞离开曼哈顿的夜店回家，肩上披着一条贵得离谱的皮草，走进第五大道的门厅，按下电梯按钮，上到她的公寓，直到黎明在《突如其来》("Out of Nowhere")＊的舒缓旋律中到来才转身进家门。</p>
+      <p class="entry-meta"><span class="oid">E05</span> · 《毫无意义》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">在那些宏伟的建筑后面，在浮华的名号还有众多享有厚禄的高官后面，但没有任何一个机构能有效运作起来，没有井然的秩序，只有纷乱的人群，还有在拥挤的街上各种卖东西的人。</p>
+      <p class="entry-meta"><span class="oid">E06</span> · 《失踪的孩子》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">是什么让数百万人在看《泰坦尼克号》时潸然泪下，却如此疯狂地去毁坏荷兰博物馆中的一幅名画？是什么促使全球数百万人一起为戴安娜王妃哭泣，却在自己的左邻右舍去世时漠不关心？我想我知道答案，但我觉得还是不说为妙，因为这个答案很恐怖，令我颤抖。</p>
+      <p class="entry-meta"><span class="oid">E07</span> · 《多谢不阅》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text">这抗议源于我的一个历史性觉悟：原来，这世上的每个人都可以写书了，文学不再是那个我多年来怀着浪漫主义理想不断登攀的高峰了，而我曾以为它只属于坚持不懈懂得献身的人，以为只有勇攀文学之峰的人才能获得写作的权利。</p>
+      <p class="entry-meta"><span class="oid">E08</span> · 《多谢不阅》</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Establish boundaries around your time-consuming habits.<br>Limit your screen time and social media usage to specific times of the day or set a timer for your TV watching.</span><span class="zh">给那些耗你时间的习惯设定界限。<br>把屏幕时间和社交媒体限制在一天里的特定时段，或者给看电视设个计时器。</span></p>
+      <p class="entry-meta"><span class="oid">D01</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Instead of scrolling through social media, spend that time reading a book, exercising, or pursuing a hobby.<br>Swap binge-watching for quality time with loved ones or learning something new.</span><span class="zh">与其刷社交媒体，不如把这段时间用来读书、运动，或做点爱好。<br>把追剧换成和亲近的人相处，或者学点新东西。</span></p>
+      <p class="entry-meta"><span class="oid">D03</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Notice when you're reaching for your phone out of habit rather than necessity.</span><span class="zh">留意自己拿手机是因为习惯，还是真的需要。</span></p>
+      <p class="entry-meta"><span class="oid">D06</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Pay attention to your body's hunger signals and choose nutritious snacks that fuel you rather than drain your energy.</span><span class="zh">注意身体的饥饿信号，选那些给你能量、而不是消耗你的零食。</span></p>
+      <p class="entry-meta"><span class="oid">D07</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Awareness is the first step in making changes to your habits.<br>You can't quit a bad habit until you notice and admit that you have it.</span><span class="zh">觉察是改变习惯的第一步。<br>除非你注意到并承认自己有个坏习惯，否则你戒不掉它。</span></p>
+      <p class="entry-meta"><span class="oid">D08</span> · The Simplicity Habit</p>
+    </div>
+    <div class="entry">
+      <p class="entry-text"><span class="en">Waiting at least a day before purchasing can also help you more clearly see if the item would benefit or burden your life.</span><span class="zh">买之前至少等一天，这样能更清楚看出这东西是帮你的生活，还是压你的生活。</span></p>
+      <p class="entry-meta"><span class="oid">D09</span> · The Simplicity Habit</p>
+    </div>
+  </div>
+
+  <footer class="foot">
+    本页是「读书摘录归档」的当前快照，每周五收集新摘录后更新一版；
+    平时画了新标注想马上记，说一声即可补录。
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  function clean(t) { return t.replace(/\s+/g, ' ').trim(); }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section.book'));
+  var snips = document.querySelectorAll('nav.toc .toc-snip');
+
+  sections.forEach(function (sec, i) {
+    var title = sec.querySelector('.book-title').textContent.trim();
+    var quotes = Array.prototype.map.call(sec.querySelectorAll('.excerpt'), function (ex) {
+      var bq = ex.querySelector('blockquote');
+      return bq ? clean(bq.textContent) : '';
+    }).filter(function (t) { return t; });
+
+    if (snips[i] && quotes.length) {
+      snips[i].textContent = pick(quotes);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

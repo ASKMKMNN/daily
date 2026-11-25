@@ -143,6 +143,43 @@
     text-align: center;
     -webkit-tap-highlight-color: transparent;
   }
+  /* 今日一言（2026-11-25）：标题下、栏目前，每天 06:35 换一句 */
+  .oneword {
+    max-width: 1080px;
+    margin: 22px auto 0;
+    display: block;
+    background: #1f1e1c;
+    border: 1px solid #33322e;
+    border-radius: 14px;
+    padding: 22px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease;
+  }
+  .oneword:hover { border-color: #55534a; }
+  .oneword .ow-label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: .2em;
+    color: #8a877f;
+    margin-bottom: 10px;
+  }
+  .oneword .ow-label b { color: #f2c94c; font-weight: 400; }
+  .oneword blockquote {
+    font-family: "Songti SC", "Noto Serif CJK SC", "SimSun", serif;
+    font-size: 17.5px;
+    line-height: 1.85;
+    color: #ece7db;
+    margin: 0;
+  }
+  .oneword .ow-meta {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #8a877f;
+  }
+  .oneword .ow-meta .src { color: #f2c94c; }
+  .oneword .ow-go { color: #c8c5bc; }
+
   /* 分享模式（2026-11-25）：默认藏加密两栏，只有 data-mode="full" 才放开。
      写在这一侧而不是靠脚本，脚本挂了也是藏着的。 */
   html:not([data-mode="full"]) [data-private] { display: none !important; }
@@ -159,9 +196,17 @@
     <img src="assets/hero.jpg" alt="英伟达 Rubin GPU 渲染图">
     <div class="hero-text">
       <h1>每日情报</h1>
-      <p>午报 · 晚报 · <span data-private>图鉴 · </span>博客<span data-private> · 周末推荐</span></p>
+      <p>午报 · 晚报 · <span data-private>图鉴 · </span>博客<span data-private> · 周末推荐</span> · 读书归档</p>
     </div>
   </div>
+
+  <!-- oneword:start（每天 06:35 由灵光换句，只改这一块） -->
+  <a class="oneword" href="reading/">
+    <span class="ow-label">今日一言 · <b>每天 06:35 换一句</b></span>
+    <blockquote>这些天来，有些计划是以乐观精神制订的，明知很有可能无法实现。然而，想象力占了上风。它能让我们省掉怀疑，去往任何地方。</blockquote>
+    <p class="ow-meta">《从昨日醒来》 · <span class="src">E02</span> · 2026-11-25 &nbsp; <span class="ow-go">读书摘录归档 →</span></p>
+  </a>
+  <!-- oneword:end -->
 
   <main class="grid">
     <a class="card" href="wubao/">
@@ -201,6 +246,14 @@
       <div class="body">
         <h2>周末推荐</h2>
         <p>每周五出刊，管住七天看什么玩什么。</p>
+        <span class="tag"></span>
+      </div>
+    </a>
+    <a class="card" href="reading/">
+      <img src="assets/card-reading.jpg" alt="深色书摘卡片">
+      <div class="body">
+        <h2>读书摘录归档</h2>
+        <p>读过的句子，都收在这里。</p>
         <span class="tag"></span>
       </div>
     </a>
