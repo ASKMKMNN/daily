@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兴趣午报 · 2026.11.26</title>
+<style>
+:root{--bg:#f7f5f0;--paper:#fdfcf7;--tx:#191817;--dim:#6f6a62;--line:#e6e1d6;
+--hot:#b4510c;--cmt:#f7f3e8;--cmtline:#e2d8c0;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f10;--paper:#171718;--tx:#eceae6;
+--dim:#9c968c;--line:#2a2a2b;--hot:#ef9205;--cmt:#1d1c1a;--cmtline:#33302a;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+/* A7 横向溢出 */
+html,body{overflow-x:clip}
+/* A2 焦点态：键盘用户必须看得见光标在哪 */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--hot);outline-offset:3px;border-radius:4px}
+/* C1 竖排数字对齐 */
+.score,.row .sc,footer{font-variant-numeric:tabular-nums}
+/* selfcheck:waive B2 · 报头 6px 字距与「主题 · N」的 1.2px 是用户指定的日报编号/报头格式，不是 tracked-caps 小标签 */
+/* selfcheck:waive B3 · 页脚署名与「主题 · N」里的中点是用户指定的格式（B3 管的是拿中点当万能分隔符） */
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+/* 报头 */
+.mast{border-bottom:2px solid var(--tx);padding-bottom:14px;margin-bottom:26px;
+display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:44px;line-height:1;
+letter-spacing:6px;font-weight:700}
+.mast .meta{color:var(--dim);font-size:13px;text-align:right;line-height:1.9}
+.mast .meta b{color:var(--tx);font-weight:600}
+/* 编者按 */
+.note{border-left:3px solid var(--hot);padding:6px 0 6px 16px;color:var(--dim);
+font-size:14.5px;margin:0 0 26px}
+/* 主题导览 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.nav a{font-size:13px;color:var(--dim);text-decoration:none;border:1px solid var(--line);
+border-radius:999px;padding:4px 12px;background:var(--paper)}
+.nav a b{color:var(--tx);margin-left:4px;font-weight:600}
+/* 区块标题 */
+.sec{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:24px;letter-spacing:2px;
+margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:10px}
+.sec span{font-size:13px;color:var(--dim);letter-spacing:0;font-family:inherit}
+/* 卡片 */
+.lead{grid-column:1/-1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;display:flex;flex-direction:column;break-inside:avoid}
+.thumb{position:relative;display:block;background:#ddd}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.score{position:absolute;left:14px;top:14px;min-width:46px;text-align:center;
+font-weight:700;font-size:17px;color:#fdfaf3;padding:3px 10px;border-radius:999px;
+background:#b4510c;box-shadow:0 2px 10px rgba(24,22,18,.25)}
+/* 无横版题图的卡片：不出图版，分数挪进 kicker 行做行内徽章 */
+.sc-inl{display:inline-block;font-weight:700;font-size:13px;letter-spacing:0;
+color:#fdfaf3;background:#b4510c;border-radius:999px;padding:1px 9px;
+margin-right:8px;vertical-align:1px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.kick{font-size:12px;letter-spacing:1.2px;font-weight:600;margin-bottom:6px}
+.card h3{margin:0 0 8px;font-size:19px;line-height:1.5;font-family:"Songti SC",Georgia,"Noto Serif SC",serif}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--hot)}
+/* 数据条：创建天数 / 今日星增（元信息从标题拆出，2026-10-29） */
+.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;margin:-2px 0 11px}
+.rmeta span{display:flex;align-items:baseline;gap:4px;font-size:12.5px;color:var(--dim)}
+.rmeta span+span{border-left:1px solid var(--cmtline);margin-left:13px;padding-left:13px}
+.rmeta i{font-style:normal;font-size:12px;letter-spacing:.4px}
+.rmeta b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font-size:16.5px;font-weight:700;color:var(--tx);letter-spacing:-.2px;line-height:1.2}
+.rmeta .gain b{color:var(--hot)}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px;margin-left:2px;opacity:.9}
+.lead .rmeta b{font-size:19px}
+/* 评分构成：四维 N ＋3 建筑与设计 = 总分（2026-11-03 用户定：加分必须可见，便于核对遗漏） */
+.bline{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:-3px 0 12px;
+font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bhead{font-size:12px;color:var(--dim);letter-spacing:.3px}
+.bline .bp{margin:0}
+.beq{margin-left:1px;color:var(--tx);font-weight:600}
+.bp{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--cmtline);
+border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.65;white-space:nowrap}
+.bp i{font-style:normal;letter-spacing:.2px}
+.bp b{font-weight:700;font-size:12px}
+.bp.up,.bp.mul{border-color:#e0c6a4;color:var(--hot)}
+.bp.up b,.bp.mul b{color:var(--hot)}
+.bp.adj{color:var(--dim)}
+.bp.waive{color:var(--dim);border-style:dashed}
+.bp.sm{padding:1px 7px;font-size:12px;margin-left:2px}
+.row .bp.sm{flex:none}
+@media (prefers-color-scheme:dark){.bp.up,.bp.mul{border-color:#4a3a24}}
+.card p{margin:0 0 12px;color:var(--dim);font-size:14.5px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;
+padding:10px 12px;font-size:13.5px;color:var(--dim);margin-top:auto}
+.cmt b{color:var(--hot);font-weight:600;margin-right:6px}
+.src{margin-top:10px;font-size:12px;color:var(--dim);letter-spacing:.5px}
+.lead img{aspect-ratio:21/9}
+.lead h3{font-size:30px;line-height:1.35}
+.lead p{font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+/* 完整清单 */
+.theme{font-size:16px;margin:30px 0 10px;letter-spacing:1px;display:flex;
+align-items:center;gap:8px}
+.theme:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--hot)}
+.theme span{color:var(--dim);font-size:12px;font-weight:400}
+.tnote{margin:-2px 0 12px;font-size:12.5px;color:var(--dim)}
+ul.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dotted var(--line);
+font-size:14.5px;color:var(--dim)}
+.row a{color:inherit;text-decoration:none;flex:1}
+.row a:hover{color:var(--hot)}
+.row.hot{color:var(--tx)}
+.row.hot a{font-weight:500}
+.row .no{width:18px;flex:none;color:var(--dim);font-size:12px;text-align:right}
+.row .sc{flex:none;font-size:12px;padding:1px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim)}
+.row.hot .sc{color:#fdfaf3;border:0;background:#b4510c}
+/* Tier 0 固定节目：无更新状态条 */
+.t0none{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.t0none span{font-size:13px;color:var(--dim);border:1px dashed var(--line);
+border-radius:999px;padding:6px 14px;line-height:1.4}
+.t0none span b{color:var(--tx);font-weight:700}
+/* 页脚 */
+footer{margin-top:52px;border-top:2px solid var(--tx);padding-top:20px;color:var(--dim);font-size:13px}
+footer details{margin-bottom:14px}
+footer summary{cursor:pointer;color:var(--dim)}
+footer .kbd{background:var(--cmt);border:1px solid var(--cmtline);border-radius:6px;
+padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+@media print{body{background:#fdfcf7}.nav,footer details{display:none}}
+@media (max-width:520px){
+  .wrap{padding:22px 16px 56px}
+  .brand{font-size:32px;letter-spacing:4px}
+  .mast .meta{text-align:left}
+  .lead h3{font-size:22px}
+  .lead img{aspect-ratio:2/1}
+  .card h3{font-size:17px}
+  .sec{font-size:20px}
+}
+.card h3,.row a,footer p{overflow-wrap:break-word}
+</style></head>
+<body><div class="wrap">
+
+<div class="mast">
+  <div class="brand">兴趣午报</div>
+  <div class="meta"><b>入选 40 / 0</b><br>
+   <b>2026.11.26　周四</b><br>
+   午报 · 卡片 23 张 · 9 个主题 · 特别关注 无更新</div>
+</div>
+
+<p class="note">Anthropic 把 1740 万行黎曼猜想证明压到 7.6 万行，以跨源 86 分领衔上午场；1Password 后端泄露、OpenAI 再证伪 Hirsch 猜想跟上。Miley Cyrus 大婚、Azzedine Alaïa 回顾展撑起时尚与文化；Tier 0 四家本场无新的重大进展。本场够 84 分的只有 2 条。</p>
+
+<nav class="nav"><a href="#t-科技/AI">科技/AI<b>9</b></a><a href="#t-数码消费">数码消费<b>7</b></a><a href="#t-国际时尚">国际时尚<b>6</b></a><a href="#t-建筑与设计">建筑与设计<b>3</b></a><a href="#t-艺术与绘画">艺术与绘画<b>0</b></a><a href="#t-游戏">游戏<b>2</b></a><a href="#t-旅行">旅行<b>3</b></a><a href="#t-杂志">杂志<b>6</b></a><a href="#t-开源热议">开源热议<b>4</b></a><a href="#t-特别关注">特别关注</a></nav>
+
+<h2 class="sec" style="margin-top:48px" id="t-特别关注">特别关注<span>Tier 0 · 四家固定跟踪 · 命中 ×1.15</span></h2><p style="margin:16px 0 0;padding-top:11px;border-top:1px dotted var(--line);font-size:13px;color:var(--dim)">本期无更新：Apple、Sony、DSH（DeepSeek Harness）、国内个人助手</p>
+
+<h2 class="sec" style="margin-top:48px">今日精选<span>本场最高分 · 点标题看原文</span></h2>
+<article class="card lead" id="c-科技/AI-1">
+  <a class="thumb" href="https://www.ithome.com/1/032/611.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-01.jpg" alt=""><span class="score">86</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 1</div>
+    <h3><a href="https://www.ithome.com/1/032/611.htm" target="_blank" rel="noopener">黎曼猜想 Lean 证明代码暴砍 99.5%：1740 万行压到 7.6 万行，Anthropic 团队动手（HN 306 分）</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp mul"><i>跨源 ×1.05（IT之家 + Hacker News 原仓库各自一手）</i><b>×1.05</b></span><span class="beq">≈ 86</span></div>
+    <p>轰动全网的 1740 万行黎曼猜想机器证明迎来史诗级瘦身：原版 175,188 个文件在 AWS 高配机上要编译 21 小时，新版只剩约 7.6 万行，一台 12 核、24GB 内存的普通机器在已有 Mathlib 缓存下 1—2 小时即可从头构建。仓库 grh-lean 由研究者 Lennart Sernau与 Anthropic 同事及 Claude 协作完成，同时给出可读版（约 30 万行）与紧凑版（约 7.6 万行），只依赖 propext、Classical.choice、Quot.sound 三条公理，证的是黎曼猜想与 Dirichlet L 函数的广义黎曼猜想。README 明确标注是「研究产物、不维护、不收贡献」，且只过了机器检查、没有数学家通读、也没有配套论文。当日 Hacker News 306 分、138 条评论。</p>
+    <div class="cmt"><b>💡 点评</b>99.5% 的压缩比确实漂亮，但作者自己把「未经数学家审阅」写进首页，比任何宣传语都更能说明这份证明目前的地位——它是可编译的形式化产物，还不是被学界接受的定理。IT之家报道与 Hacker News 原始仓库是两条独立一手材料，按跨源 ×1.05 计。</div>
+    <div class="src">IT之家 / Hacker News · 原文 →</div>
+  </div>
+</article>
+
+<h2 class="sec" style="margin-top:48px">完整清单<span>每主题前三已做成卡片 · 其余一行式</span></h2>
+<h3 class="theme" id="t-科技/AI">科技/AI<span>9 条</span></h3><div class="grid tgrid"><article class="card" id="c-科技/AI-2">
+  <a class="thumb" href="https://1password.com/blog/update-on-nov-2026-security-incident" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-02.jpg" alt="" loading="lazy" decoding="async"><span class="score">80</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 2</div>
+    <h3><a href="https://1password.com/blog/update-on-nov-2026-security-incident" target="_blank" rel="noopener">1Password 确认后端安全事件：攻击者窃走部分客户姓名与邮箱，密码库未受影响（HN 1203 分）</a></h3>
+    
+    
+    <p>1Password 11 月 25 日披露安全事件：11 月 19 日起，攻击者先拿到一名员工的公司 GitHub 账号，借此访问源码并向后端服务推送恶意代码，下载了部分客户的账户记录，包括登录姓名、邮箱、账户标识、公钥、SRP 参数以及邀请与账号恢复邮件里的令牌。官方强调密码库内容、保护密钥、恢复密钥均未触及，因为 1Password 本身不持有用户主密码与密钥；已停用涉事账号、轮换所有可能暴露的内部凭据，并把邀请/恢复验证码从 6 位数字扩到 10 位字母数字。建议用户警惕以 1Password 为名的钓鱼邮件，无需更改账户。当日 Hacker News 1203 分、514 条评论。</p>
+    
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-3">
+  <a class="thumb" href="https://github.com/openai/math/blob/main/preprints/Superpolynomial-graph-diameter-of-simple-polytopes-November-24-2026/paper.pdf" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-03.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 3</div>
+    <h3><a href="https://github.com/openai/math/blob/main/preprints/Superpolynomial-graph-diameter-of-simple-polytopes-November-24-2026/paper.pdf" target="_blank" rel="noopener">OpenAI 数学团队再下一城：多项式 Hirsch 猜想被证伪，简单多面体图直径超多项式（HN 130 分）</a></h3>
+    
+    
+    <p>OpenAI 数学团队 11 月 24 日挂出新预印本《Superpolynomial graph diameter of simple polytopes》，主张多项式 Hirsch 猜想不成立——简单多面体的图直径可以超过多项式量级。这是该团队继把矩阵乘法指数推进到 9/4 之后，同一天放出的第二篇硬核数学预印本。当日 Hacker News 130 分、36 条评论，讨论集中在结论与证明细节尚未经同行验证。</p>
+    
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row hot"><span class="no">1</span><a href="#c-科技/AI-1">黎曼猜想 Lean 证明代码暴砍 99.5%：1740 万行压到 7.6 万行，Anthropic 团队动手（HN 306 分）</a><span class="bp sm mul" title="跨源 ×1.05（IT之家 + Hacker News 原仓库各自一手） ×1.05">×1.05</span><span class="sc">86</span></li><li class="row"><span class="no">4</span><a href="https://archive.ph/pcUgy" target="_blank" rel="noopener">纽约时报警告摄影师别急着更新 Photoshop：新版 AI 功能改动图像条款（HN 228 分）</a><span class="sc">74</span></li><li class="row"><span class="no">5</span><a href="https://modaic.dev/blog/latency-doesnt-lie" target="_blank" rel="noopener">Jev 被指就是 Qwen3.5-35B-A3B：延迟数据「不说谎」（HN 237 分）</a><span class="sc">74</span></li><li class="row"><span class="no">6</span><a href="https://www.ithome.com/1/032/599.htm" target="_blank" rel="noopener">OpenAI 开始合并 ChatGPT 聊天 / 工作模式：共享额度，重度用户可能更早触及上限</a><span class="sc">74</span></li><li class="row"><span class="no">7</span><a href="https://opensec.in/blog/nfs2root-cve-2026-99362" target="_blank" rel="noopener">Nfs2root：Linux 内核 NFS 服务端潜伏 12 年的预认证远程 root 漏洞（HN 94 分）</a><span class="sc">72</span></li><li class="row"><span class="no">8</span><a href="https://www.ithome.com/1/032/607.htm" target="_blank" rel="noopener">挑战杜比全景声：AOMedia 发布免版税沉浸式音频标准 IAMF 2.0</a><span class="sc">72</span></li><li class="row"><span class="no">9</span><a href="https://github.com/alesha-pro/llm.asm/tree/main/02-baremetal-os" target="_blank" rel="noopener">Bare Metal Qwen：把大模型跑到裸机上（HN 70 分）</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-数码消费">数码消费<span>7 条</span></h3><div class="grid tgrid"><article class="card" id="c-数码消费-1">
+  <a class="thumb" href="https://9to5google.com/2026/11/25/nearly-every-major-smartphone-brand-is-slashing-targets-for-2027/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-04.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 10</div>
+    <h3><a href="https://9to5google.com/2026/11/25/nearly-every-major-smartphone-brand-is-slashing-targets-for-2027/" target="_blank" rel="noopener">几乎所有主流手机品牌都在下调 2027 年出货目标，部分砍幅近 30%</a></h3>
+    
+    
+    <p>据一份来自中国的最新报告，几乎所有主流智能手机品牌都在重新考虑 2027 年的出货目标并下调数字，部分品牌的砍幅接近 30%。这一信号指向终端厂商对明年需求与成本（尤其内存涨价）的谨慎预期。</p>
+    
+    <div class="src">9to5Google · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-2">
+  <a class="thumb" href="https://www.ithome.com/1/032/609.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-05.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 11</div>
+    <h3><a href="https://www.ithome.com/1/032/609.htm" target="_blank" rel="noopener">小米服务承诺：即日起米家空调安装多收费，双倍赔</a></h3>
+    
+    
+    <p>小米服务 11 月 26 日发文承诺，即日起米家空调安装多收费双倍赔。用户可提前在「小米服务」小程序查安装价格，安装完成后 7 个自然日内发现多收费可申诉，官方 7 个工作日内完成审核，核实违规后按规则双倍赔付。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-3">
+  <a class="thumb" href="https://9to5google.com/2026/11/25/google-home-update-nest-cam-thermostat-gemini-features/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-06.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 12</div>
+    <h3><a href="https://9to5google.com/2026/11/25/google-home-update-nest-cam-thermostat-gemini-features/" target="_blank" rel="noopener">Google Home 大更新：Nest Cam、温控与 Gemini 全面加料</a></h3>
+    
+    
+    <p>Google Home 再次推送大版本更新，覆盖 Nest Cam、Nest 温控、Gemini 等多个模块，带来新功能与体验改进。谷歌正把 Gemini 更深地嵌进家庭中枢与安防设备。</p>
+    
+    <div class="src">9to5Google · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">13</span><a href="https://9to5google.com/2026/11/25/whatsapp-officially-adds-scheduled-messages-and-the-rollout-is-scheduled-too/" target="_blank" rel="noopener">WhatsApp 正式上线定时发送消息</a><span class="sc">72</span></li><li class="row"><span class="no">14</span><a href="https://9to5google.com/2026/11/25/samsung-galaxy-z-trifold-2-fold-9-leak/" target="_blank" rel="noopener">三星 Galaxy Z Fold 9 系列或新增一款 TriFold 折叠机</a><span class="sc">72</span></li><li class="row"><span class="no">15</span><a href="https://www.ithome.com/1/032/597.htm" target="_blank" rel="noopener">realme 真我 17 Pro 曝光：10000mAh 电池、65W 充电、天玑 7300</a><span class="sc">72</span></li><li class="row"><span class="no">16</span><a href="https://9to5google.com/2026/11/25/motorola-signature-27-hands-on/" target="_blank" rel="noopener">Motorola Signature 27 上手：久违的旗舰质感，像 Moto X 回归</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-国际时尚">国际时尚<span>6 条</span></h3><div class="grid tgrid"><article class="card" id="c-国际时尚-1">
+  <div class="body">
+    <div class="kick" style="color:#b1456b"><span class="sc-inl">76</span>国际时尚 · 17</div>
+    <h3><a href="https://www.vogue.com.tw/article/miley-cyrus棕櫚泉大婚極簡婚紗搭逾10克拉chopard蕭邦鑽石演繹不費力的搖滾浪漫" target="_blank" rel="noopener">Miley Cyrus 棕榈泉大婚：极简婚纱配逾 10 克拉萧邦钻石，摇滚浪漫做减法</a></h3>
+    
+    
+    <p>Miley Cyrus 11 月 21 日与相恋约五年的 Liily 乐队鼓手 Maxx Morando 在加州棕榈泉 Frank Sinatra 昔日庄园举行仅邀亲友的私密婚礼。Vogue Taiwan 报道她以极简婚纱搭配超过 10 克拉的 Chopard 萧邦钻石，用克制减法演绎摇滚浪漫。</p>
+    
+    <div class="src">Vogue Taiwan · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-2">
+  <a class="thumb" href="https://www.harpersbazaar.com/fashion/a74510973/azzedine-alaia-retrospective-san-francisco-fine-arts-museum-sculpting-fashion-curator-interview/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-07.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 18</div>
+    <h3><a href="https://www.harpersbazaar.com/fashion/a74510973/azzedine-alaia-retrospective-san-francisco-fine-arts-museum-sculpting-fashion-curator-interview/" target="_blank" rel="noopener">Azzedine Alaïa 回顾展超越「绷带裙」：旧金山美术馆重新检视高定大师遗产</a></h3>
+    
+    
+    <p>旧金山美术博物馆推出 Azzedine Alaïa 回顾展，试图把这位传奇高定设计师的遗产从标志性的绷带裙里拿出来重新审视。BAZAAR 专访策展人，梳理他超越单一标签的创作脉络。</p>
+    
+    <div class="src">Harper's BAZAAR · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-3">
+  <a class="thumb" href="https://www.harpersbazaar.com/celebrity/latest/a74532058/hailey-bieber-kylie-kendall-jenner-island-vacation-style-photos/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-08.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 19</div>
+    <h3><a href="https://www.harpersbazaar.com/celebrity/latest/a74532058/hailey-bieber-kylie-kendall-jenner-island-vacation-style-photos/" target="_blank" rel="noopener">Hailey Bieber 用 Chanel 演绎海岛风：与 Jenner 姐妹把巴哈马穿成 It Girl 范本</a></h3>
+    
+    
+    <p>BAZAAR 报道 Hailey Bieber 与 Kylie、Kendall Jenner 等人在巴哈马度假的造型，Hailey 用 Chanel 把海岛风做出 It Girl 式的更新。属名人度假街拍稿。</p>
+    
+    <div class="src">Harper's BAZAAR · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">20</span><a href="https://www.vogue.com/article/the-most-beautitul-woman-in-the-world-richard-avedons-ode-to-veruschka-in-1972" target="_blank" rel="noopener">Avedon 1972 年写给 Veruschka 的颂词：传奇超模的影像重刊</a><span class="sc">74</span></li><li class="row"><span class="no">21</span><a href="https://www.harpersbazaar.com/celebrity/latest/a74531229/katy-perry-justin-trudeau-couple-style-venice-airport-photos/" target="_blank" rel="noopener">Katy Perry 与 Justin Trudeau 把机场当T台： cozy 情侣造型</a><span class="sc">72</span></li><li class="row"><span class="no">22</span><a href="https://www.vogue.com/article/emma-corrin-suiting-style-pride-and-prejudice-2026-11-25" target="_blank" rel="noopener">Emma Corrin 的颠覆性西装：90 年代剪裁做出新鲜感</a><span class="sc">72</span></li></ul><h3 class="theme" id="t-建筑与设计">建筑与设计<span>3 条</span></h3><p class="tnote">建筑与设计主题 ×1.1 系数已在该主题条目上标注。</p><div class="grid tgrid"><article class="card" id="c-建筑与设计-1">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189259/sotarra-zhu-zhai-forarquitectura" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-09.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 23</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189259/sotarra-zhu-zhai-forarquitectura" target="_blank" rel="noopener">Sotarrá 住宅 / FORarquitectura：在违建与旅游开发夹缝中守住一栋住宅</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>Sotarrá 住宅位于马拉加东区 Las Playas de El Palo 社区一片沿海狭长地带，由 500 多栋建筑组成，长期承受城市扩张与旅游开发压力。项目从 2021 年起经历漫长复杂的行政审批，在与多个行政部门拉锯中，为保留当地独特而不合规范的居住形态坚持了改造的逻辑与合理性。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-建筑与设计-2">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189178/casa-s-l2c-arquitetura" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-10.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 24</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189178/casa-s-l2c-arquitetura" target="_blank" rel="noopener">Casa S / L2C Arquitetura：把开挖出的栖居空间还给屋顶</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>Casa S 建造前是一处树木茂密的斜坡、裸露岩石与一棵软木橡树，俯瞰山谷。设计团队把这块土地当成核心材料与最大挑战，决定向下挖掘、栖居在这个消减出的空间中，并把景观重新归还给屋顶。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-建筑与设计-3">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189062/ubc-yi-zhu-xue-sheng-zhong-xin-leckie-studio-architecture-plus-design" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-11.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 25</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189062/ubc-yi-zhu-xue-sheng-zhong-xin-leckie-studio-architecture-plus-design" target="_blank" rel="noopener">UBC 艺术学生中心 / Leckie Studio：1022 平方米的三层文科新家</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>不列颠哥伦比亚大学艺术学生中心是一栋紧凑的三层建筑，面积 11,000 平方英尺（约 1022 平方米）。作为多功能设施，它为文科本科生协会与文学院学生提供全新家园。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-艺术与绘画">艺术与绘画<span>0 条</span></h3><p class="tnote">本场无 70 分以上且属绘画/纯艺术的独立条目（Veruschka 摄影专题归国际时尚、Dazed 设计稿归杂志），整块不出。</p><h3 class="theme" id="t-游戏">游戏<span>2 条</span></h3><div class="grid tgrid"><article class="card" id="c-游戏-1">
+  <div class="body">
+    <div class="kick" style="color:#4f46e5"><span class="sc-inl">76</span>游戏 · 26</div>
+    <h3><a href="https://www.ithome.com/1/032/600.htm" target="_blank" rel="noopener">《GTA 6》民间 PC 移植新突破：已能渲染开放世界，帧率约 5—7 FPS</a></h3>
+    
+    
+    <p>科技媒体 tweaktown 11 月 25 日报道，开源社区借助 AI 与已曝光的 Xbox 可执行文件，加速推进非官方 PC 移植《侠盗猎车手 VI》。名为 Belobug 的项目已在 Windows 11 上启动并渲染 GTA 6 开放世界，画面包含光照、纹理、行人、车辆、植被、水体与天空，帧率约每秒 5 至 7 帧。Belobug 是另一移植项目 Victory 的分支。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-游戏-2">
+  <a class="thumb" href="https://www.ithome.com/1/032/603.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-12.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#4f46e5">游戏 · 27</div>
+    <h3><a href="https://www.ithome.com/1/032/603.htm" target="_blank" rel="noopener">Remedy 回应《量子破碎 2》玩家请求：最终决定权在微软</a></h3>
+    
+    
+    <p>微软曾与 Remedy 合作开发《心灵杀手》《量子破碎》等游戏。面对玩家多年呼唤《量子破碎 2》，Remedy 回应称最终决定权在微软。这款 2016 年的作品以时间操纵玩法、Xbox Play Anywhere 早期尝试与跨媒体叙事著称。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-旅行">旅行<span>3 条</span></h3><p class="tnote">旅行主题 ×1.1 系数已在该主题条目上标注。</p><div class="grid tgrid"><article class="card" id="c-旅行-1">
+  <a class="thumb" href="https://idealmagazine.co.uk/where-to-stay-beneath-the-cliffs-of-los-gigantes-tenerife/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-13.jpg" alt="" loading="lazy" decoding="async"><span class="score">79</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 28</div>
+    <h3><a href="https://idealmagazine.co.uk/where-to-stay-beneath-the-cliffs-of-los-gigantes-tenerife/" target="_blank" rel="noopener">特内里费岛 Los Gigantes 悬崖下的住处：躺椅外是 600 米玄武岩壁</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 72</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 79</span></div>
+    <p>在特内里费岛西海岸，从躺椅望出去是 600 米高的悬崖。Los Gigantes 的悬崖是直插入大西洋的玄武岩壁，位于 Puerto de Santiago 以北，从 Playa de la Arena 的黑色火山沙滩向上望去满视野都是峭壁。文章推荐在这一带下榻。</p>
+    
+    <div class="src">Ideal Magazine · 原文 →</div>
+  </div>
+</article><article class="card" id="c-旅行-2">
+  <a class="thumb" href="https://brutus.jp/post-539688/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-14.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 29</div>
+    <h3><a href="https://brutus.jp/post-539688/" target="_blank" rel="noopener">京都西阵新开书籍与唱片店 ammel：在「之间」传递各种文化</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>ammel 是京都西阵新开的一家书籍与唱片店，从海外音乐杂志、新锐摄影家论考到成人绘本、加拿大电子音乐家 LP，店内按店主感性陈列。店名来自把东方「レンマ（直觉）」倒过来读，体现店家偏爱二元论之外的「之间」。西阵一带比游客混杂的市区安静许多。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article><article class="card" id="c-旅行-3">
+  <a class="thumb" href="https://brutus.jp/post-537202/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-15.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 30</div>
+    <h3><a href="https://brutus.jp/post-537202/" target="_blank" rel="noopener">首尔大学路藁草生活史博物馆：9000 件稻草道具与手作体验</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>这家位于首尔大学路、以稻草与天然材料为主的博物馆收藏约 9000 件生活用具、农具与民族资料，通过道具讲述农村生活智慧。人气工作坊把泡水一天变软的麦秆一根根绕上竹框做成杯垫，还会按季节换做团扇、竹扫帚等。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-杂志">杂志<span>6 条</span></h3><div class="grid tgrid"><article class="card" id="c-杂志-1">
+  <a class="thumb" href="https://www.dazeddigital.com/fashion/article/71373/1/dazed-winter-2026-issue-feel-the-fantasy-guilherme-vieira-toariki-dexter" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-16.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 31</div>
+    <h3><a href="https://www.dazeddigital.com/fashion/article/71373/1/dazed-winter-2026-issue-feel-the-fantasy-guilherme-vieira-toariki-dexter" target="_blank" rel="noopener">Dazed 冬季刊硬闯凡尔赛：Baroque and roll 的感官大片</a></h3>
+    
+    
+    <p>Dazed 冬季 2026 刊把模特 Summer Dirx、Aker Ajak、Opeyemi Ajibola 等带进一座法国历史宅邸，由 Guilherme Vieira 掌镜拍出一组充满感官气息的大片。杂志 11 月 26 日起在国际发行。</p>
+    
+    <div class="src">Dazed · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-2">
+  <a class="thumb" href="https://www.dazeddigital.com/fashion/article/71407/1/what-we-learned-from-the-winner-of-the-hm-design-award-2026-macy-grimshaw" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-17.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 32</div>
+    <h3><a href="https://www.dazeddigital.com/fashion/article/71407/1/what-we-learned-from-the-winner-of-the-hm-design-award-2026-macy-grimshaw" target="_blank" rel="noopener">H&amp;M 设计大奖 2026 得主 Macy Grimshaw：从八人入围名单里脱颖而出</a></h3>
+    
+    
+    <p>英法女装设计师 Macy Grimshaw 拿下 H&amp;M Design Award 2026，从八人入围名单胜出，评审包括 Paloma Elsesser、IB Kamara、Emma Chopova 与 Laura Lowena。Dazed 复盘了她的获奖作品与这次评选的看点。</p>
+    
+    <div class="src">Dazed · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-3">
+  <a class="thumb" href="https://www.dazeddigital.com/film-tv/article/71366/1/esme-creed-miles-winter-issue-2026-cover-sense-sensability-flesh-gods" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-18.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 33</div>
+    <h3><a href="https://www.dazeddigital.com/film-tv/article/71366/1/esme-creed-miles-winter-issue-2026-cover-sense-sensability-flesh-gods" target="_blank" rel="noopener">Esmé Creed-Miles：从奥斯汀女主角到吸血鬼诱惑者，谈神经多样性与人脉</a></h3>
+    
+    
+    <p>Dazed 与 26 岁演员 Esmé Creed-Miles 在 Primrose Hill 散步对谈，话题横跨神经多样性、裙带关系与和克里斯汀·斯图尔特合作。这是 Dazed 冬季 2026 刊的人物专访。</p>
+    
+    <div class="src">Dazed · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">34</span><a href="https://www.dazeddigital.com/film-tv/article/71381/1/andrey-zvyagintsev-minotaur-director-iris-lebedeva-film-interview" target="_blank" rel="noopener">流亡俄罗斯导演 Zvyagintsev 的《Minotaur》：反战的复仇惊悚片</a><span class="sc">72</span></li><li class="row"><span class="no">35</span><a href="https://www.vogue.com.tw/article/2026-blue-dragon-film-awards" target="_blank" rel="noopener">2026 青龙电影奖完整得奖名单：《假如爱有如果》包办影帝后与最佳女配</a><span class="sc">70</span></li><li class="row"><span class="no">36</span><a href="https://sspai.com/post/00000" target="_blank" rel="noopener">派早报：蔚来 2026 创新科技日、Tidal 拒绝 AI 音乐、千问 Go 免费代打电话（聚合稿）</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-开源热议">开源热议<span>4 条</span></h3><p class="tnote">取材当日 GitHub Trending 三榜（all/python/typescript）；去重池近 3 天已报的 12 仓全部 BLOCKED 不收。收录 4 库：Claude-BugHunter 双条件（总榜前 10 + 单日 +1652★）豁免减分并 +3；superpowers、last30days-skill、openvino 均以当日总榜前 10 豁免库龄减分（标注 waive）。OK 池无 ≤90 天新项目，不拿老项目硬凑、只收有当日榜位与星增证据者。标题「今日 +N★」为当日星增证据，〔创建 N 天〕由 createdAt 实算。开源卡片上限 3 条，第 4 名进一行式。</p><div class="grid tgrid"><article class="card" id="c-开源热议-1">
+  <a class="thumb" href="https://github.com/elementalsouls/Claude-BugHunter" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-19.jpg" alt="" loading="lazy" decoding="async"><span class="score">85</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 37</div>
+    <h3><a href="https://github.com/elementalsouls/Claude-BugHunter" target="_blank" rel="noopener">elementalsouls/Claude-BugHunter： 总榜第 1，Claude Code 漏洞猎手技能包</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>205</b>天</span><span class="gain"><i>今日</i><b>+1,652</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp waive">库龄 205 天（91 天–1 年 −3，豁免）</span><span class="bp adj"><i>重大更新双条件（总榜前 10 + 单日≥1000★）</i><b>+3</b></span><span class="beq">= 85</span></div>
+    <p>今天的新动静是单日涨约 1650 颗星、登顶 GitHub 总榜与 Python 榜第一，最近提交在 11 月 25 日。Claude-BugHunter 是一套给 Claude Code 用的漏洞挖掘与外部红队技能包，收录 85 个技能、16 条斜杠命令，整理覆盖 24 类核心漏洞的 681 条已披露报告模式，并附企业身份与基础设施攻击矩阵。创建于今年 5 月、库龄约 205 天，本应减 3 分；因同时满足总榜前 10 与单日涨星过千两条，按规则减分豁免并额外 +3。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-2">
+  <a class="thumb" href="https://github.com/obra/superpowers" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-20.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 38</div>
+    <h3><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">obra/superpowers： 总榜第 2，智能体技能框架</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>413</b>天</span><span class="gain"><i>今日</i><b>+903</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 78</span><span class="bp waive">库龄 413 天（&gt;1 年 −5）已豁免（总榜前 10）</span><span class="beq">= 78</span></div>
+    <p>今天的新动静是单日涨约 900 颗星、冲上 GitHub 总榜第 2。Superpowers 是一套智能体技能框架与软件开发方法论，把 brainstorming、子智能体驱动开发（SDD）等流程做成可复用技能，兼容 Claude Code、Codex、Cursor 等多种编码智能体。创建于 2025 年 10 月、库龄约 413 天，本应按 &gt;1 年减 5 分；因位列当日总榜前 10，减分按规则豁免。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-3">
+  <a class="thumb" href="https://github.com/mvanhorn/last30days-skill" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-26T1117-wb-21.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 39</div>
+    <h3><a href="https://github.com/mvanhorn/last30days-skill" target="_blank" rel="noopener">mvanhorn/last30days-skill： 总榜第 10，跨 Reddit/X/HN 的调研技能</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>307</b>天</span><span class="gain"><i>今日</i><b>+945</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp waive">库龄 307 天（91 天–1 年 −3，豁免：总榜前 10）</span><span class="beq">= 76</span></div>
+    <p>今天的新动静是单日涨约 945 颗星、位列 GitHub 总榜第 10，最近提交在 11 月 25 日。last30days-skill 是一个 AI 智能体技能，能从 Reddit、X、YouTube、Hacker News、Polymarket 与全网检索任意话题近 30 天的资料，再综合成一份有据可查的摘要。创建于今年 1 月、库龄约 307 天，本应减 3 分；因进入当日总榜前 10，减分豁免。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">40</span><a href="https://github.com/openvinotoolkit/openvino" target="_blank" rel="noopener">〔创建 2964 天〕openvinotoolkit/openvino：今日 +191★ 总榜第 8，AI 推理优化部署工具箱</a><span class="bp sm waive" title="库龄 2964 天（&gt;1 年 −5）已豁免（总榜前 10）">豁免</span><span class="sc">72</span></li></ul>
+
+<footer>
+<details><summary>本次抓取报错源</summary>Cultured（HTTP 403，重试一次仍失败）；grok/skip 源不抓、不计失败。</details>
+<p>评分口径：四维（有用 / 能核对 / 合口味 / 新鲜不重复，各 25 分）之和为基数，命中偏好按<b>系数相乘</b>——建筑与设计、旅行 ×1.1，Tier A 人物/主题 ×1.1，Tier 0 ×1.15，跨源 ×1.05（多项命中相乘，如 ×1.1×1.1=×1.21），<b>不封顶</b>（乘完破 100 就照写，分档线 84/70 判最终分）；开源另按库龄加减 3/5 分。条目里的「四维 N ×… ≈ 总分」就是这条的明细；<b>没标就是没命中</b>，可以据此核有没有漏的。</p>
+<p>想看哪条，直接报三位编号（比如 902、午 902），我把原文链接发给你。标题本身已可点。</p>
+<p>报头「入选 x/y」：x = 本场 ≥70 分入选条数，y = 本次浏览过的候选总数（含 <70 分被丢弃的条目）。本场浏览 0 条、入选 40 条。</p>
+<p>扫描/分享：整页自包含，图片已内嵌，离线也能看。</p>
+</footer>
+</div><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
