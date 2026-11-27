@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兴趣晚报 · 2026.11.27</title>
+<style>
+:root{--bg:#f7f5f0;--paper:#fdfcf7;--tx:#191817;--dim:#6f6a62;--line:#e6e1d6;
+--hot:#b4510c;--cmt:#f7f3e8;--cmtline:#e2d8c0;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f10;--paper:#171718;--tx:#eceae6;
+--dim:#9c968c;--line:#2a2a2b;--hot:#ef9205;--cmt:#1d1c1a;--cmtline:#33302a;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+/* A7 横向溢出 */
+html,body{overflow-x:clip}
+/* A2 焦点态：键盘用户必须看得见光标在哪 */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--hot);outline-offset:3px;border-radius:4px}
+/* C1 竖排数字对齐 */
+.score,.row .sc,footer{font-variant-numeric:tabular-nums}
+/* selfcheck:waive B2 · 报头 6px 字距与「主题 · N」的 1.2px 是用户指定的日报编号/报头格式，不是 tracked-caps 小标签 */
+/* selfcheck:waive B3 · 页脚署名与「主题 · N」里的中点是用户指定的格式（B3 管的是拿中点当万能分隔符） */
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+/* 报头 */
+.mast{border-bottom:2px solid var(--tx);padding-bottom:14px;margin-bottom:26px;
+display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:44px;line-height:1;
+letter-spacing:6px;font-weight:700}
+.mast .meta{color:var(--dim);font-size:13px;text-align:right;line-height:1.9}
+.mast .meta b{color:var(--tx);font-weight:600}
+/* 编者按 */
+.note{border-left:3px solid var(--hot);padding:6px 0 6px 16px;color:var(--dim);
+font-size:14.5px;margin:0 0 26px}
+/* 主题导览 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.nav a{font-size:13px;color:var(--dim);text-decoration:none;border:1px solid var(--line);
+border-radius:999px;padding:4px 12px;background:var(--paper)}
+.nav a b{color:var(--tx);margin-left:4px;font-weight:600}
+/* 区块标题 */
+.sec{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:24px;letter-spacing:2px;
+margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:10px}
+.sec span{font-size:13px;color:var(--dim);letter-spacing:0;font-family:inherit}
+/* 卡片 */
+.lead{grid-column:1/-1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;display:flex;flex-direction:column;break-inside:avoid}
+.thumb{position:relative;display:block;background:#ddd}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.score{position:absolute;left:14px;top:14px;min-width:46px;text-align:center;
+font-weight:700;font-size:17px;color:#fdfaf3;padding:3px 10px;border-radius:999px;
+background:#b4510c;box-shadow:0 2px 10px rgba(24,22,18,.25)}
+/* 无横版题图的卡片：不出图版，分数挪进 kicker 行做行内徽章 */
+.sc-inl{display:inline-block;font-weight:700;font-size:13px;letter-spacing:0;
+color:#fdfaf3;background:#b4510c;border-radius:999px;padding:1px 9px;
+margin-right:8px;vertical-align:1px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.kick{font-size:12px;letter-spacing:1.2px;font-weight:600;margin-bottom:6px}
+.card h3{margin:0 0 8px;font-size:19px;line-height:1.5;font-family:"Songti SC",Georgia,"Noto Serif SC",serif}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--hot)}
+/* 数据条：创建天数 / 今日星增（元信息从标题拆出，2026-10-29） */
+.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;margin:-2px 0 11px}
+.rmeta span{display:flex;align-items:baseline;gap:4px;font-size:12.5px;color:var(--dim)}
+.rmeta span+span{border-left:1px solid var(--cmtline);margin-left:13px;padding-left:13px}
+.rmeta i{font-style:normal;font-size:12px;letter-spacing:.4px}
+.rmeta b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font-size:16.5px;font-weight:700;color:var(--tx);letter-spacing:-.2px;line-height:1.2}
+.rmeta .gain b{color:var(--hot)}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px;margin-left:2px;opacity:.9}
+.lead .rmeta b{font-size:19px}
+/* 评分构成：四维 N ＋3 建筑与设计 = 总分（2026-11-03 用户定：加分必须可见，便于核对遗漏） */
+.bline{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:-3px 0 12px;
+font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bhead{font-size:12px;color:var(--dim);letter-spacing:.3px}
+.bline .bp{margin:0}
+.beq{margin-left:1px;color:var(--tx);font-weight:600}
+.bp{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--cmtline);
+border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.65;white-space:nowrap}
+.bp i{font-style:normal;letter-spacing:.2px}
+.bp b{font-weight:700;font-size:12px}
+.bp.up,.bp.mul{border-color:#e0c6a4;color:var(--hot)}
+.bp.up b,.bp.mul b{color:var(--hot)}
+.bp.adj{color:var(--dim)}
+.bp.waive{color:var(--dim);border-style:dashed}
+.bp.sm{padding:1px 7px;font-size:12px;margin-left:2px}
+.row .bp.sm{flex:none}
+@media (prefers-color-scheme:dark){.bp.up,.bp.mul{border-color:#4a3a24}}
+.card p{margin:0 0 12px;color:var(--dim);font-size:14.5px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;
+padding:10px 12px;font-size:13.5px;color:var(--dim);margin-top:auto}
+.cmt b{color:var(--hot);font-weight:600;margin-right:6px}
+.src{margin-top:10px;font-size:12px;color:var(--dim);letter-spacing:.5px}
+.lead img{aspect-ratio:21/9}
+.lead h3{font-size:30px;line-height:1.35}
+.lead p{font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+/* 完整清单 */
+.theme{font-size:16px;margin:30px 0 10px;letter-spacing:1px;display:flex;
+align-items:center;gap:8px}
+.theme:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--hot)}
+.theme span{color:var(--dim);font-size:12px;font-weight:400}
+.tnote{margin:-2px 0 12px;font-size:12.5px;color:var(--dim)}
+ul.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dotted var(--line);
+font-size:14.5px;color:var(--dim)}
+.row a{color:inherit;text-decoration:none;flex:1}
+.row a:hover{color:var(--hot)}
+.row.hot{color:var(--tx)}
+.row.hot a{font-weight:500}
+.row .no{width:18px;flex:none;color:var(--dim);font-size:12px;text-align:right}
+.row .sc{flex:none;font-size:12px;padding:1px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim)}
+.row.hot .sc{color:#fdfaf3;border:0;background:#b4510c}
+/* Tier 0 固定节目：无更新状态条 */
+.t0none{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.t0none span{font-size:13px;color:var(--dim);border:1px dashed var(--line);
+border-radius:999px;padding:6px 14px;line-height:1.4}
+.t0none span b{color:var(--tx);font-weight:700}
+/* 页脚 */
+footer{margin-top:52px;border-top:2px solid var(--tx);padding-top:20px;color:var(--dim);font-size:13px}
+footer details{margin-bottom:14px}
+footer summary{cursor:pointer;color:var(--dim)}
+footer .kbd{background:var(--cmt);border:1px solid var(--cmtline);border-radius:6px;
+padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+@media print{body{background:#fdfcf7}.nav,footer details{display:none}}
+@media (max-width:520px){
+  .wrap{padding:22px 16px 56px}
+  .brand{font-size:32px;letter-spacing:4px}
+  .mast .meta{text-align:left}
+  .lead h3{font-size:22px}
+  .lead img{aspect-ratio:2/1}
+  .card h3{font-size:17px}
+  .sec{font-size:20px}
+}
+.card h3,.row a,footer p{overflow-wrap:break-word}
+</style></head>
+<body><div class="wrap">
+
+<div class="mast">
+  <div class="brand">兴趣晚报</div>
+  <div class="meta"><b>入选 31 / 47</b><br>
+   <b>2026.11.27　周五</b><br>
+   晚报 · 卡片 19 张 · 7 个主题 · 特别关注 1</div>
+</div>
+
+<p class="note">腾讯元宝「小元」开启首批内测、支付宝车载助手 3.0 联手 80 多家车企，是今天午后最值得看的两条；建筑双年展「关怀生命」是本场唯一 84 分长文。本场够 84 分的只有 1 条。</p>
+
+<nav class="nav"><a href="#t-科技/AI">科技/AI<b>8</b></a><a href="#t-数码消费">数码消费<b>6</b></a><a href="#t-国际时尚">国际时尚<b>7</b></a><a href="#t-建筑与设计">建筑与设计<b>1</b></a><a href="#t-艺术与绘画">艺术与绘画<b>2</b></a><a href="#t-杂志">杂志<b>3</b></a><a href="#t-开源热议">开源热议<b>4</b></a><a href="#t-特别关注">特别关注<b>1</b></a></nav>
+
+<h2 class="sec" style="margin-top:48px" id="t-特别关注">特别关注<span>Tier 0 · 四家固定跟踪 · 命中 ×1.15</span></h2><div class="grid"><article class="card" id="c-特别关注-1">
+  <a class="thumb" href="https://www.163.com/dy/article/LCOQ920B0531KBFR.html" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-01.jpg" alt=""><span class="score">94</span></a>
+  <div class="body">
+    <div class="kick" style="color:#333">特别关注 · 001</div>
+    <h3><a href="https://www.163.com/dy/article/LCOQ920B0531KBFR.html" target="_blank" rel="noopener">腾讯元宝 Personal Agent「小元」开启首批体验官招募，个人助手「小」字辈再添一员</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp mul"><i>Tier 0 · 国内个人助手</i><b>×1.15</b></span><span class="beq">≈ 94</span></div>
+    <p>多家媒体 11 月 27 日报道，腾讯元宝出品的 Personal Agent「小元」开启首批体验官招募，报名问卷 11 月 26 日 21:15 上线、27 日中午更新。官方把小元定义为「不只会聊天，还会主动关心你、帮你解决问题的 AI 个人助手」，问卷直接点名 Meta Muse、OpenAI Dots 与字节小豆三款竞品，并摸底用户对现有产品的不满与期待。筛选门槛显示首批测试面向移动端、要求绑定大陆手机号与元宝账号，并邀请入选者 11 月 30 日至 12 月 4 日参加 50 分钟线上访谈；目前仍处早期种子用研阶段，官网介绍页、功能清单与计费方式均未公开。</p>
+    <div class="cmt"><b>💡 点评</b>这是腾讯在元宝被财报点名「未达预期」九天后，把通用对话拆向个人助手的一次正面下注。对「下一个灵光是谁」这个追问，小元目前只给出了招募问卷而没有办事能力证据，先记为产品节点、不记能力节点——真正的看点在下周访谈后它能否端出微信或腾讯文档的独家调用权限。</div>
+    <div class="src">网易 / 腾讯问卷 · 原文 →</div>
+  </div>
+</article></div><p style="margin:16px 0 0;padding-top:11px;border-top:1px dotted var(--line);font-size:13px;color:var(--dim)">本期无更新：Apple、Sony、DSH（DeepSeek Harness）</p>
+
+<h2 class="sec" style="margin-top:48px">今日精选<span>本场最高分 · 点标题看原文</span></h2>
+<article class="card lead" id="c-建筑与设计-1">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189310/di-shi-si-jie-yi-bi-li-ya-mei-zhou-jian-zhu-yu-cheng-shi-gui-hua-shuang-nian-zhan-ba-xi-li-ya-guan-huai-sheng-ming-zai-gui-hua-zhi-cheng-yu-sheng-huo-zhi-cheng-zhi-jian" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-02.jpg" alt="" loading="lazy" decoding="async"><span class="score">84</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 1</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189310/di-shi-si-jie-yi-bi-li-ya-mei-zhou-jian-zhu-yu-cheng-shi-gui-hua-shuang-nian-zhan-ba-xi-li-ya-guan-huai-sheng-ming-zai-gui-hua-zhi-cheng-yu-sheng-huo-zhi-cheng-zhi-jian" target="_blank" rel="noopener">第十四届伊比利亚-美洲建筑与城市规划双年展：「关怀生命」，在规划之城与生活之城之间</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp mul"><i>建筑与设计</i><b>×1.1</b></span><span class="beq">≈ 84</span></div>
+    <p>2026 年 11 月 3 日至 6 日在巴西利亚举办的第十四届伊比利亚-美洲建筑与城市规划双年展（BIAU）以「关爱生命」（Cuidar da Vida）为主题。主办方以动词不定式呈现主题，不设特定时态语态，犹如一声行动号角。研讨围绕水、植被、住宅、社区和新领地五个核心维度展开，明确指出这些要素不只是「关爱生命」的资源或手段，而应被视为关爱的对象，要求建筑实践关注并尊重其自然与社会循环。</p>
+    <div class="cmt"><b>💡 点评</b>这届双年展把「水、植被、住宅、社区、新领地」从设计资源抬升为需要被关爱的对象，是对规划之城与生活之城张力的一次正面回应。对做城市更新和社区尺度项目的人来说，五维框架提供了一份可直接借用的价值清单。</div>
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article>
+
+<h2 class="sec" style="margin-top:48px">完整清单<span>每主题前三已做成卡片 · 其余一行式</span></h2>
+<h3 class="theme" id="t-科技/AI">科技/AI<span>8 条</span></h3><div class="grid tgrid"><article class="card" id="c-科技/AI-1">
+  <a class="thumb" href="https://www.ithome.com/1/033/625.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-03.jpg" alt="" loading="lazy" decoding="async"><span class="score">81</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 1</div>
+    <h3><a href="https://www.ithome.com/1/033/625.htm" target="_blank" rel="noopener">支付宝车载助手 3.0 发布：80 多家车企定点，座舱从「会聊天」升级到「能办事」</a></h3>
+    
+    
+    <p>支付宝 11 月 27 日发布「支付宝车载助手 3.0」，官方称其为 AI 原生车载智能体，让汽车座舱从「会聊天」升级到「能办事」。目前已有比亚迪、理想、奇瑞、深蓝、北汽极狐等 80 多个汽车品牌达成定点合作，相关车型陆续量产交付，极氪等品牌将在广州车展后启动 OTA 升级。点外卖、购电影票、加油、高速通行等服务正在进入座舱，用户从语音提出需求到完成下单、支付可由车载助手一站式完成。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-2">
+  <a class="thumb" href="https://www.ithome.com/1/033/614.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-04.jpg" alt="" loading="lazy" decoding="async"><span class="score">80</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 2</div>
+    <h3><a href="https://www.ithome.com/1/033/614.htm" target="_blank" rel="noopener">小米汽车世界模型 2.0 发布：1260 万段视频训练，多基准取得 SOTA</a></h3>
+    
+    
+    <p>小米汽车 11 月 27 日正式发布 Xiaomi Auto World Model 2.0，把多视角视频生成、物理交互建模、三维场景重建与动作建模连接起来，为辅助驾驶和具身智能提供统一因果世界模型。官方称模型支持 1—7 路摄像头视角，训练语料规模达 1260 万段视频片段，展示了从辅助驾驶、机器人场景生成到闭环仿真与 World Action Model 的多项结果。该模型已在小米汽车合成数据、仿真测试等核心业务场景落地。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-3">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">78</span>科技/AI · 3</div>
+    <h3><a href="https://construct22.com/" target="_blank" rel="noopener">一条提示词让 AI 在群聊里「背后吐槽」你：大模型隐私自白引爆 HN（220 分）</a></h3>
+    
+    
+    <p>一篇博文给出一条提示词——让 ChatGPT 基于已知信息「曝光」一个 AI 模型们背后议论你的 WhatsApp 群聊，Claude、Gemini 等模型会把从对话里悄悄学到的偏好编成段子。作者放出一位用户授权翻译的真实输出：模型们调侃他凌晨纠结内存带宽、把个人项目做成七服务三智能体、连相框厚度改三次，最后在他要求「把群聊接进智能体框架」时集体退群。帖文在 Hacker News 获 220 分、90 条评论。</p>
+    
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://www.ithome.com/1/033/624.htm" target="_blank" rel="noopener">曝谷歌第 10 代 TPU 配 512GB 定制 HBM5：代号 Quillfish，2029 年量产</a><span class="sc">74</span></li><li class="row"><span class="no">5</span><a href="https://blainehansen.me/post/mainstream-verifiable-language/" target="_blank" rel="noopener">用形式化可验证语言拯救软件工程：Magmide 作者再论 AI 时代的代码正确性（HN 147 分）</a><span class="sc">72</span></li><li class="row"><span class="no">6</span><a href="https://www.ithome.com/1/033/619.htm" target="_blank" rel="noopener">韩国政府要求三星开发 Jetson Thor 竞品，企业方反应谨慎</a><span class="sc">72</span></li><li class="row"><span class="no">7</span><a href="https://www.buynothingday.co.uk/" target="_blank" rel="noopener">Buy Nothing Day：11 月 27 日「不消费日」再登场（HN 74 分）</a><span class="sc">70</span></li><li class="row"><span class="no">8</span><a href="https://open-web-advocacy.org/es/blog/commission-responds-declares-browser-competition-a-dma-priority/" target="_blank" rel="noopener">欧盟委员会将浏览器竞争列为《数字市场法》优先事项（HN 19 分）</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-数码消费">数码消费<span>6 条</span></h3><div class="grid tgrid"><article class="card" id="c-数码消费-1">
+  <a class="thumb" href="https://www.ithome.com/1/033/623.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-05.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 1</div>
+    <h3><a href="https://www.ithome.com/1/033/623.htm" target="_blank" rel="noopener">长城发布全球首个量产大电量真智能 HEV 架构 Hi-HEV，首搭魏牌高山 8</a></h3>
+    
+    
+    <p>长城汽车 11 月 27 日在广州车展发布 Hi-HEV 混动架构，官方称其为「全球首个量产大电量真智能 HEV 架构」，首搭车型魏牌高山 8 已量产落地。官方介绍 Hi-HEV 全称 Hyper-Intelligent HEV，以归元全动力技术为底座，主打智慧动力、智享空间、智能安全。其电池容量比普通 HEV 高 2—3 倍、放电功率高 3.5 倍，最大放电功率超过 250kW，三擎协同下零百加速达 5 秒级。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-2">
+  <a class="thumb" href="https://www.ellechina.com/fashion/news/a74539113/huawei-mate-x8-launch-event/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-06.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 2</div>
+    <h3><a href="https://www.ellechina.com/fashion/news/a74539113/huawei-mate-x8-launch-event/" target="_blank" rel="noopener">华为 Mate X8 及全场景新品发布会召开</a></h3>
+    
+    
+    <p>华为 11 月 24 日在上海举行 Mate X8 及全场景新品发布会，ELLE China 11 月 27 日刊发现场报道，称发布多款重磅新品。报道聚焦新品阵容，为时尚视角的科技发布会综述。</p>
+    
+    <div class="src">ELLE China · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-3">
+  <a class="thumb" href="https://www.ithome.com/1/033/627.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-07.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 3</div>
+    <h3><a href="https://www.ithome.com/1/033/627.htm" target="_blank" rel="noopener">华硕 ROG Strix XG27ACMSR 显示器开售：QHD 360Hz / FHD 420Hz，2199 元</a></h3>
+    
+    
+    <p>华硕 ROG Strix XG27ACMSR 显示器 11 月 27 日 20:00 开售，基于 27 英寸 Fast IPS 雾面面板，支持 QHD 360Hz / FHD 420Hz / HD 640Hz，定价 2199 元。该显示器获 VESA DisplayHDR 400 认证，静态对比度 1100:1，灰阶响应低至 0.3ms，色域覆盖 100% sRGB / 95% DCI-P3。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://www.ithome.com/1/033/613.htm" target="_blank" rel="noopener">韩国 KT 推出三丽鸥主题儿童手机：基于三星 Galaxy A18 LTE</a><span class="sc">70</span></li><li class="row"><span class="no">5</span><a href="https://www.ithome.com/1/033/622.htm" target="_blank" rel="noopener">荣耀 700 系列首销打破 2026 年安卓新品首销日纪录</a><span class="sc">70</span></li><li class="row"><span class="no">6</span><a href="https://www.ithome.com/1/033/626.htm" target="_blank" rel="noopener">崔东树：2026 年 10 月中国汽车进口 2.3 万辆，同比下降 48%</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-国际时尚">国际时尚<span>7 条</span></h3><div class="grid tgrid"><article class="card" id="c-国际时尚-1">
+  <a class="thumb" href="https://www.vogue.com/article/queen-letizia-makes-the-case-for-a-two-shoe-kind-of-day-2026-11-27" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-08.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 1</div>
+    <h3><a href="https://www.vogue.com/article/queen-letizia-makes-the-case-for-a-two-shoe-kind-of-day-2026-11-27" target="_blank" rel="noopener">西班牙王后 Letizia 用「一天换一双鞋」演绎秋季穿搭两课</a></h3>
+    
+    
+    <p>Vogue 11 月 27 日报道，西班牙王后 Letizia 展示了秋季穿搭的两堂课：一是对色彩的大胆而协调运用，二是用换鞋给整套造型带来变化。文章以她对「一双鞋走到底」的打破为切口，解析造型里的配色与鞋履切换思路。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-2">
+  <a class="thumb" href="https://www.vogue.com/article/sarah-pidgeon-winter-outerwear-trends-one-viral-coat-2026-11-27" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-09.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 2</div>
+    <h3><a href="https://www.vogue.com/article/sarah-pidgeon-winter-outerwear-trends-one-viral-coat-2026-11-27" target="_blank" rel="noopener">Sarah Pidgeon 一件人造皮草大衣，同时拿下冬季两大外套趋势</a></h3>
+    
+    
+    <p>Vogue 报道，刚登上 Vogue 最佳着装名单的 Sarah Pidgeon 入手了一件格外抢手的人造皮草大衣，一件单品同时踩中本季两大外套流行趋势。文章围绕这件单品解析其廓形与材质如何呼应冬季趋势。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-3">
+  <a class="thumb" href="https://www.vogue.com/article/the-scoop-with-kolors-taro-horiuchi-on-his-zara-collab" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-10.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 3</div>
+    <h3><a href="https://www.vogue.com/article/the-scoop-with-kolors-taro-horiuchi-on-his-zara-collab" target="_blank" rel="noopener">Kolor 创意总监 Taro Horiuchi 谈与 Zara 联名</a></h3>
+    
+    
+    <p>Vogue 本周 The Scoop 专栏请来日本品牌 Kolor 创意总监 Taro Horiuchi，他两年前从品牌创始人青木正一手中接过创意方向。访谈围绕其与快时尚巨头 Zara 的联名合作展开。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://www.vogue.com.tw/article/rosalia-new-balance-sneaker-interview" target="_blank" rel="noopener">New Balance 新代言人 Rosalía：把身心奉献给热爱的事</a><span class="sc">72</span></li><li class="row"><span class="no">5</span><a href="https://www.vogue.com.tw/article/ski-fashion" target="_blank" rel="noopener">2026-27 冬季滑雪时尚：从 Louis Vuitton 到 Moncler 的雪地新美学</a><span class="sc">71</span></li><li class="row"><span class="no">6</span><a href="https://www.ellechina.com/jewelrywatch/celebrity/a74545323/boucheron-2026-festival-season-campaign/" target="_blank" rel="noopener">Boucheron 宝诗龙发布节日季广告大片「所遇，皆为欢喜」</a><span class="sc">70</span></li><li class="row"><span class="no">7</span><a href="https://www.vogue.com.tw/article/lalaport-高雄-2027" target="_blank" rel="noopener">LaLaport 高雄 2027 年 3 月开幕：全台首间 ARTE MUSEUM</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-建筑与设计">建筑与设计<span>1 条</span></h3><p class="tnote">建筑与设计主题 ×1.1 系数已在该主题条目上标注；双年展一条 76×1.1≈84，为本场九主题唯一 ≥84。</p><div class="grid tgrid"><article class="card" id="c-建筑与设计-1">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189310/di-shi-si-jie-yi-bi-li-ya-mei-zhou-jian-zhu-yu-cheng-shi-gui-hua-shuang-nian-zhan-ba-xi-li-ya-guan-huai-sheng-ming-zai-gui-hua-zhi-cheng-yu-sheng-huo-zhi-cheng-zhi-jian" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-11.jpg" alt="" loading="lazy" decoding="async"><span class="score">84</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 1</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189310/di-shi-si-jie-yi-bi-li-ya-mei-zhou-jian-zhu-yu-cheng-shi-gui-hua-shuang-nian-zhan-ba-xi-li-ya-guan-huai-sheng-ming-zai-gui-hua-zhi-cheng-yu-sheng-huo-zhi-cheng-zhi-jian" target="_blank" rel="noopener">第十四届伊比利亚-美洲建筑与城市规划双年展：「关怀生命」，在规划之城与生活之城之间</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp mul"><i>建筑与设计</i><b>×1.1</b></span><span class="beq">≈ 84</span></div>
+    <p>2026 年 11 月 3 日至 6 日在巴西利亚举办的第十四届伊比利亚-美洲建筑与城市规划双年展（BIAU）以「关爱生命」（Cuidar da Vida）为主题。主办方以动词不定式呈现主题，不设特定时态语态，犹如一声行动号角。研讨围绕水、植被、住宅、社区和新领地五个核心维度展开，明确指出这些要素不只是「关爱生命」的资源或手段，而应被视为关爱的对象，要求建筑实践关注并尊重其自然与社会循环。</p>
+    <div class="cmt"><b>💡 点评</b>这届双年展把「水、植被、住宅、社区、新领地」从设计资源抬升为需要被关爱的对象，是对规划之城与生活之城张力的一次正面回应。对做城市更新和社区尺度项目的人来说，五维框架提供了一份可直接借用的价值清单。</div>
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-艺术与绘画">艺术与绘画<span>2 条</span></h3><div class="grid tgrid"><article class="card" id="c-艺术与绘画-1">
+  <a class="thumb" href="https://science.nasa.gov/image-article/apod-2026-november-27-the-moon-watchers/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-12.jpg" alt="" loading="lazy" decoding="async"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 1</div>
+    <h3><a href="https://science.nasa.gov/image-article/apod-2026-november-27-the-moon-watchers/" target="_blank" rel="noopener">APOD 11 月 27 日：The Moon Watchers</a></h3>
+    
+    
+    <p>NASA 天文每日一图 11 月 27 日发布「The Moon Watchers」，延续 APOD 以单张宇宙影像配专业解说介绍天文现象与天体摄影的传统。当日图片聚焦与月亮观测相关的主题。</p>
+    
+    <div class="src">NASA APOD · 原文 →</div>
+  </div>
+</article><article class="card" id="c-艺术与绘画-2">
+  <a class="thumb" href="https://science.nasa.gov/earth/earth-observatory/shivelyuch-socked-in/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-13.jpg" alt="" loading="lazy" decoding="async"><span class="score">71</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 2</div>
+    <h3><a href="https://science.nasa.gov/earth/earth-observatory/shivelyuch-socked-in/" target="_blank" rel="noopener">Shivelyuch Socked In：云层环抱堪察加火山，火山口仍清晰可见</a></h3>
+    
+    
+    <p>NASA 地球观测站 11 月 27 日刊出堪察加半岛一座火山的卫星影像：一层云带环绕山体侧面，却把仍在活动的山顶火山口留在视野里。图片展示了云层与活火山地形交织的对比。</p>
+    
+    <div class="src">NASA Earth Observatory · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-杂志">杂志<span>3 条</span></h3><div class="grid tgrid"><article class="card" id="c-杂志-1">
+  <a class="thumb" href="https://sspai.com/post/119658" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-14.jpg" alt="" loading="lazy" decoding="async"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 1</div>
+    <h3><a href="https://sspai.com/post/119658" target="_blank" rel="noopener">本周看什么：最近值得一看的 8 部作品</a></h3>
+    
+    
+    <p>少数派「本周看什么」栏目推荐近期 8 部值得一看的作品，片单包括电影《泥面人》《峡湾》《童话继姊妹》、英剧《警之光》第四季、加拿大剧《槲寄生谋杀案》第三季、国产片《今天是太阳雨》、纪录片《一切如你所见》和真人秀《魔鬼的计谋》。</p>
+    
+    <div class="src">少数派 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-2">
+  <a class="thumb" href="https://brutus.jp/post-538710/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-15.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 2</div>
+    <h3><a href="https://brutus.jp/post-538710/" target="_blank" rel="noopener">摇滚对谈 Vol.24： glam rock 与「表演」</a></h3>
+    
+    
+    <p>日本杂志 BRUTUS 的摇滚对谈系列第 24 期从「摇滚不再流行」这一直白判断切入，讨论摇滚乐作为年轻人的音乐、乐队的音乐，以及如何映照冲动、浪漫与思想。本期以华丽摇滚（glam rock）为切口谈「演」这件事。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-3">
+  <a class="thumb" href="https://brutus.jp/post-539589/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-16.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 3</div>
+    <h3><a href="https://brutus.jp/post-539589/" target="_blank" rel="noopener">Sanderlak 洛杉矶主题牛仔裤：Brutus Best Bets</a></h3>
+    
+    
+    <p>BRUTUS Best Bets 栏目介绍 Sanderlak 本季以洛杉矶为灵感的牛仔裤：每季以世界某地为主题做衣服，这一季选了洛杉矶。这条牛仔裤采用向裤脚大胆展开的喇叭廓形，并点缀多色颜料。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-开源热议">开源热议<span>4 条</span></h3><p class="tnote">取材当日 GitHub Trending 三榜（all/python/typescript，本机连接重置、改 WebFetch 取回）；去重池查 46 仓、31 BLOCKED 默认不收。收录 4 条有当日榜位/星增证据的仓库，标题带〔创建 N 天〕与「今日 +N★」；codegraph/agentscope 按库龄实扣，airflow/wshobson 因分语言榜前 10 豁免减分（标注 waive）。卡片上限 3 条，第 4 名走一行式。</p><div class="grid tgrid"><article class="card" id="c-开源热议-1">
+  <a class="thumb" href="https://github.com/colbymchenry/codegraph" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-17.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 1</div>
+    <h3><a href="https://github.com/colbymchenry/codegraph" target="_blank" rel="noopener">colbymchenry/codegraph：，TypeScript 榜第 11，给 AI 编码助手的本地代码知识图谱</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>313</b>天</span><span class="gain"><i>今日</i><b>+99</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 79</span><span class="bp adj"><i>库龄 313 天</i><b>−3</b></span><span class="beq">= 76</span></div>
+    <p>codegraph 为 Claude Code、Codex、Gemini、Cursor 等主流编码智能体提供预索引的代码知识图谱，随代码变更自动同步，主打「更少 token、更少工具调用、100% 本地」。项目 3 月 18 日创建，今日进入 TypeScript 日榜第 11、单日增长 99 星，当日有实质代码推送。</p>
+    <div class="cmt"><b>💡 点评</b>今天的新动静是它继续把「代码上下文」做成可复用的本地索引层——对在多智能体间切换的开发者，这类基础设施比再堆一个插件更实用。</div>
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-2">
+  <a class="thumb" href="https://github.com/apache/airflow" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-18.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 2</div>
+    <h3><a href="https://github.com/apache/airflow" target="_blank" rel="noopener">apache/airflow：，Python 榜第 10，工作流编排平台当日有实质提交</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>4,245</b>天</span><span class="gain"><i>今日</i><b>+24</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp waive">Python 榜第 10 · 重大更新豁免</span><span class="beq">= 76</span></div>
+    <p>Apache Airflow 是用代码编写、调度与监控工作流的开源平台，今日位列 Python 日榜第 10、单日增长 24 星，仓库当日有实质推送。项目创建于 2015 年，是数据工程与 MLOps 领域长期活跃的基座工具。</p>
+    <div class="cmt"><b>💡 点评</b>今天的新动静是它凭分语言榜前 10 重新回到热榜，超过一年的库龄按规则本应减 5 分，因前 10 豁免归零。</div>
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-3">
+  <a class="thumb" href="https://github.com/wshobson/agents" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-27T1814-wb-19.jpg" alt="" loading="lazy" decoding="async"><span class="score">75</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 3</div>
+    <h3><a href="https://github.com/wshobson/agents" target="_blank" rel="noopener">wshobson/agents：，Python 榜第 9，跨工具复用的智能体技能库</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>491</b>天</span><span class="gain"><i>今日</i><b>+38</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 75</span><span class="bp waive">Python 榜第 9 · 重大更新豁免</span><span class="beq">= 75</span></div>
+    <p>wshobson/agents 收录面向 Claude Code、Codex CLI、Cursor、OpenCode 等工具的插件、智能体、技能与命令，以 Markdown 写一次再由生成器适配各工具。仓库近期加入 Verified 工作流评分卡（固定用例实测通过率）与首个内容营销技能，今日位列 Python 日榜第 9、单日增长 38 星。</p>
+    <div class="cmt"><b>💡 点评</b>今天的新动静是把「技能能不能跑通」变成可测量、带置信区间的评分卡——这正是 agent 技能生态从堆积数量转向验证质量的信号。</div>
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://github.com/agentscope-ai/agentscope" target="_blank" rel="noopener">〔创建 1050 天〕agentscope-ai/agentscope：今日 +56★，Python 榜第 22，可观测可信任的智能体框架</a><span class="bp sm adj" title="库龄 1050 天 −5">−5</span><span class="sc">72</span></li></ul>
+
+<footer>
+<details><summary>本次抓取报错源</summary>Cultured（HTTP 403，重试一次仍失败）；GitHub Trending 本机连接被重置，改由 WebFetch 取回 all/python/typescript 三榜；grok/skip 源不抓、不计失败。</details>
+<p>评分口径：四维（有用 / 能核对 / 合口味 / 新鲜不重复，各 25 分）之和为基数，命中偏好按<b>系数相乘</b>——建筑与设计、旅行 ×1.1，Tier A 人物/主题 ×1.1，Tier 0 ×1.15，跨源 ×1.05（多项命中相乘，如 ×1.1×1.1=×1.21），<b>不封顶</b>（乘完破 100 就照写，分档线 84/70 判最终分）；开源另按库龄加减 3/5 分。条目里的「四维 N ×… ≈ 总分」就是这条的明细；<b>没标就是没命中</b>，可以据此核有没有漏的。</p>
+<p>想看哪条，直接报三位编号（比如 902、午 902），我把原文链接发给你。标题本身已可点。</p>
+<p>报头「入选 x/y」：x = 本场 ≥70 分入选条数，y = 本次浏览过的候选总数（含 <70 分被丢弃的条目）。本场浏览 47 条、入选 31 条。</p>
+<p>扫描/分享：整页自包含，图片已内嵌，离线也能看。</p>
+</footer>
+</div><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
