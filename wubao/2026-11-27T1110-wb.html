@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兴趣午报 · 2026.11.27</title>
+<style>
+:root{--bg:#f7f5f0;--paper:#fdfcf7;--tx:#191817;--dim:#6f6a62;--line:#e6e1d6;
+--hot:#b4510c;--cmt:#f7f3e8;--cmtline:#e2d8c0;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f10;--paper:#171718;--tx:#eceae6;
+--dim:#9c968c;--line:#2a2a2b;--hot:#ef9205;--cmt:#1d1c1a;--cmtline:#33302a;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+/* A7 横向溢出 */
+html,body{overflow-x:clip}
+/* A2 焦点态：键盘用户必须看得见光标在哪 */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--hot);outline-offset:3px;border-radius:4px}
+/* C1 竖排数字对齐 */
+.score,.row .sc,footer{font-variant-numeric:tabular-nums}
+/* selfcheck:waive B2 · 报头 6px 字距与「主题 · N」的 1.2px 是用户指定的日报编号/报头格式，不是 tracked-caps 小标签 */
+/* selfcheck:waive B3 · 页脚署名与「主题 · N」里的中点是用户指定的格式（B3 管的是拿中点当万能分隔符） */
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+/* 报头 */
+.mast{border-bottom:2px solid var(--tx);padding-bottom:14px;margin-bottom:26px;
+display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:44px;line-height:1;
+letter-spacing:6px;font-weight:700}
+.mast .meta{color:var(--dim);font-size:13px;text-align:right;line-height:1.9}
+.mast .meta b{color:var(--tx);font-weight:600}
+/* 编者按 */
+.note{border-left:3px solid var(--hot);padding:6px 0 6px 16px;color:var(--dim);
+font-size:14.5px;margin:0 0 26px}
+/* 主题导览 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.nav a{font-size:13px;color:var(--dim);text-decoration:none;border:1px solid var(--line);
+border-radius:999px;padding:4px 12px;background:var(--paper)}
+.nav a b{color:var(--tx);margin-left:4px;font-weight:600}
+/* 区块标题 */
+.sec{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:24px;letter-spacing:2px;
+margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:10px}
+.sec span{font-size:13px;color:var(--dim);letter-spacing:0;font-family:inherit}
+/* 卡片 */
+.lead{grid-column:1/-1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;display:flex;flex-direction:column;break-inside:avoid}
+.thumb{position:relative;display:block;background:#ddd}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.score{position:absolute;left:14px;top:14px;min-width:46px;text-align:center;
+font-weight:700;font-size:17px;color:#fdfaf3;padding:3px 10px;border-radius:999px;
+background:#b4510c;box-shadow:0 2px 10px rgba(24,22,18,.25)}
+/* 无横版题图的卡片：不出图版，分数挪进 kicker 行做行内徽章 */
+.sc-inl{display:inline-block;font-weight:700;font-size:13px;letter-spacing:0;
+color:#fdfaf3;background:#b4510c;border-radius:999px;padding:1px 9px;
+margin-right:8px;vertical-align:1px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.kick{font-size:12px;letter-spacing:1.2px;font-weight:600;margin-bottom:6px}
+.card h3{margin:0 0 8px;font-size:19px;line-height:1.5;font-family:"Songti SC",Georgia,"Noto Serif SC",serif}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--hot)}
+/* 数据条：创建天数 / 今日星增（元信息从标题拆出，2026-10-29） */
+.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;margin:-2px 0 11px}
+.rmeta span{display:flex;align-items:baseline;gap:4px;font-size:12.5px;color:var(--dim)}
+.rmeta span+span{border-left:1px solid var(--cmtline);margin-left:13px;padding-left:13px}
+.rmeta i{font-style:normal;font-size:12px;letter-spacing:.4px}
+.rmeta b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font-size:16.5px;font-weight:700;color:var(--tx);letter-spacing:-.2px;line-height:1.2}
+.rmeta .gain b{color:var(--hot)}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px;margin-left:2px;opacity:.9}
+.lead .rmeta b{font-size:19px}
+/* 评分构成：四维 N ＋3 建筑与设计 = 总分（2026-11-03 用户定：加分必须可见，便于核对遗漏） */
+.bline{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:-3px 0 12px;
+font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bhead{font-size:12px;color:var(--dim);letter-spacing:.3px}
+.bline .bp{margin:0}
+.beq{margin-left:1px;color:var(--tx);font-weight:600}
+.bp{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--cmtline);
+border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.65;white-space:nowrap}
+.bp i{font-style:normal;letter-spacing:.2px}
+.bp b{font-weight:700;font-size:12px}
+.bp.up,.bp.mul{border-color:#e0c6a4;color:var(--hot)}
+.bp.up b,.bp.mul b{color:var(--hot)}
+.bp.adj{color:var(--dim)}
+.bp.waive{color:var(--dim);border-style:dashed}
+.bp.sm{padding:1px 7px;font-size:12px;margin-left:2px}
+.row .bp.sm{flex:none}
+@media (prefers-color-scheme:dark){.bp.up,.bp.mul{border-color:#4a3a24}}
+.card p{margin:0 0 12px;color:var(--dim);font-size:14.5px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;
+padding:10px 12px;font-size:13.5px;color:var(--dim);margin-top:auto}
+.cmt b{color:var(--hot);font-weight:600;margin-right:6px}
+.src{margin-top:10px;font-size:12px;color:var(--dim);letter-spacing:.5px}
+.lead img{aspect-ratio:21/9}
+.lead h3{font-size:30px;line-height:1.35}
+.lead p{font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+/* 完整清单 */
+.theme{font-size:16px;margin:30px 0 10px;letter-spacing:1px;display:flex;
+align-items:center;gap:8px}
+.theme:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--hot)}
+.theme span{color:var(--dim);font-size:12px;font-weight:400}
+.tnote{margin:-2px 0 12px;font-size:12.5px;color:var(--dim)}
+ul.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dotted var(--line);
+font-size:14.5px;color:var(--dim)}
+.row a{color:inherit;text-decoration:none;flex:1}
+.row a:hover{color:var(--hot)}
+.row.hot{color:var(--tx)}
+.row.hot a{font-weight:500}
+.row .no{width:18px;flex:none;color:var(--dim);font-size:12px;text-align:right}
+.row .sc{flex:none;font-size:12px;padding:1px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim)}
+.row.hot .sc{color:#fdfaf3;border:0;background:#b4510c}
+/* Tier 0 固定节目：无更新状态条 */
+.t0none{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.t0none span{font-size:13px;color:var(--dim);border:1px dashed var(--line);
+border-radius:999px;padding:6px 14px;line-height:1.4}
+.t0none span b{color:var(--tx);font-weight:700}
+/* 页脚 */
+footer{margin-top:52px;border-top:2px solid var(--tx);padding-top:20px;color:var(--dim);font-size:13px}
+footer details{margin-bottom:14px}
+footer summary{cursor:pointer;color:var(--dim)}
+footer .kbd{background:var(--cmt);border:1px solid var(--cmtline);border-radius:6px;
+padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+@media print{body{background:#fdfcf7}.nav,footer details{display:none}}
+@media (max-width:520px){
+  .wrap{padding:22px 16px 56px}
+  .brand{font-size:32px;letter-spacing:4px}
+  .mast .meta{text-align:left}
+  .lead h3{font-size:22px}
+  .lead img{aspect-ratio:2/1}
+  .card h3{font-size:17px}
+  .sec{font-size:20px}
+}
+.card h3,.row a,footer p{overflow-wrap:break-word}
+</style></head>
+<body><div class="wrap">
+
+<div class="mast">
+  <div class="brand">兴趣午报</div>
+  <div class="meta"><b>入选 31 / 109</b><br>
+   <b>2026.11.27　周五</b><br>
+   午报 · 卡片 23 张 · 9 个主题 · 特别关注 无更新</div>
+</div>
+
+<p class="note">AMD 专属 llama.cpp 分支实测把 token 生成从 35 提到 55/s，以 80 分居首；AI 重燃自建服务热情、勒索软件求助公司 CTO 被起诉跟上。Works in Progress 的巴基斯坦建筑师 Kamil Khan Mumtaz 专题以 90 分领衔全场（建筑 ×1.1，也是本场唯一 ≥84）。Tier 0 四家本场无新的重大进展。本场够 84 分的只有 1 条。</p>
+
+<nav class="nav"><a href="#t-科技/AI">科技/AI<b>6</b></a><a href="#t-数码消费">数码消费<b>4</b></a><a href="#t-国际时尚">国际时尚<b>5</b></a><a href="#t-建筑与设计">建筑与设计<b>4</b></a><a href="#t-艺术与绘画">艺术与绘画<b>3</b></a><a href="#t-游戏">游戏<b>0</b></a><a href="#t-旅行">旅行<b>2</b></a><a href="#t-杂志">杂志<b>3</b></a><a href="#t-开源热议">开源热议<b>4</b></a><a href="#t-特别关注">特别关注</a></nav>
+
+<h2 class="sec" style="margin-top:48px" id="t-特别关注">特别关注<span>Tier 0 · 四家固定跟踪 · 命中 ×1.15</span></h2><p style="margin:16px 0 0;padding-top:11px;border-top:1px dotted var(--line);font-size:13px;color:var(--dim)">本期无更新：Apple、Sony、DSH（DeepSeek Harness）、国内个人助手</p>
+
+<h2 class="sec" style="margin-top:48px">今日精选<span>本场最高分 · 点标题看原文</span></h2>
+<article class="card lead" id="c-建筑与设计-1">
+  <a class="thumb" href="https://worksinprogress.co/issue/the-greatest-architect-youve-never-heard-of-is-in-pakistan/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-01.jpg" alt=""><span class="score">90</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 16</div>
+    <h3><a href="https://worksinprogress.co/issue/the-greatest-architect-youve-never-heard-of-is-in-pakistan/" target="_blank" rel="noopener">巴基斯坦建筑师 Kamil Khan Mumtaz：在家乡备受推崇，在海外几乎无人知晓（HN 263 分）</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 90</span></div>
+    <p>Works in Progress 刊发摄影专题，介绍 1939 年生于加尔各答、1966 年从伦敦 AA 建筑学院毕业回国执业的巴基斯坦建筑师 Kamil Khan Mumtaz。他早年是坚定的现代主义者，还因共产主义活动两度被军政府入狱；七十年代末主持拉合尔古城保护报告，保住了后来列入世界遗产的 Walled City。1980 年读到 Nader Ardalan《The Sense of Unity》后，他转向复兴巴基斯坦传统建筑，与世袭工匠合作重新找回失传三百年的砖工、平穹顶与 muqarnas 工艺，作品涵盖住宅、清真寺、学校与卡拉奇牛津大学出版社总部。专题收录大量首次在巴基斯坦之外公开的影像。当日 Hacker News 263 分、51 条评论。</p>
+    <div class="cmt"><b>💡 点评</b>建筑媒体的聚光灯常年只打在少数几个城市，这位在拉合尔默默修复传统工艺、八十五岁仍在建造的建筑师，恰好说明「最好的建筑师」有多少是被地理而非才华埋没的。本条命中「建筑与设计」主题 ×1.1（已在条目上标注）。</div>
+    <div class="src">Hacker News / Works in Progress · 原文 →</div>
+  </div>
+</article>
+
+<h2 class="sec" style="margin-top:48px">完整清单<span>每主题前三已做成卡片 · 其余一行式</span></h2>
+<h3 class="theme" id="t-科技/AI">科技/AI<span>6 条</span></h3><div class="grid tgrid"><article class="card" id="c-科技/AI-1">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">80</span>科技/AI · 1</div>
+    <h3><a href="https://devnull.land/amd-specific-llama-cpp" target="_blank" rel="noopener">AMD 专属 llama.cpp 分支实测：生成 35→55 token/s、预填充 700→1300 token/s（HN 294 分）</a></h3>
+    
+    
+    <p>一篇实测文指出，2026 年 11 月涌现大量针对特定硬件定制的推理引擎分叉，作者推荐 stew675/llama-cpp-rdna-boosts：它只对固定版本的 llama.cpp 打一组 AMD 专属小补丁，持续重贴到新版上。作者在 AMD R9700 显卡（笔记本 eGPU 接口）上跑 27B Q6_K_L 模型实测，开启 MTP 后 token 生成从约 35 提到 55 token/s、预填充从约 700 提到 1300 token/s。文章同时提醒，另一类分叉（如 Strata）为追速度会改动模型「思考方式」——优先轮询已载入显存的专家，而非本该选中的专家，作者对此持保留态度。当日 Hacker News 294 分、73 条评论。</p>
+    
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-2">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">78</span>科技/AI · 2</div>
+    <h3><a href="https://janlukas.blog/posts/ai-self-hosting" target="_blank" rel="noopener">AI 让自建服务重新变好玩：把 Git 里的 Docker Compose 交给编码智能体（HN 358 分）</a></h3>
+    
+    
+    <p>资深自建爱好者 Jan-Lukas Else 撰文复盘：过去几年他对自托管的热情消退，最近几个月又因 AI 重新燃起。他的基础设施配置都在 Git（Docker Compose、脚本），于是可以直接让编码智能体像改普通软件项目一样改配置，过去因嫌读 changelog、排故障太麻烦而搁置的改动，现在随手就能落地。他借此把一直想学的 NixOS 用在家用服务器、自建 Debian bootc 镜像，并用 Renovate+Actions 把更新部署全自动化；原本要一周的工作现在半天。文末也自警：AI Generated 软件照样有 bug 和技术债，能做完不等于值得做。当日 Hacker News 358 分、197 条评论。</p>
+    
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-3">
+  <a class="thumb" href="https://krebsonsecurity.com/2026/11/cto-of-ransomwarehelp-indicted-for-wire-fraud/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-02.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 3</div>
+    <h3><a href="https://krebsonsecurity.com/2026/11/cto-of-ransomwarehelp-indicted-for-wire-fraud/" target="_blank" rel="noopener">「勒索软件求助」公司 CTO 因电信欺诈被起诉：FBI 设套揭穿加价转付赎金（HN 223 分）</a></h3>
+    
+    
+    <p>佛州公司 ransomwarehelp.com 的联合创始人兼 CTO Juan Ricardo Palacio Escobar（52 岁）本周在罗得岛被起诉电信欺诈。该网站宣称用「专有密码学工具」100% 恢复数据、绝不向攻击者付赎金，但 FBI 假装受害企业设套后发现，他会私下联系假冒的勒索团伙压价买解密密钥，再加价卖给受害者——FBI 报 0.2 比特币（约 1.3 万美元），他向「客户」报价 1.326 万美元；一起真实案件中曾有会计师事务所收到 43.888 万美元的恢复报价。安全公司 Soteria 指出该公司主要针对不懂技术、走投无路的中小企业。当日 Hacker News 223 分、95 条评论。</p>
+    
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://www.ithome.com/1/033/208.htm" target="_blank" rel="noopener">豆包工作独家接入剪映官方插件：一句话剪辑、多轨编辑、可调用剪映 Hub</a><span class="sc">76</span></li><li class="row"><span class="no">5</span><a href="https://the-decoder.com/ai-agents-now-control-part-of-deepminds-compute-for-gemini-experiments-but-recursive-self-improvement-remains-distant/" target="_blank" rel="noopener">AI 智能体开始掌控 DeepMind 部分算力用于 Gemini 实验，但递归自我改进仍遥远（HN 33 分）</a><span class="sc">72</span></li><li class="row"><span class="no">6</span><a href="https://9to5mac.com/2026/11/26/ios-28-to-revamp-iphone-notifications-per-report/" target="_blank" rel="noopener">传 iOS 28 将大改 iPhone 通知中心，尚无具体细节（HN 转载 MacRumors）</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-数码消费">数码消费<span>4 条</span></h3><div class="grid tgrid"><article class="card" id="c-数码消费-1">
+  <a class="thumb" href="https://www.ithome.com/1/033/206.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-03.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 7</div>
+    <h3><a href="https://www.ithome.com/1/033/206.htm" target="_blank" rel="noopener">宝马新世代 BMW i3 广州车展上市：CLTC 续航最高 1028km，24.99 万元起售</a></h3>
+    
+    
+    <p>11 月 27 日广州车展，宝马新世代纯电轿车 i3 正式上市，是三个月前成都车展发布的新世代 iX3 之后，该纯电轿车产品首次落地中国市场。新车为长轴距版，共三个版本，采用全国统一价，CLTC 续航最高 1028km、24.99 万元起售，即日起开启大定。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-2">
+  <a class="thumb" href="https://www.ithome.com/1/033/203.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-04.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 8</div>
+    <h3><a href="https://www.ithome.com/1/033/203.htm" target="_blank" rel="noopener">消息称小米 AI 眼镜 2 代下月中旬上市，与小米 18 标准版同步发布</a></h3>
+    
+    
+    <p>《科创板日报》11 月 27 日上午独家消息称，小米 AI 眼镜 2 代或于 12 月中旬与小米 18 标准版手机同步发布并于当天开售，包含 Q95 Pro 等多色版本。属发布前爆料，尚无官方确认。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-3">
+  <a class="thumb" href="https://www.ithome.com/1/033/209.htm" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-05.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 9</div>
+    <h3><a href="https://www.ithome.com/1/033/209.htm" target="_blank" rel="noopener">问界发布整车一体 L3 架构，赛力斯周林称 L3 核心体验是「脱手脱眼」</a></h3>
+    
+    
+    <p>11 月 27 日广州车展，赛力斯集团副总裁、问界汽车 CTO 周林分享 L3 时代智能驾驶成果，发布整车一体 L3 架构，并称 L3 的核心体验就是「脱手脱眼」。他提到问界辅助驾驶总里程已超 120 亿公里、位居中国市场首位。同场另一场分享披露问界面向 L3 的测试体系含 1300+ 安全策略、14000+ 测试用例、实车测试里程 1100 万公里。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">10</span><a href="https://9to5mac.com/2026/11/26/readdles-documents-app-adds-voice-recording-with-transcripts-summaries-more/" target="_blank" rel="noopener">Readdle Documents 更新：语音录制自动转文字、摘要与更多 AI 功能</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-国际时尚">国际时尚<span>5 条</span></h3><div class="grid tgrid"><article class="card" id="c-国际时尚-1">
+  <a class="thumb" href="https://www.vogue.com/article/veruschka-tributes" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-06.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 11</div>
+    <h3><a href="https://www.vogue.com/article/veruschka-tributes" target="_blank" rel="noopener">时尚界集体致敬传奇超模 Veruschka：让模特成为一门艺术的人</a></h3>
+    
+    
+    <p>Vogue 刊发专题，汇集几代时尚影像创作者、设计师与模特，追忆近日去世的德国超模 Veruschka（本名 Vera von Lehndorff）。文章强调她把「模特」从摆姿势提升为表演与艺术形式，影响了后世对影像与身体的理解。属人物纪念专题。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-2">
+  <a class="thumb" href="https://www.elle.com/fashion/trend-reports/a74506769/luxury-fashion-distressed-trend-2026/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-07.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 12</div>
+    <h3><a href="https://www.elle.com/fashion/trend-reports/a74506769/luxury-fashion-distressed-trend-2026/" target="_blank" rel="noopener">2026 时尚为何迷上「做旧」：distressing 从街头情绪走向奢侈潮流</a></h3>
+    
+    
+    <p>ELLE 趋势稿梳理 2026 年时尚界对磨损、做旧（distressing）处理的热衷，从破洞、毛边到做旧水洗，分析这股「凌乱感」如何进入奢侈品牌主线。属趋势分析稿。</p>
+    
+    <div class="src">ELLE · 原文 →</div>
+  </div>
+</article><article class="card" id="c-国际时尚-3">
+  <a class="thumb" href="https://www.vogue.com/article/the-further-mis-adventures-of-cliff-booth-costumes-trish-summerville-interview" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-08.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 13</div>
+    <h3><a href="https://www.vogue.com/article/the-further-mis-adventures-of-cliff-booth-costumes-trish-summerville-interview" target="_blank" rel="noopener">戏服设计师 Trish Summerville 如何重构 70 年代好莱坞：从 Brad Pitt 到 Elizabeth Debicki</a></h3>
+    
+    
+    <p>Vogue 专访资深戏服设计师 Trish Summerville，David Fincher 的长期合作者。她为 Brad Pitt 定制印花复古 T 恤，为 Elizabeth Debicki 还原 Lauren Hutton 式的 70 年代造型，讲透复古戏服的再创作方法。属创作者专访。</p>
+    
+    <div class="src">Vogue · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">14</span><a href="https://www.vogue.com.tw/article/本周之星-harry-winston-bling-ball-watch" target="_blank" rel="noopener">本周之星｜Harry Winston Bling Ball 腕表：把棒球场埋进表背的细节彩蛋</a><span class="sc">72</span></li><li class="row"><span class="no">15</span><a href="https://www.elle.com/beauty/hair/g68810646/how-to-style-hair-for-women-over-50/" target="_blank" rel="noopener">50 岁以上女性最显气质的发型：重点在形状与发质而非年龄</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-建筑与设计">建筑与设计<span>4 条</span></h3><p class="tnote">建筑与设计主题 ×1.1 系数已在该主题条目上标注；Kamil Mumtaz 专题为本场精选。</p><div class="grid tgrid"><article class="card" id="c-建筑与设计-2">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1189329/an-di-si-gao-di-bi-nan-suo-quichuay-pircanato-pircanato" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-09.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 17</div>
+    <h3><a href="https://www.archdaily.cn/zh/1189329/an-di-si-gao-di-bi-nan-suo-quichuay-pircanato-pircanato" target="_blank" rel="noopener">安第斯高地避难所 Quichuay / Pircanato：用实验建造系统回应极端气候</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>位于秘鲁基丘艾高安第斯地区的避难所项目，通过一套实验性建造系统把当代材料与生产方式同当地传统技术融合，旨在应对高海拔极端气候，并为农村社区提供可复制的居住标准。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-建筑与设计-3">
+  <a class="thumb" href="https://www.archdaily.cn/zh/1151381/mo-kuai-hua-ba-yi-ya-una-barbara-e-valentim" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-10.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0f766e">建筑与设计 · 18</div>
+    <h3><a href="https://www.archdaily.cn/zh/1151381/mo-kuai-hua-ba-yi-ya-una-barbara-e-valentim" target="_blank" rel="noopener">模块化巴伊亚 / UNA Barbara e Valentim：河流与海洋间的热带避风港</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>建筑与设计 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>位于巴西巴伊亚州南海岸的项目由 UNA barbara e valentim 设计，把工业化解决方案与生物气候策略结合，回应场地土地与气候特征，在河流与海洋之间打造当代热带栖居。</p>
+    
+    <div class="src">ArchDaily 中文 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row hot"><span class="no">16</span><a href="#c-建筑与设计-1">巴基斯坦建筑师 Kamil Khan Mumtaz：在家乡备受推崇，在海外几乎无人知晓（HN 263 分）</a><span class="bp sm mul" title="建筑与设计 ×1.1 ×1.1">×1.1</span><span class="sc">90</span></li><li class="row"><span class="no">19</span><a href="https://www.archdaily.cn/zh/1189131/ge-la-ci-zhong-yang-chu-fang-superfuturegroup" target="_blank" rel="noopener">格拉茨中央厨房 / Superfuturegroup：每天 1.5 万份餐食的可持续生产建筑</a><span class="bp sm mul" title="建筑与设计 ×1.1 ×1.1">×1.1</span><span class="sc">77</span></li></ul><h3 class="theme" id="t-艺术与绘画">艺术与绘画<span>3 条</span></h3><div class="grid tgrid"><article class="card" id="c-艺术与绘画-1">
+  <a class="thumb" href="https://i-d.co/article/rita-ackermann-vivre-sa-vie-interview/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-11.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 20</div>
+    <h3><a href="https://i-d.co/article/rita-ackermann-vivre-sa-vie-interview/" target="_blank" rel="noopener">Rita Ackermann 的木偶重获新生：艺术家新作访谈</a></h3>
+    
+    
+    <p>i-D 对艺术家 Rita Ackermann 的访谈，围绕她让木偶「复活」的新作展开，回溯她从 1996 年在纽约的创作起点到当下的实践变化。属艺术家专访。</p>
+    
+    <div class="src">i-D · 原文 →</div>
+  </div>
+</article><article class="card" id="c-艺术与绘画-2">
+  <a class="thumb" href="https://www.dazeddigital.com/art-photography/article/71420/1/these-photos-capture-the-raw-energy-of-philadelphia-s-ballroom-scene" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-12.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 21</div>
+    <h3><a href="https://www.dazeddigital.com/art-photography/article/71420/1/these-photos-capture-the-raw-energy-of-philadelphia-s-ballroom-scene" target="_blank" rel="noopener">费城舞厅场景的「原始、未过滤」：摄影师 Kareem Bah 记录 kiki 文化</a></h3>
+    
+    
+    <p>Dazed 新栏目 State of Youth 刊发 22 岁摄影师 Kareem Bah 的系列作品，捕捉费城 kiki 舞厅场景的「精髓与态度」。属摄影专题。</p>
+    
+    <div class="src">Dazed · 原文 →</div>
+  </div>
+</article><article class="card" id="c-艺术与绘画-3">
+  <a class="thumb" href="https://www.dazeddigital.com/music/article/71406/1/come-together-a-new-music-photography-auction-to-support-palestine" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-13.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 22</div>
+    <h3><a href="https://www.dazeddigital.com/music/article/71406/1/come-together-a-new-music-photography-auction-to-support-palestine" target="_blank" rel="noopener">Come Together：为巴勒斯坦医疗工作者筹款的音乐摄影拍卖</a></h3>
+    
+    
+    <p>由 Health Workers 4 Palestine 组织的慈善摄影拍卖，展出 Sinead O'Connor、Nirvana 等罕见的一次性肖像作品，所得用于支持巴勒斯坦医疗工作者。属文化公益稿。</p>
+    
+    <div class="src">Dazed · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-游戏">游戏<span>0 条</span></h3><p class="tnote">本场无 70 分以上且属游戏的独立条目，整块不出。</p><h3 class="theme" id="t-旅行">旅行<span>2 条</span></h3><p class="tnote">旅行主题 ×1.1 系数已在该主题条目上标注。</p><div class="grid tgrid"><article class="card" id="c-旅行-1">
+  <a class="thumb" href="https://brutus.jp/post-542687/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-14.jpg" alt="" loading="lazy" decoding="async"><span class="score">79</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 23</div>
+    <h3><a href="https://brutus.jp/post-542687/" target="_blank" rel="noopener">阿拉斯加自行车旅行日记 Vol.15：不踩踏板的理由</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 72</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 79</span></div>
+    <p>BRUTUS 连载的 Bikepacking Diary 阿拉斯加篇第 15 期，以 2023 年 9 月的骑行日志形式记录旅途：一周来首次爆胎、推车穿过车流、在开阔地带休整等细节。属旅行随笔。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article><article class="card" id="c-旅行-2">
+  <a class="thumb" href="https://www.harpersbazaar.com/culture/travel-dining/a74532952/berkshires-weekend-getaway-nyc/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-15.jpg" alt="" loading="lazy" decoding="async"><span class="score">77</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0d9488">旅行 · 24</div>
+    <h3><a href="https://www.harpersbazaar.com/culture/travel-dining/a74532952/berkshires-weekend-getaway-nyc/" target="_blank" rel="noopener">伯克夏尔：离纽约两小时的「慢生活」度假地</a></h3>
+    
+    <div class="bline"><span class="bhead">四维 70</span><span class="bp mul"><i>旅行 ×1.1</i><b>×1.1</b></span><span class="beq">≈ 77</span></div>
+    <p>BAZAAR 介绍马萨诸塞州伯克夏尔地区，距纽约约两小时车程，把农场直采、户外风景与疗愈型度假结合，适合周末短途。属旅行度假指南。</p>
+    
+    <div class="src">Harper's BAZAAR · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-杂志">杂志<span>3 条</span></h3><div class="grid tgrid"><article class="card" id="c-杂志-1">
+  <a class="thumb" href="https://www.dazeddigital.com/music/article/71358/1/underscores-ninajirachi-jane-remover-interview-coachella-2026-breakthrough-music" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-16.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 25</div>
+    <h3><a href="https://www.dazeddigital.com/music/article/71358/1/underscores-ninajirachi-jane-remover-interview-coachella-2026-breakthrough-music" target="_blank" rel="noopener">2026 之年：underscores、Ninajirachi 与 Jane Remover 如何改写流行乐</a></h3>
+    
+    
+    <p>Dazed 冬季刊专题对谈三位音乐人 underscores、Ninajirachi 与 Jane Remover，梳理他们从网络边缘走到主流舞台的历程，以及各自对当下流行音乐的影响。属音乐专题。</p>
+    
+    <div class="src">Dazed · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-2">
+  <a class="thumb" href="https://i-d.co/article/american-theater-brian-clowdus-documentary/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-17.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 26</div>
+    <h3><a href="https://i-d.co/article/american-theater-brian-clowdus-documentary/" target="_blank" rel="noopener">一部关于被取消剧团的争议纪录片</a></h3>
+    
+    
+    <p>i-D 长文记述一部围绕洛杉矶剧团的争议纪录片：作者回忆去年被朋友拉去观看的经历，以及剧团因争议被「取消」的前因后果。属文化评论。</p>
+    
+    <div class="src">i-D · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-3">
+  <a class="thumb" href="https://brutus.jp/post-543321/" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-18.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 27</div>
+    <h3><a href="https://brutus.jp/post-543321/" target="_blank" rel="noopener">让现场音乐厅传给下一代：Marshall 发起「KEEP LIVE MUSIC ALIVE」</a></h3>
+    
+    
+    <p>BRUTUS 报道 Marshall 发起的「KEEP LIVE MUSIC ALIVE」计划，聚焦 live house 的传承与下一代音乐人的培养。属品牌文化稿。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-开源热议">开源热议<span>4 条</span></h3><p class="tnote">取材当日 GitHub Trending 三榜（all/python/typescript，本机代理被阻断、改由 WebFetch 取回）；去重池近 3 天已报的 27 仓全部 BLOCKED 不收。收录 4 库：CLI-Anything、minimind、cursor/plugins 均以当日总榜前 10 豁免库龄减分（标注 waive）；Ghost-Downloader-3 总榜第 15、单日 +889★ 未达千星门槛，按 &gt;1 年减 5 分、列第 4 名一行式。标题「今日 +N★」为当日星增证据，〔创建 N 天〕由 createdAt 实算。开源卡片上限 3 条，第 4 名进一行式。</p><div class="grid tgrid"><article class="card" id="c-开源热议-1">
+  <a class="thumb" href="https://github.com/HKUDS/CLI-Anything" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-19.jpg" alt="" loading="lazy" decoding="async"><span class="score">82</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 28</div>
+    <h3><a href="https://github.com/HKUDS/CLI-Anything" target="_blank" rel="noopener">HKUDS/CLI-Anything： 总榜第 3，让所有软件变成「智能体原生」</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>264</b>天</span><span class="gain"><i>今日</i><b>+746</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 82</span><span class="bp waive">库龄 264 天（已豁免：总榜前 10）</span><span class="beq">= 82</span></div>
+    <p>今天的新动静是单日涨约 746 颗星、冲上 GitHub 总榜第 3 与 Python 榜第 2。CLI-Anything 的目标是「让所有软件变成 Agent-Native」，通过 CLI-Hub 把桌面软件封装成智能体可直接调用的命令行接口。创建于今年 3 月、库龄约 264 天，本应按 91 天–1 年减 3 分；因位列当日总榜前 10，减分按规则豁免。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-2">
+  <a class="thumb" href="https://github.com/jingyaogong/minimind" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-20.jpg" alt="" loading="lazy" decoding="async"><span class="score">80</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 29</div>
+    <h3><a href="https://github.com/jingyaogong/minimind" target="_blank" rel="noopener">jingyaogong/minimind： 总榜第 4，两小时从零训出 64M 大模型</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>853</b>天</span><span class="gain"><i>今日</i><b>+702</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 80</span><span class="bp waive">库龄 853 天（已豁免：总榜前 10）</span><span class="beq">= 80</span></div>
+    <p>今天的新动静是单日涨约 702 颗星、位列 GitHub 总榜第 4 与 Python 榜第 3，最近提交在 11 月 26 日。minimind 是中文开源项目，主打「两小时从 0 训出你的 64M 大模型」，把大模型训练全流程做成可上手的教程与代码。创建于 2024 年 7 月、库龄约 853 天，本应按 &gt;1 年减 5 分；因进入当日总榜前 10，减分豁免。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-3">
+  <a class="thumb" href="https://github.com/cursor/plugins" target="_blank" rel="noopener"><img src="../assets/issue/wubao/2026-11-27T1110-wb-21.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 30</div>
+    <h3><a href="https://github.com/cursor/plugins" target="_blank" rel="noopener">cursor/plugins： 总榜第 5，Cursor 插件规范与官方插件</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>308</b>天</span><span class="gain"><i>今日</i><b>+270</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp waive">库龄 308 天（已豁免：总榜前 10）</span><span class="beq">= 76</span></div>
+    <p>今天的新动静是单日涨约 270 颗星、位列 GitHub 总榜第 5 与 TypeScript 榜第 1。cursor/plugins 是 Cursor 编辑器的插件规范与官方插件仓库，定义了 Cursor 插件的开发标准。创建于今年 1 月、库龄约 308 天，本应减 3 分；因进入当日总榜前 10，减分豁免。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">31</span><a href="https://github.com/XiaoYouChR/Ghost-Downloader-3" target="_blank" rel="noopener">〔创建 1199 天〕XiaoYouChR/Ghost-Downloader-3：今日 +889★ 总榜第 15，全能下载器</a><span class="bp sm adj" title="库龄 1199 天（&gt;1 年 −5） −5">−5</span><span class="sc">68</span></li></ul>
+
+<footer>
+<details><summary>本次抓取报错源</summary>Cultured（HTTP 403，重试一次仍失败）；grok/skip 源不抓、不计失败。</details>
+<p>评分口径：四维（有用 / 能核对 / 合口味 / 新鲜不重复，各 25 分）之和为基数，命中偏好按<b>系数相乘</b>——建筑与设计、旅行 ×1.1，Tier A 人物/主题 ×1.1，Tier 0 ×1.15，跨源 ×1.05（多项命中相乘，如 ×1.1×1.1=×1.21），<b>不封顶</b>（乘完破 100 就照写，分档线 84/70 判最终分）；开源另按库龄加减 3/5 分。条目里的「四维 N ×… ≈ 总分」就是这条的明细；<b>没标就是没命中</b>，可以据此核有没有漏的。</p>
+<p>想看哪条，直接报三位编号（比如 902、午 902），我把原文链接发给你。标题本身已可点。</p>
+<p>报头「入选 x/y」：x = 本场 ≥70 分入选条数，y = 本次浏览过的候选总数（含 <70 分被丢弃的条目）。本场浏览 109 条、入选 31 条。</p>
+<p>扫描/分享：整页自包含，图片已内嵌，离线也能看。</p>
+</footer>
+</div><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
