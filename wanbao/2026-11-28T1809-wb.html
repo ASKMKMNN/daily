@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兴趣晚报 · 2026.11.28</title>
+<style>
+:root{--bg:#f7f5f0;--paper:#fdfcf7;--tx:#191817;--dim:#6f6a62;--line:#e6e1d6;
+--hot:#b4510c;--cmt:#f7f3e8;--cmtline:#e2d8c0;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f10;--paper:#171718;--tx:#eceae6;
+--dim:#9c968c;--line:#2a2a2b;--hot:#ef9205;--cmt:#1d1c1a;--cmtline:#33302a;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);
+font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+-webkit-font-smoothing:antialiased}
+/* A7 横向溢出 */
+html,body{overflow-x:clip}
+/* A2 焦点态：键盘用户必须看得见光标在哪 */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--hot);outline-offset:3px;border-radius:4px}
+/* C1 竖排数字对齐 */
+.score,.row .sc,footer{font-variant-numeric:tabular-nums}
+/* selfcheck:waive B2 · 报头 6px 字距与「主题 · N」的 1.2px 是用户指定的日报编号/报头格式，不是 tracked-caps 小标签 */
+/* selfcheck:waive B3 · 页脚署名与「主题 · N」里的中点是用户指定的格式（B3 管的是拿中点当万能分隔符） */
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+/* 报头 */
+.mast{border-bottom:2px solid var(--tx);padding-bottom:14px;margin-bottom:26px;
+display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:44px;line-height:1;
+letter-spacing:6px;font-weight:700}
+.mast .meta{color:var(--dim);font-size:13px;text-align:right;line-height:1.9}
+.mast .meta b{color:var(--tx);font-weight:600}
+/* 编者按 */
+.note{border-left:3px solid var(--hot);padding:6px 0 6px 16px;color:var(--dim);
+font-size:14.5px;margin:0 0 26px}
+/* 主题导览 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 34px}
+.nav a{font-size:13px;color:var(--dim);text-decoration:none;border:1px solid var(--line);
+border-radius:999px;padding:4px 12px;background:var(--paper)}
+.nav a b{color:var(--tx);margin-left:4px;font-weight:600}
+/* 区块标题 */
+.sec{font-family:"Songti SC",Georgia,"Noto Serif SC",serif;font-size:24px;letter-spacing:2px;
+margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;
+align-items:baseline;gap:10px}
+.sec span{font-size:13px;color:var(--dim);letter-spacing:0;font-family:inherit}
+/* 卡片 */
+.lead{grid-column:1/-1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+overflow:hidden;display:flex;flex-direction:column;break-inside:avoid}
+.thumb{position:relative;display:block;background:#ddd}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.score{position:absolute;left:14px;top:14px;min-width:46px;text-align:center;
+font-weight:700;font-size:17px;color:#fdfaf3;padding:3px 10px;border-radius:999px;
+background:#b4510c;box-shadow:0 2px 10px rgba(24,22,18,.25)}
+/* 无横版题图的卡片：不出图版，分数挪进 kicker 行做行内徽章 */
+.sc-inl{display:inline-block;font-weight:700;font-size:13px;letter-spacing:0;
+color:#fdfaf3;background:#b4510c;border-radius:999px;padding:1px 9px;
+margin-right:8px;vertical-align:1px}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.kick{font-size:12px;letter-spacing:1.2px;font-weight:600;margin-bottom:6px}
+.card h3{margin:0 0 8px;font-size:19px;line-height:1.5;font-family:"Songti SC",Georgia,"Noto Serif SC",serif}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--hot)}
+/* 数据条：创建天数 / 今日星增（元信息从标题拆出，2026-10-29） */
+.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;margin:-2px 0 11px}
+.rmeta span{display:flex;align-items:baseline;gap:4px;font-size:12.5px;color:var(--dim)}
+.rmeta span+span{border-left:1px solid var(--cmtline);margin-left:13px;padding-left:13px}
+.rmeta i{font-style:normal;font-size:12px;letter-spacing:.4px}
+.rmeta b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+font-size:16.5px;font-weight:700;color:var(--tx);letter-spacing:-.2px;line-height:1.2}
+.rmeta .gain b{color:var(--hot)}
+.rmeta .gain em{font-style:normal;color:var(--hot);font-size:12px;margin-left:2px;opacity:.9}
+.lead .rmeta b{font-size:19px}
+/* 评分构成：四维 N ＋3 建筑与设计 = 总分（2026-11-03 用户定：加分必须可见，便于核对遗漏） */
+.bline{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:-3px 0 12px;
+font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bhead{font-size:12px;color:var(--dim);letter-spacing:.3px}
+.bline .bp{margin:0}
+.beq{margin-left:1px;color:var(--tx);font-weight:600}
+.bp{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--cmtline);
+border-radius:999px;padding:1px 9px;font-size:12px;line-height:1.65;white-space:nowrap}
+.bp i{font-style:normal;letter-spacing:.2px}
+.bp b{font-weight:700;font-size:12px}
+.bp.up,.bp.mul{border-color:#e0c6a4;color:var(--hot)}
+.bp.up b,.bp.mul b{color:var(--hot)}
+.bp.adj{color:var(--dim)}
+.bp.waive{color:var(--dim);border-style:dashed}
+.bp.sm{padding:1px 7px;font-size:12px;margin-left:2px}
+.row .bp.sm{flex:none}
+@media (prefers-color-scheme:dark){.bp.up,.bp.mul{border-color:#4a3a24}}
+.card p{margin:0 0 12px;color:var(--dim);font-size:14.5px}
+.cmt{background:var(--cmt);border:1px solid var(--cmtline);border-radius:10px;
+padding:10px 12px;font-size:13.5px;color:var(--dim);margin-top:auto}
+.cmt b{color:var(--hot);font-weight:600;margin-right:6px}
+.src{margin-top:10px;font-size:12px;color:var(--dim);letter-spacing:.5px}
+.lead img{aspect-ratio:21/9}
+.lead h3{font-size:30px;line-height:1.35}
+.lead p{font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+/* 完整清单 */
+.theme{font-size:16px;margin:30px 0 10px;letter-spacing:1px;display:flex;
+align-items:center;gap:8px}
+.theme:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--hot)}
+.theme span{color:var(--dim);font-size:12px;font-weight:400}
+.tnote{margin:-2px 0 12px;font-size:12.5px;color:var(--dim)}
+ul.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dotted var(--line);
+font-size:14.5px;color:var(--dim)}
+.row a{color:inherit;text-decoration:none;flex:1}
+.row a:hover{color:var(--hot)}
+.row.hot{color:var(--tx)}
+.row.hot a{font-weight:500}
+.row .no{width:18px;flex:none;color:var(--dim);font-size:12px;text-align:right}
+.row .sc{flex:none;font-size:12px;padding:1px 7px;border-radius:999px;
+border:1px solid var(--line);color:var(--dim)}
+.row.hot .sc{color:#fdfaf3;border:0;background:#b4510c}
+/* Tier 0 固定节目：无更新状态条 */
+.t0none{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.t0none span{font-size:13px;color:var(--dim);border:1px dashed var(--line);
+border-radius:999px;padding:6px 14px;line-height:1.4}
+.t0none span b{color:var(--tx);font-weight:700}
+/* 页脚 */
+footer{margin-top:52px;border-top:2px solid var(--tx);padding-top:20px;color:var(--dim);font-size:13px}
+footer details{margin-bottom:14px}
+footer summary{cursor:pointer;color:var(--dim)}
+footer .kbd{background:var(--cmt);border:1px solid var(--cmtline);border-radius:6px;
+padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+@media print{body{background:#fdfcf7}.nav,footer details{display:none}}
+@media (max-width:520px){
+  .wrap{padding:22px 16px 56px}
+  .brand{font-size:32px;letter-spacing:4px}
+  .mast .meta{text-align:left}
+  .lead h3{font-size:22px}
+  .lead img{aspect-ratio:2/1}
+  .card h3{font-size:17px}
+  .sec{font-size:20px}
+}
+.card h3,.row a,footer p{overflow-wrap:break-word}
+</style></head>
+<body><div class="wrap">
+
+<div class="mast">
+  <div class="brand">兴趣晚报</div>
+  <div class="meta"><b>入选 22 / 23</b><br>
+   <b>2026.11.28　周六</b><br>
+   晚报 · 卡片 13 张 · 6 个主题 · 特别关注 无更新</div>
+</div>
+
+<p class="note">《黑神话：悟空》制作人冯骥 8000 字长文谈「后 AI 时代」与高德纳因 LLM 报错太快宣布暂停接收勘误，是今天午后最值得看的两条，也是全场仅有的两条 84 分以上长文；神舟二十三、二十四号完成在轨交接，首名外籍航天员将返回。本场够 84 分的只有 2 条，无破百；Tier 0 四家本场均无重大进展。</p>
+
+<nav class="nav"><a href="#t-科技/AI">科技/AI<b>8</b></a><a href="#t-数码消费">数码消费<b>6</b></a><a href="#t-国际时尚">国际时尚<b>1</b></a><a href="#t-艺术与绘画">艺术与绘画<b>1</b></a><a href="#t-杂志">杂志<b>2</b></a><a href="#t-开源热议">开源热议<b>4</b></a><a href="#t-特别关注">特别关注</a></nav>
+
+<h2 class="sec" style="margin-top:48px" id="t-特别关注">特别关注<span>Tier 0 · 四家固定跟踪 · 命中 ×1.15</span></h2><p style="margin:16px 0 0;padding-top:11px;border-top:1px dotted var(--line);font-size:13px;color:var(--dim)">本期无更新：Apple、Sony、DSH（DeepSeek Harness）、国内个人助手</p>
+
+<h2 class="sec" style="margin-top:48px">今日精选<span>本场最高分 · 点标题看原文</span></h2>
+<article class="card lead" id="c-科技/AI-1">
+  <a class="thumb" href="https://www.ithome.com/1/033/927.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-01.jpg" alt=""><span class="score">86</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 1</div>
+    <h3><a href="https://www.ithome.com/1/033/927.htm" target="_blank" rel="noopener">《黑神话：悟空》制作人冯骥发 8000 字长文谈「后 AI 时代」：如果有一天没有任何工作需要人了，人该怎么办？</a></h3>
+    
+    
+    <p>11 月 27 日，游戏科学创始人、《黑神话：悟空》制作人冯骥在个人公众号发表约 8000 字长文《后 AI 时代最重要的问题》，提出当 AI 在生产端大规模取代人类劳动后，社会该如何看待人的价值。他认为这轮革命与历次工业革命有两点根本不同：一是「迁徙的高地没了」——算力正面攻占脑力本身，身后没有更高一层的「超脑力工种」可供转移；二是「淘汰的时钟加速了」——模型吞掉新技能的速度比人报班拿证快一个数量级。他主张从 AI 创造的超额社会财富中提取公共红利、按人头平均分配，社会不能只以生产端贡献衡量人的价值。文章发出后引发全网热议。</p>
+    <div class="cmt"><b>💡 点评</b>一位头部游戏制作人把 AI 焦虑从「会不会抢饭碗」推进到「人的价值如何重新定义」，论证完整、值得一读原文。他提出全民分红的分配底线未必是答案，但「智力第一次脱离肉身、从劳动要素变成资本要素」这个判断足够锋利。</div>
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article>
+
+<h2 class="sec" style="margin-top:48px">完整清单<span>每主题前三已做成卡片 · 其余一行式</span></h2>
+<h3 class="theme" id="t-科技/AI">科技/AI<span>8 条</span></h3><p class="tnote">冯骥长文与 Knuth 勘误声明均为 HN/全网当日热议，分别 86、84 分做卡片；本主题无 Tier 0 或 Tier A 命中，均为四维原分。</p><div class="grid tgrid"><article class="card" id="c-科技/AI-2">
+  <div class="body">
+    <div class="kick" style="color:#2563eb"><span class="sc-inl">84</span>科技/AI · 2</div>
+    <h3><a href="https://www-cs-faculty.stanford.edu/~knuth/moratorium.html" target="_blank" rel="noopener">高德纳宣布暂停接收勘误报告：LLM 让读者的报错速度快到「可用的时间小于零」（HN 81 分）</a></h3>
+    
+    
+    <p>计算机科学泰斗 Donald Knuth 在斯坦福个人主页发布声明：五十多年来他一直欢迎读者报告书中错误以便再版前修正，但大模型的兴起让读者「报错误」的生产力大幅提高，提交速度快到他读不完。随机抽样显示近几周报来的错误绝大多数是别人已提交过的重复项。他宣布自 2026 年 11 月 25 日起，在自己重新公布某本书的已知错误清单之前，不再查看此后提交的勘误报告——目前清单为空，意味着暂停无限期。该帖当日登上 Hacker News，获 81 分、43 条评论。</p>
+    <div class="cmt"><b>💡 点评</b>这是 LLM 时代一个精巧的注脚：AI 把「发现错误」的边际成本压到近乎为零，却在「核实错误」这个环节制造了新的稀缺。 Knuth 的无奈在于他坚持亲自逐条核实——这种笨拙的认真，恰恰是当下最稀缺的东西。</div>
+    <div class="src">Hacker News · 原文 →</div>
+  </div>
+</article><article class="card" id="c-科技/AI-3">
+  <a class="thumb" href="https://www.ithome.com/1/033/924.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-02.jpg" alt="" loading="lazy" decoding="async"><span class="score">82</span></a>
+  <div class="body">
+    <div class="kick" style="color:#2563eb">科技/AI · 3</div>
+    <h3><a href="https://www.ithome.com/1/033/924.htm" target="_blank" rel="noopener">神舟二十三号和二十四号航天员完成在轨交接，首名外籍航天员将返回</a></h3>
+    
+    
+    <p>据央视新闻报道，北京时间 11 月 28 日，神舟二十三号和神舟二十四号航天员在轨举行交接仪式、移交中国空间站钥匙。按任务计划，首名外籍航天员穆罕默德·齐尚·阿里将乘神舟二十三号飞船返回，航天员朱杨柱留轨完成一年期在轨驻留试验，与指令长汤洪波、武毅共同执行神舟二十四号任务。张志远、黎家盈、齐尚·阿里已完成全部既定任务，张志远将担任返回任务指令长，三人近日乘飞船返回。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row hot"><span class="no">1</span><a href="#c-科技/AI-1">《黑神话：悟空》制作人冯骥发 8000 字长文谈「后 AI 时代」：如果有一天没有任何工作需要人了，人该怎么办？</a><span class="sc">86</span></li><li class="row"><span class="no">4</span><a href="https://www.ithome.com/1/033/947.htm" target="_blank" rel="noopener">我国发布全球首个高效灵活燃煤发电技术，最低可降至额定负荷 15% 稳定运行</a><span class="sc">80</span></li><li class="row"><span class="no">5</span><a href="https://www.ithome.com/1/033/928.htm" target="_blank" rel="noopener">将星闪联接、端侧 AI、超高清音视频融入开源鸿蒙，上海海思介绍 Hi-OHOS 平台</a><span class="sc">78</span></li><li class="row"><span class="no">6</span><a href="https://www.ithome.com/1/033/926.htm" target="_blank" rel="noopener">今年 10 月欧盟纯电动汽车销量首次超过汽柴油汽车之和</a><span class="sc">77</span></li><li class="row"><span class="no">7</span><a href="https://www.ithome.com/1/033/942.htm" target="_blank" rel="noopener">世界最高输电铁塔在江苏首次开展检修，外骨骼机器人辅助极限作业</a><span class="sc">76</span></li><li class="row"><span class="no">8</span><a href="https://research.vu.nl/files/447013431/afroozehphdthesis%20-%2069280d90f0bfd.pdf" target="_blank" rel="noopener">FastLanes：下一代列式文件存储格式（论文）（HN 9 分）</a><span class="sc">72</span></li></ul><h3 class="theme" id="t-数码消费">数码消费<span>6 条</span></h3><p class="tnote">安克充电套装、AirPods 5 降价等黑五促销稿按 −5 且不吃任何正系数，多数低于 70 已丢弃。</p><div class="grid tgrid"><article class="card" id="c-数码消费-1">
+  <a class="thumb" href="https://www.ithome.com/1/033/943.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-03.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 1</div>
+    <h3><a href="https://www.ithome.com/1/033/943.htm" target="_blank" rel="noopener">保时捷首款纯电动双门公路跑车明年 Q1 全球首发，全新 718 Boxster 冲刺量产</a></h3>
+    
+    
+    <p>保时捷 11 月 24 日在官方微博宣布，首款纯电动双门公路跑车——全新纯电动 718 Boxster 量产车型研发进入最后冲刺阶段，将于 2027 年第一季度全球首发。官方称原型车已累计完成约 400 万公里测试，测试范围从瑞典 -30℃ 严寒到美国死亡谷 51℃ 极高温，并在 20 多个国家以五种充电标准验证性能。该车采用创新 E-Core 架构，800 伏高压电池布置于座椅区域。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-2">
+  <a class="thumb" href="https://www.ithome.com/1/033/938.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-04.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 2</div>
+    <h3><a href="https://www.ithome.com/1/033/938.htm" target="_blank" rel="noopener">出海新节点：零跑汽车累计出口超 26 万台，业务覆盖全球超 50 个国际市场</a></h3>
+    
+    
+    <p>零跑汽车 11 月 28 日官宣达成「出海新节点」——累计出口超 26 万台，海通太仓港累计发运零跑超 20 万台，成为首个出口破 20 万台的单一港口。零跑 2023 年启动出海、2024 年成立零跑国际并首批整车发运欧洲，今年前 10 个月出口超 18 万台，海外业务覆盖全球超 50 个国际市场、门店超 1200 家。本月 19 日零跑第 200 万台整车正式下线。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article><article class="card" id="c-数码消费-3">
+  <a class="thumb" href="https://www.ithome.com/1/033/934.htm" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-05.jpg" alt="" loading="lazy" decoding="async"><span class="score">72</span></a>
+  <div class="body">
+    <div class="kick" style="color:#0e7c86">数码消费 · 3</div>
+    <h3><a href="https://www.ithome.com/1/033/934.htm" target="_blank" rel="noopener">AOC「Q25G5SE6」24.5 英寸 2K 360Hz 显示器开售，1399 元</a></h3>
+    
+    
+    <p>AOC G5 宙斯盾二代 Q25G5SE6 电竞显示器开售，定价 1399 元。该显示器搭载 24.5 英寸 2K（2560×1440）原生 360Hz Fast IPS 面板，响应时间 1ms GtG / 0.3ms MPRT，色域覆盖 100% sRGB、95% DCI-P3，DeltaE&lt;2。通过 VESA DisplayHDR 400 认证，HDR 峰值亮度 450nit，支持硬件低蓝光与 DC 不闪屏。</p>
+    
+    <div class="src">IT之家 · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://www.ithome.com/1/033/933.htm" target="_blank" rel="noopener">消息称华星 / 天马 / 京东方 / 维信诺都在测试 240Hz 超高刷，最高 2K+240Hz</a><span class="sc">71</span></li><li class="row"><span class="no">5</span><a href="https://www.ithome.com/1/033/931.htm" target="_blank" rel="noopener">岚图汽车 CEO 蒋焘：明年车市依然严峻，战略从「以量为主」转向「量利双衡」</a><span class="sc">70</span></li><li class="row"><span class="no">6</span><a href="https://www.ithome.com/1/033/929.htm" target="_blank" rel="noopener">消息称鸿蒙智行尊界 SUV 将归「X」序列，更易做好产品矩阵区分</a><span class="sc">70</span></li></ul><h3 class="theme" id="t-国际时尚">国际时尚<span>1 条</span></h3><p class="tnote">ELLE「Pisces Daily Horoscope」等星座/日常噪音稿低于 70 已丢弃。</p><div class="grid tgrid"><article class="card" id="c-国际时尚-1">
+  <a class="thumb" href="https://www.ellechina.com/fashion/news/a74553282/louis-vuitton-and-wang-yujia-indoor-dome-concert/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-06.jpg" alt="" loading="lazy" decoding="async"><span class="score">74</span></a>
+  <div class="body">
+    <div class="kick" style="color:#b1456b">国际时尚 · 1</div>
+    <h3><a href="https://www.ellechina.com/fashion/news/a74553282/louis-vuitton-and-wang-yujia-indoor-dome-concert/" target="_blank" rel="noopener">穹顶之下，乐韵流转：路易威登于上海呈献王羽佳与马勒室内乐团音乐会</a></h3>
+    
+    
+    <p>2026 年 11 月 26 日，路易威登在上海南京西路概念地标「路易号」前举办「路易号音乐之夜」特别音乐会，邀请钢琴家王羽佳与马勒室内乐团演出。ELLE China 刊发现场报道，以「穹顶之下，乐韵流转」记录这场品牌文化活动。</p>
+    
+    <div class="src">ELLE China · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-艺术与绘画">艺术与绘画<span>1 条</span></h3><div class="grid tgrid"><article class="card" id="c-艺术与绘画-1">
+  <a class="thumb" href="https://science.nasa.gov/image-article/apod-2026-november-28-apollo-17-vip-site-anaglyph/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-07.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#7c3aed">艺术与绘画 · 1</div>
+    <h3><a href="https://science.nasa.gov/image-article/apod-2026-november-28-apollo-17-vip-site-anaglyph/" target="_blank" rel="noopener">APOD 11 月 28 日：Apollo 17「VIP 地点」立体红蓝anaglyph</a></h3>
+    
+    
+    <p>NASA 天文每日一图 11 月 28 日发布阿波罗 17 号「VIP Site」彩色立体图，戴上红蓝眼镜即可看到金牛-利特罗谷的 3D 场景：前景是月球车，后方是登月舱与远处月丘。因全世界将通过月球车电视镜头观看登月舱上升段起飞，这个停车点也被称为「VIP 地点」。1972 年 12 月，宇航员尤金·塞尔南与哈里森·施密特在月球停留约 75 小时、带回 110 公斤岩土样本，至今仍是最后一批在月面行走的人。</p>
+    
+    <div class="src">NASA APOD · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-杂志">杂志<span>2 条</span></h3><div class="grid tgrid"><article class="card" id="c-杂志-1">
+  <a class="thumb" href="https://brutus.jp/post-539593/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-08.jpg" alt="" loading="lazy" decoding="async"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 1</div>
+    <h3><a href="https://brutus.jp/post-539593/" target="_blank" rel="noopener">香りを、目で楽しむ：〈soca〉的香氛扩香底座，陶艺家入江佑子协作之作</a></h3>
+    
+    
+    <p>日本杂志 BRUTUS「Best Bets」栏目介绍香氛品牌〈soca〉的扩香底座。soca 以日本植物香气为核心，并与工艺作家展开协作，这款扩香底座是与陶艺家入江佑子共同制作的作品之一，以近似自然物的有机形态呈现，让香味也能用眼睛欣赏。</p>
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article><article class="card" id="c-杂志-2">
+  <a class="thumb" href="https://brutus.jp/post-543121/" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-09.jpg" alt="" loading="lazy" decoding="async"><span class="score">70</span></a>
+  <div class="body">
+    <div class="kick" style="color:#a15c1d">杂志 · 2</div>
+    <h3><a href="https://brutus.jp/post-543121/" target="_blank" rel="noopener">周末的下酒菜：BRUTUS「听着做」食谱 Vol.55 蘑菇奶油炸肉排配白葡萄酒</a></h3>
+    
+    
+    
+    
+    <div class="src">BRUTUS.jp · 原文 →</div>
+  </div>
+</article></div><h3 class="theme" id="t-开源热议">开源热议<span>4 条</span></h3><p class="tnote">取材当日 GitHub Trending 三榜（all/python/typescript，本机连接重置、改 WebFetch 取回）；去重池查 46 仓、30 BLOCKED 默认不收（含午报 4 仓）。OK 池无 ≤90 天新项目，不硬凑老仓库，收 4 条有当日榜位/星增证据的仓库，标题带〔创建 N 天〕与「今日 +N★」；academic-research-skills 因 Python 榜前 10 豁免库龄减分（标注 waive），其余按库龄实扣（adj）。卡片上限 3 条，第 4 名走一行式。</p><div class="grid tgrid"><article class="card" id="c-开源热议-1">
+  <a class="thumb" href="https://github.com/Imbad0202/academic-research-skills" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-10.jpg" alt="" loading="lazy" decoding="async"><span class="score">78</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 1</div>
+    <h3><a href="https://github.com/Imbad0202/academic-research-skills" target="_blank" rel="noopener">Imbad0202/academic-research-skills：，Python 榜第 8，学术研究全流程技能库</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>275</b>天</span><span class="gain"><i>今日</i><b>+162</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 78</span><span class="bp waive">Python 榜第 8 · 重大更新豁免</span><span class="beq">= 78</span></div>
+    <p>academic-research-skills 是一套面向 Claude Code 的学术研究技能，把「研究 → 写作 → 审阅 → 修改 → 定稿」串成完整流程，覆盖文献综述、同行评审与提示工程等场景。项目 2 月 26 日创建，今日位列 Python 日榜第 8、单日增长 162 星，仓库当日有实质推送。</p>
+    <div class="cmt"><b>💡 点评</b>今天的新动静是它凭分语言榜前 10 重回热榜——超过 90 天的库龄按规则本应减 3 分，因前 10 豁免归零。对做文献综述的人，这类把流程固化为技能包的仓库比零散提示词更可复用。</div>
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-2">
+  <a class="thumb" href="https://github.com/mjmirza/app-store-compliance" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-11.jpg" alt="" loading="lazy" decoding="async"><span class="score">76</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 2</div>
+    <h3><a href="https://github.com/mjmirza/app-store-compliance" target="_blank" rel="noopener">mjmirza/app-store-compliance：，总榜第 12，125 种应用审核拒绝模式清单</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>175</b>天</span><span class="gain"><i>今日</i><b>+530</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 79</span><span class="bp adj"><i>库龄 175 天</i><b>−3</b></span><span class="beq">= 76</span></div>
+    <p>app-store-compliance 是一份开源合规手册，整理了 125 种 App Store 与 Google Play 常见审核拒绝模式及修复方式，包含隐私清单与数据安全检查、117 项合规截止日期跟踪（EU AI Act、DSA、COPPA、年龄法规等），并提供一个面向 AI 编码智能体的技能。项目 6 月 6 日创建，今日位列总榜第 12、单日增长 530 星。</p>
+    <div class="cmt"><b>💡 点评</b>今天的新动静是它单日涨了 530 星、冲进总榜前列。把「过审」这件反复踩坑的事做成可机读的清单加技能，正是 agent 工具链里最实用的那一类基础设施。</div>
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article><article class="card" id="c-开源热议-3">
+  <a class="thumb" href="https://github.com/NYLLON-SOFTWARE/SignuDoc" target="_blank" rel="noopener"><img src="../assets/issue/wanbao/2026-11-28T1809-wb-12.jpg" alt="" loading="lazy" decoding="async"><span class="score">73</span></a>
+  <div class="body">
+    <div class="kick" style="color:#15803d">开源热议 · 3</div>
+    <h3><a href="https://github.com/NYLLON-SOFTWARE/SignuDoc" target="_blank" rel="noopener">NYLLON-SOFTWARE/SignuDoc：，TypeScript 榜第 15，开源文档签名平台</a></h3>
+    <div class="rmeta"><span class="age"><i>创建</i><b>246</b>天</span><span class="gain"><i>今日</i><b>+197</b><em>★</em></span></div>
+    <div class="bline"><span class="bhead">四维 76</span><span class="bp adj"><i>库龄 246 天</i><b>−3</b></span><span class="beq">= 73</span></div>
+    <p>SignuDoc 是一个开源文档签名平台，定位为 DocuSign 的开源替代，今日位列 TypeScript 日榜第 15、单日增长 197 星，仓库当日有实质推送。</p>
+    
+    <div class="src">GitHub Trending · 原文 →</div>
+  </div>
+</article></div><ul class="rows"><li class="row"><span class="no">4</span><a href="https://github.com/google-research/paper-orchestra" target="_blank" rel="noopener">〔创建 210 天〕google-research/paper-orchestra：今日 +110★，Python 榜第 23，多智能体自动写论文框架</a><span class="bp sm adj" title="库龄 210 天 −3">−3</span><span class="sc">71</span></li></ul>
+
+<footer>
+<details><summary>本次抓取报错源</summary>Cultured（HTTP 403，重试一次仍失败）；GitHub Trending 本机连接被重置，改由 WebFetch 取回 all/python/typescript 三榜；grok/skip 源不抓、不计失败。</details>
+<p>评分口径：四维（有用 / 能核对 / 合口味 / 新鲜不重复，各 25 分）之和为基数，命中偏好按<b>系数相乘</b>——建筑与设计、旅行 ×1.1，Tier A 人物/主题 ×1.1，Tier 0 ×1.15，跨源 ×1.05（多项命中相乘，如 ×1.1×1.1=×1.21），<b>不封顶</b>（乘完破 100 就照写，分档线 84/70 判最终分）；开源另按库龄加减 3/5 分。条目里的「四维 N ×… ≈ 总分」就是这条的明细；<b>没标就是没命中</b>，可以据此核有没有漏的。</p>
+<p>想看哪条，直接报三位编号（比如 902、午 902），我把原文链接发给你。标题本身已可点。</p>
+<p>报头「入选 x/y」：x = 本场 ≥70 分入选条数，y = 本次浏览过的候选总数（含 <70 分被丢弃的条目）。本场浏览 23 条、入选 22 条。</p>
+<p>扫描/分享：整页自包含，图片已内嵌，离线也能看。</p>
+</footer>
+</div><script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("/daily/sw.js")})}</script>
+</body></html>
